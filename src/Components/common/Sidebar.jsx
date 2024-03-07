@@ -87,9 +87,9 @@ const Sidebar = () => {
                 btn2Handler: () => setConfirmationModal(null),
               })
             }
-            className="px-8 py-2 text-sm font-medium text-richblack-300"
+            className="py-2 ml-5 text-sm font-medium text-richblack-300"
           >
-            <div className="flex flex-row absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+            <div className="flex w-[90%] items-center  flex-row absolute bottom-10 px-10 py-3 mx-auto  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
               <MdOutlineLogout fontSize={25} className="text-richblack-5" />
               <p className="text-xl text-white">Log Out</p>
             </div>
@@ -155,7 +155,7 @@ const Sidebar = () => {
             }
             className="px-8 py-2 text-sm font-medium text-richblack-300"
           >
-            <div className="flex w-[80%] absolute bottom-10 left-4 justify-center py-3 mx-auto mt-[200px] gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+            <div className="flex w-[75%] absolute bottom-10 left-4 justify-center py-3 mx-auto gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
               <MdOutlineLogout fontSize={35} className="text-richblack-5" />
             </div>
           </button>
