@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoHomeFill, GoSearch } from "react-icons/go";
 import { TbMessage } from "react-icons/tb";
 import { IoMdNotifications } from "react-icons/io";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import Logo from "../../assets/GossipGram-logos_black.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
+import { logout } from "../../services/operations/authAPI";
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // to keep track of confirmation modal
+  const [confirmationModal, setConfirmationModal] = useState(null);
+
   const currPath = location.pathname;
   return (
     <div className="">
@@ -67,10 +76,28 @@ const Sidebar = () => {
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <div className="flex flex-row w-[95%] absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-            <MdOutlineLogout fontSize={25} className="text-richblack-5" />
-            <p className="text-xl text-white">Log Out</p>
-          </div>
+          <button
+            onClick={() =>
+              setConfirmationModal({
+                text1: "Are you sure?",
+                text2: "You will be logged out of your account.",
+                btn1Text: "Logout",
+                btn2Text: "Cancel",
+                btn1Handler: () => dispatch(logout(navigate)),
+                btn2Handler: () => setConfirmationModal(null),
+              })
+            }
+            className="px-8 py-2 text-sm font-medium text-richblack-300"
+          >
+            <div className="flex flex-row absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+              <MdOutlineLogout fontSize={25} className="text-richblack-5" />
+              <p className="text-xl text-white">Log Out</p>
+            </div>
+          </button>
+          {confirmationModal && (
+            <ConfirmationModal modalData={confirmationModal} />
+          )}
+
           {/* <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" /> */}
         </div>
       ) : (
@@ -115,9 +142,26 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <div className="flex w-[80%] absolute bottom-10 justify-center py-3 mx-2 mt-[200px] gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-            <MdOutlineLogout fontSize={35} className="text-richblack-5" />
-          </div>
+          <button
+            onClick={() =>
+              setConfirmationModal({
+                text1: "Are you sure?",
+                text2: "You will be logged out of your account.",
+                btn1Text: "Logout",
+                btn2Text: "Cancel",
+                btn1Handler: () => dispatch(logout(navigate)),
+                btn2Handler: () => setConfirmationModal(null),
+              })
+            }
+            className="px-8 py-2 text-sm font-medium text-richblack-300"
+          >
+            <div className="flex w-[80%] absolute bottom-10 left-4 justify-center py-3 mx-auto mt-[200px] gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+              <MdOutlineLogout fontSize={35} className="text-richblack-5" />
+            </div>
+          </button>
+          {confirmationModal && (
+            <ConfirmationModal modalData={confirmationModal} />
+          )}
         </div>
       )}
     </div>
