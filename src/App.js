@@ -8,14 +8,33 @@ import VerifyEmail from "./Pages/VerifyEmail";
 import PrivateRoute from "./Components/PrivateRoute";
 import Notification from "./Pages/Notification";
 import PostCreate from "./Pages/PostCreate";
+import OpenRoute from "./Components/OpenRoute"
 
 function App() {
   return (
     <div className="w-screen min-h-screen bg-richblack-300 flex flex-col font-inter">
       <Routes>
-        <Route path="/" element={<LoginSignupPage />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/"
+         element={
+          <OpenRoute>
+            <LoginSignupPage />
+          </OpenRoute>
+         } />
+
+        <Route path="/verify-email"
+         element={
+          <OpenRoute>
+            <VerifyEmail />
+          </OpenRoute>
+         } />
+
+        <Route path="/chat"
+         element={
+          <PrivateRoute>
+             <ChatPage />
+          </PrivateRoute>
+         } />
+
         <Route
           path="/home"
           element={
@@ -28,8 +47,21 @@ function App() {
           {/* <Route path="" element={<Settings />} /> */}
         </Route>
 
-        <Route path="/notification" element={<Notification />}></Route>
-        <Route path="/create" element={<PostCreate />}></Route>
+        <Route path="/notification"
+         element={
+            <PrivateRoute>
+              <Notification />
+            </PrivateRoute>
+          }></Route>
+
+        <Route path="/create"
+         element={
+          <PrivateRoute>
+            <PostCreate />
+          </PrivateRoute>
+        }></Route>
+
+
       </Routes>
     </div>
   );
