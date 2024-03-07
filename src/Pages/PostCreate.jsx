@@ -4,7 +4,9 @@ import Sidebar from "../Components/common/Sidebar";
 const PostCreate = () => {
   return (
     <div className="flex">
-      <Sidebar />
+      <div>
+        <Sidebar />
+      </div>
       <div>
         <h1>create page</h1>
       </div>

@@ -4,7 +4,9 @@ import Sidebar from "../Components/common/Sidebar";
 const Notification = () => {
   return (
     <div className="flex">
-      <Sidebar />
+      <div className="">
+        <Sidebar />
+      </div>
       <div>
         <h1>notification page</h1>
       </div>
