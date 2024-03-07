@@ -6,6 +6,8 @@ const userRoutes = require("./routes/User");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoute");
 const postRoutes = require("./routes/postRoutes");
+const likeRoutes = require("./routes/likeRoutes")
+const commentRoutes = require("./routes/commentRoutes");
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -44,6 +46,8 @@ app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/message", messageRoutes);
 app.use("/api/v1/media", postRoutes);
+app.use("/api/v1/likes", likeRoutes);
+app.use("/api/v1/comments", commentRoutes);
 
 //def route 
 app.get("/", (req ,res) => {
