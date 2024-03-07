@@ -1,42 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const userModel = mongoose.Schema(
-//     {
-//         name: {
-//             type: String,
-//             required: true,
-//         },
-//         email: {
-//             type: String,
-//             required: true,
-//             unique: true,
-//         },
-//         password: {
-//             type: String,
-//             required: true,
-//         },
-//         isAdmin: {
-//             type: Boolean,
-//             required: true,
-//             default: false,
-//         },
-//         dp: {
-//             type: String,
-//             required: true,
-//             default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-//         },
-//     },
-//     {
-//         timestamps: true
-//     }
-// );
-
-// const User = mongoose.model("User", userModel);
-
-// module.exports = User;
-
-
-
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
@@ -69,10 +30,8 @@ const userSchema = new mongoose.Schema(
 			required: true,
 		},
 
-		// confirmPassword: {
-		// 	type: String,
-		// 	required: true,             //solwe this issue later on 
-		// },
+	           //solwe this issue later on confirm password
+		
         token: {
 			type: String,
 		},
@@ -113,6 +72,10 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
+		// likes: [{
+		// 	type: mongoose.Schema.Types.ObjectId,
+		// 	ref: "likes"
+		// }]
     },
     { timestamps: true }
 )

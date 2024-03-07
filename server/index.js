@@ -5,9 +5,13 @@ const app = express();
 const userRoutes = require("./routes/User");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoute");
+const postRoutes = require("./routes/postRoutes");
+const likeRoutes = require("./routes/likeRoutes")
+const commentRoutes = require("./routes/commentRoutes");
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const {cloudinaryConnect} = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
@@ -19,6 +23,7 @@ const PORT = process.env.PORT || 4000;
 database.connect();
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(
     cors({
         origin:"http://localhost:3000",
@@ -40,6 +45,9 @@ cloudinaryConnect();
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/message", messageRoutes);
+app.use("/api/v1/media", postRoutes);
+app.use("/api/v1/likes", likeRoutes);
+app.use("/api/v1/comments", commentRoutes);
 
 //def route 
 app.get("/", (req ,res) => {
