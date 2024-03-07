@@ -7,6 +7,13 @@ exports.followUser = async (req, res) => {
         const followingId = req.params.userId;
         const followerId = req.user.id;
 
+        if(followingId === followerId) {
+            return res.status(400).json({
+                success: false,
+                message: 'You cant follow youself',
+            });
+        }
+
         const existingFollower = await Follower.findOne({ following: followingId, follower: followerId });
 
         if (existingFollower) {
