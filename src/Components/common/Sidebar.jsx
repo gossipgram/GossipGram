@@ -67,7 +67,7 @@ const Sidebar = () => {
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <div className="flex flex-row absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+          <div className="flex flex-row w-[95%] absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
             <MdOutlineLogout fontSize={25} className="text-richblack-5" />
             <p className="text-xl text-white">Log Out</p>
           </div>
