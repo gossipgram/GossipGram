@@ -8,32 +8,41 @@ import VerifyEmail from "./Pages/VerifyEmail";
 import PrivateRoute from "./Components/PrivateRoute";
 import Notification from "./Pages/Notification";
 import PostCreate from "./Pages/PostCreate";
-import OpenRoute from "./Components/OpenRoute"
+import OpenRoute from "./Components/OpenRoute";
+import Sidebar from "./Components/common/Sidebar";
+import SideBarLayout from "./Components/common/SideBarLayout";
 
 function App() {
   return (
     <div className="w-screen min-h-screen bg-richblack-300 flex flex-col font-inter">
+      <SideBarLayout />
       <Routes>
-        <Route path="/"
-         element={
-          <OpenRoute>
-            <LoginSignupPage />
-          </OpenRoute>
-         } />
+        <Route
+          path="/"
+          element={
+            <OpenRoute>
+              <LoginSignupPage />
+            </OpenRoute>
+          }
+        />
 
-        <Route path="/verify-email"
-         element={
-          <OpenRoute>
-            <VerifyEmail />
-          </OpenRoute>
-         } />
+        <Route
+          path="/verify-email"
+          element={
+            <OpenRoute>
+              <VerifyEmail />
+            </OpenRoute>
+          }
+        />
 
-        <Route path="/chat"
-         element={
-          <PrivateRoute>
-             <ChatPage />
-          </PrivateRoute>
-         } />
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/home"
@@ -47,21 +56,23 @@ function App() {
           {/* <Route path="" element={<Settings />} /> */}
         </Route>
 
-        <Route path="/notification"
-         element={
+        <Route
+          path="/notification"
+          element={
             <PrivateRoute>
               <Notification />
             </PrivateRoute>
-          }></Route>
+          }
+        ></Route>
 
-        <Route path="/create"
-         element={
-          <PrivateRoute>
-            <PostCreate />
-          </PrivateRoute>
-        }></Route>
-
-
+        <Route
+          path="/create"
+          element={
+            <PrivateRoute>
+              <PostCreate />
+            </PrivateRoute>
+          }
+        ></Route>
       </Routes>
     </div>
   );

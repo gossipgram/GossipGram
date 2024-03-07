@@ -27,9 +27,12 @@ const Sidebar = () => {
   return (
     <div className="">
       {currPath === "/home" ? (
-        <div className="flex w-[350px] relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
+        <div className="flex w-[350px] transition-all duration-200 ease-in-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
-            <div className="flex items-center justify-center cursor-pointer">
+            <div
+              className="flex items-center justify-center cursor-pointer "
+              onClick={() => handleIconClick("home")}
+            >
               <img
                 src={Logo}
                 width={200}
@@ -83,9 +86,9 @@ const Sidebar = () => {
           <Link to="/notification">
             <div
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
-                activeIcon === "noti" ? "text-yellow-400" : "text-white"
+                activeIcon === "notification" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("noti")}
+              onClick={() => handleIconClick("notifications")}
             >
               <IoMdNotifications fontSize={25} className="" />
               <p className="text-xl ">Notifications</p>
@@ -131,9 +134,12 @@ const Sidebar = () => {
           {/* <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" /> */}
         </div>
       ) : (
-        <div className="flex gap-10 relative flex-col w-32 h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
+        <div className="flex gap-10 transition-all duration-200 ease-in-out relative flex-col w-32 h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
-            <div className="flex items-center justify-center cursor-pointer">
+            <div
+              className="flex items-center justify-center cursor-pointer"
+              onClick={() => handleIconClick("home")}
+            >
               <img
                 src={Logo}
                 width={200}
@@ -146,29 +152,56 @@ const Sidebar = () => {
             </div>
           </Link>
           <Link to="/home">
-            <div className="flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer">
-              <GoHomeFill fontSize={35} className="text-richblack-5" />
+            <div
+              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer  ${
+                activeIcon === "home" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("home")}
+            >
+              <GoHomeFill fontSize={35} className="" />
             </div>
           </Link>
 
-          <div className="flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer">
-            <GoSearch fontSize={35} className="text-richblack-5" />
+          <div
+            className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+              activeIcon === "search" ? "text-yellow-400" : "text-white"
+            }`}
+            onClick={() => handleIconClick("search")}
+          >
+            <GoSearch fontSize={35} className=" " />
           </div>
           <Link to="/chat">
-            <div className="flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer">
-              <TbMessage fontSize={35} className="text-richblack-5" />
+            <div
+              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+                activeIcon === "chat" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("chat")}
+            >
+              <TbMessage fontSize={35} className="" />
             </div>
           </Link>
 
           <Link to="/notification">
-            <div className="flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer">
-              <IoMdNotifications fontSize={35} className="text-richblack-5" />
+            <div
+              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+                activeIcon === "notifications"
+                  ? "text-yellow-400"
+                  : "text-white"
+              }`}
+              onClick={() => handleIconClick("notifications")}
+            >
+              <IoMdNotifications fontSize={35} className="" />
             </div>
           </Link>
 
           <Link to="/create">
-            <div className="flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer">
-              <CiCirclePlus fontSize={35} className="text-richblack-5" />
+            <div
+              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+                activeIcon === "create" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("create")}
+            >
+              <CiCirclePlus fontSize={35} className="" />
             </div>
           </Link>
 
