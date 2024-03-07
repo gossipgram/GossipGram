@@ -1,10 +1,13 @@
 const Post = require("../models/Post");
+const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
 // Create a new post
 exports.createPost = async (req, res) => {
     try {
-        const { caption, mediaUrl } = req.body;
+        let { caption } = req.body;
+        const mediaUrl= req.files.mediaUrl;
         const userId = req.user.id;
+        console.log(userId , mediaUrl , caption)
 
         // Validation
         if (!caption || !mediaUrl || !userId) {
@@ -14,9 +17,15 @@ exports.createPost = async (req, res) => {
             });
         }
 
+        const mediaUrlImage = await uploadImageToCloudinary(
+        mediaUrl,
+        process.env.FOLDER_NAME
+        )
+        console.log(mediaUrlImage)
+
         const newPost = new Post({
             caption,
-            mediaUrl,
+            mediaUrl: mediaUrlImage.secure_url,
             user: userId,
         });
 
