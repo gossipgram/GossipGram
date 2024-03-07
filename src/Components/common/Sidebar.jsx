@@ -17,6 +17,12 @@ const Sidebar = () => {
 
     // to keep track of confirmation modal
   const [confirmationModal, setConfirmationModal] = useState(null)
+  const [activeIcon, setActiveIcon] = useState("home");
+
+  const handleIconClick = (iconName) => {
+    setActiveIcon(iconName);
+  };
+
 
   const currPath = location.pathname;
   return (
@@ -38,40 +44,60 @@ const Sidebar = () => {
           </Link>
 
           <Link to="/home">
-            <div className="flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700  rounded-lg transition-all duration-200 cursor-pointer">
-              <GoHomeFill fontSize={25} className="text-richblack-5" />
-              <p className="text-xl text-white">Home</p>
+
+            <div
+              className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "home" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("home")}
+            >
+              <GoHomeFill fontSize={25} className="" />
+              <p className="text-xl">Home</p>
             </div>
+
+
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <div className="flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-            <GoSearch fontSize={25} className="text-richblack-5" />
-            <p className="text-xl text-white">Search</p>
+          <div className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "search" ? "text-yellow-400 " : "text-white"
+              }`}
+              onClick={() => handleIconClick("search")}>
+            <GoSearch fontSize={25} className="" />
+            <p className="text-xl ">Search</p>
           </div>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
           <Link to="/chat">
-            <div className="flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-              <TbMessage fontSize={25} className="text-richblack-5" />
-              <p className="text-xl text-white">Messages</p>
+            <div className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "chat" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("chat")}>
+              <TbMessage fontSize={25} className="" />
+              <p className="text-xl">Messages</p>
             </div>
           </Link>
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
           <Link to="/notification">
-            <div className="flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-              <IoMdNotifications fontSize={25} className="text-richblack-5" />
-              <p className="text-xl text-white">Notifications</p>
+            <div className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "noti" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("noti")}>
+              <IoMdNotifications fontSize={25} className="" />
+              <p className="text-xl ">Notifications</p>
             </div>
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
           <Link to="/create">
-            <div className="flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
-              <CiCirclePlus fontSize={25} className="text-richblack-5" />
-              <p className="text-xl text-white">Create</p>
+            <div className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "create" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("create")}>
+              <CiCirclePlus fontSize={25} className="" />
+              <p className="text-xl ">Create</p>
             </div>
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
@@ -91,7 +117,7 @@ const Sidebar = () => {
           >
             <div className="flex flex-row absolute bottom-10 mt-52 px-10 py-3 mx-2  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
               <MdOutlineLogout fontSize={25} className="text-richblack-5" />
-              <p className="text-xl text-white">Log Out</p>
+              <p className="text-xl ">Log Out</p>
             </div>
           </button>
           {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
