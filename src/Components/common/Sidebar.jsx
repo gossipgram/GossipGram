@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
     <div className="">
       {currPath === "/home" ? (
-        <div className="flex w-[350px] transition-all duration-200 ease-in-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
+        <div className="flex w-[350px] transition-all duration-500 ease-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
             <div
               className="flex items-center justify-center cursor-pointer "
@@ -134,7 +134,7 @@ const Sidebar = () => {
           {/* <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" /> */}
         </div>
       ) : (
-        <div className="flex gap-10 transition-all duration-200 ease-in-out relative flex-col w-32 h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
+        <div className="flex gap-10 transition-all ease-out duration-500 relative flex-col w-32 h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
             <div
               className="flex items-center justify-center cursor-pointer"

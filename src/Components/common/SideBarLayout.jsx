@@ -5,7 +5,9 @@ import Sidebar from "./Sidebar";
 const SideBarLayout = ({ children }) => {
   const { pathname } = useLocation();
   const isSideBar = () => {
-    return pathname === "/" || pathname === "/verify-email"; //ADD MORE CONDITION HERE WHERE WE SHOULD NOT RENDER SIDEBAR
+    return (
+      pathname === "/" || pathname === "/verify-email" || pathname === "/404"
+    ); //ADD MORE CONDITION HERE WHERE WE SHOULD NOT RENDER SIDEBAR
   };
   return (
     <div>

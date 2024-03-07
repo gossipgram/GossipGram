@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LoginSignupPage from "./Pages/LoginSignup";
 import ChatPage from "./Pages/ChatPage";
 import Home from "./Pages/Home";
@@ -11,6 +11,7 @@ import PostCreate from "./Pages/PostCreate";
 import OpenRoute from "./Components/OpenRoute";
 import Sidebar from "./Components/common/Sidebar";
 import SideBarLayout from "./Components/common/SideBarLayout";
+import NotFound from "./Pages/NotFound";
 
 function App() {
   return (
@@ -73,6 +74,8 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
+        <Route path="*" element={<Navigate to="/404" />}></Route>
+        <Route path="/404" element={<NotFound />}></Route>
       </Routes>
     </div>
   );
