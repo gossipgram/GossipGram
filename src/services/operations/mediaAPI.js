@@ -92,7 +92,7 @@ export const updatePostById = async(data , token) => {
     let result = null
     const toastId = toast.loading("Loading...")
     try {
-        const response = await apiConnector("POST", UPDATE_POST_BY_ID_API, data, {
+        const response = await apiConnector("PUT", UPDATE_POST_BY_ID_API, data, {
         Authorisation: `Bearer ${token}`,
         })
         console.log("UPDATE POST BY ID API RESPONSE............", response)
@@ -114,7 +114,7 @@ export const deletePostById = async (data , token) => {
     let result = null
     const toastId = toast.loading("Loading...")
     try {
-        const response = await apiConnector("POST", DELETE_POST_BY_ID_API, data, {
+        const response = await apiConnector("DELETE", DELETE_POST_BY_ID_API, data, {
         Authorisation: `Bearer ${token}`,
         })
         console.log("DELETE POST BU ID API RESPONSE............", response)
