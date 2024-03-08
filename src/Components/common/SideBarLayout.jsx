@@ -6,7 +6,7 @@ const SideBarLayout = ({ children }) => {
   const { pathname } = useLocation();
   const isSideBar = () => {
     return (
-      pathname === "/" || pathname === "/verify-email" || pathname === "/404"
+      pathname === "/" || pathname === "/verify-email" || pathname === "/404" || pathname === "/forgot-password" || pathname === "/update-password/"
     ); //ADD MORE CONDITION HERE WHERE WE SHOULD NOT RENDER SIDEBAR
   };
   return (

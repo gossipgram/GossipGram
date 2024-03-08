@@ -71,8 +71,8 @@ const LogIn = () => {
           )}
         </span>
 
-        <Link to={"#"}>
-          <p className="text-xs mt-1 text-blue-100 max-w-max ml-auto">
+        <Link to={"/forgot-password"}>
+          <p className="text-sm mt-1 text-blue-800 max-w-max ml-auto font-bold">
             Forgot Password
           </p>
         </Link>

@@ -11,6 +11,8 @@ import PostCreate from "./Pages/PostCreate";
 import OpenRoute from "./Components/OpenRoute";
 import SideBarLayout from "./Components/common/SideBarLayout";
 import NotFound from "./Pages/NotFound";
+import ForgetPassword from "./Pages/ForgetPassword";
+import UpdatedPassword from "./Pages/UpdatedPassword";
 
 function App() {
   return (
@@ -25,6 +27,23 @@ function App() {
             </OpenRoute>
           }
         />
+        <Route
+        path="/forgot-password"
+        element={
+            <OpenRoute>
+                <ForgetPassword />
+            </OpenRoute>
+        }
+        />  
+
+        <Route
+        path="/update-password/:id"
+        element={
+            <OpenRoute>
+                <UpdatedPassword />
+            </OpenRoute>
+        }
+        />  
 
         <Route
           path="/verify-email"
