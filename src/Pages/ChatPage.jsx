@@ -5,9 +5,7 @@ const ChatPage = () => {
   return (
     <div className="flex">
       <div className=""></div>
-      <div className="">
-        <h1>messages page</h1>
-      </div>
+      <h1>messages page</h1>
     </div>
   );
 };

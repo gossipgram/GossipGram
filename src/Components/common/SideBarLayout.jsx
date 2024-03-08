@@ -10,7 +10,7 @@ const SideBarLayout = ({ children }) => {
     ); //ADD MORE CONDITION HERE WHERE WE SHOULD NOT RENDER SIDEBAR
   };
   return (
-    <div>
+    <div className="sticky">
       {!isSideBar() && <Sidebar />}
       <div>{children}</div>
     </div>

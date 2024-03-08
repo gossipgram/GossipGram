@@ -9,13 +9,12 @@ import PrivateRoute from "./Components/PrivateRoute";
 import Notification from "./Pages/Notification";
 import PostCreate from "./Pages/PostCreate";
 import OpenRoute from "./Components/OpenRoute";
-import Sidebar from "./Components/common/Sidebar";
 import SideBarLayout from "./Components/common/SideBarLayout";
 import NotFound from "./Pages/NotFound";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen bg-richblack-300 flex flex-col font-inter">
+    <div className="w-screen min-h-screen bg-richblack-300 flex  font-inter">
       <SideBarLayout />
       <Routes>
         <Route

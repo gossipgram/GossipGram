@@ -25,7 +25,7 @@ const Sidebar = () => {
 
   const currPath = location.pathname;
   return (
-    <div className="">
+    <div className="sticky top-0">
       {currPath === "/home" ? (
         <div className="flex w-[350px] transition-all duration-500 ease-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
@@ -53,7 +53,7 @@ const Sidebar = () => {
               onClick={() => handleIconClick("home")}
             >
               <GoHomeFill fontSize={25} className="" />
-              <p className="text-xl">Home</p>
+              <p className="text-xl ">Home</p>
             </div>
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
