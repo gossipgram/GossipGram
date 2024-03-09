@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
 // Create a new post
@@ -30,6 +31,9 @@ exports.createPost = async (req, res) => {
         });
 
         const savedPost = await newPost.save();
+
+        // Update the user's posts array
+        await User.findByIdAndUpdate(userId, { $push: { posts: savedPost._id } });
 
         return res.status(201).json({
             success: true,
