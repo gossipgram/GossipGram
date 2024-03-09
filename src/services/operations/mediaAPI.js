@@ -52,7 +52,7 @@ export const getAllPosts = async (token) => {
         Authorisation: `Bearer ${token}`,
       }
     )
-    console.log("GETT ALL POSTS API RESPONSE............", response)
+    console.log("GET ALL POSTS API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch ALL POSTS")
     }
