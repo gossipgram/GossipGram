@@ -1,11 +1,11 @@
 import React from "react";
-import Sidebar from "../Components/common/Sidebar";
+import Feed from "../Components/posts/Feed";
 
 const Home = () => {
   return (
-    <div className="">
+    <div className=" w-full">
       <div className="">
-        <h1>home page</h1>
+        <Feed />
       </div>
     </div>
   );

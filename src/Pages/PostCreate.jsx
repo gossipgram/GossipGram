@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from "../Components/common/Sidebar";
 
 const PostCreate = () => {
   return (
