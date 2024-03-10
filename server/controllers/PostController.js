@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 // Create a new post
@@ -31,6 +32,9 @@ exports.createPost = async (req, res) => {
 
     const savedPost = await newPost.save();
 
+    // Update the user's posts array
+    await User.findByIdAndUpdate(userId, { $push: { posts: savedPost._id } });
+
     return res.status(201).json({
       success: true,
       message: "Post created successfully",
@@ -43,6 +47,33 @@ exports.createPost = async (req, res) => {
       error: "Internal Server Error",
     });
   }
+
+  //   const mediaUrlImage = await uploadImageToCloudinary(
+  //     mediaUrl,
+  //     process.env.FOLDER_NAME
+  //   );
+  //   console.log(mediaUrlImage);
+
+  //   const newPost = new Post({
+  //     caption,
+  //     mediaUrl: mediaUrlImage.secure_url,
+  //     user: userId,
+  //   });
+
+  //   const savedPost = await newPost.save();
+
+  //   return res.status(201).json({
+  //     success: true,
+  //     message: "Post created successfully",
+  //     post: savedPost,
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  //   return res.status(500).json({
+  //     success: false,
+  //     error: "Internal Server Error",
+  //   });
+  // }
 };
 
 // Get post details by ID

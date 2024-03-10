@@ -1,5 +1,6 @@
 const Like = require("../models/Like");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 // Like a post
 exports.likePost = async (req, res) => {
@@ -25,6 +26,9 @@ exports.likePost = async (req, res) => {
 
         // Update the post with the new like ID
         await Post.findByIdAndUpdate(postId, { $push: { likes: savedLike._id } });
+
+        // Update the user with the new like ID
+        await User.findByIdAndUpdate(userId, { $push: { likes: savedLike._id } });
 
         return res.status(201).json({
             success: true,
@@ -58,6 +62,9 @@ exports.unlikePost = async (req, res) => {
         // Remove the like ID from the associated post
         await Post.findByIdAndUpdate(postId, { $pull: { likes: deletedLike._id } });
 
+        // Remove the like ID from the associated user
+        await User.findByIdAndUpdate(userId, { $pull: { likes: deletedLike._id } });
+        
         return res.status(200).json({
             success: true,
             message: 'Post unliked successfully',

@@ -30,8 +30,11 @@ exports.followUser = async (req, res) => {
 
         const savedFollower = await newFollower.save();
 
-        // Update the user with the new follower ID
+        // Update the user with the new follower ID in followers array
         await User.findByIdAndUpdate(followingId, { $push: { followers: savedFollower._id } });
+
+        // Update the follower with the new following ID in following array
+        await User.findByIdAndUpdate(followerId, { $push: { following: savedFollower._id } });
 
         return res.status(201).json({
             success: true,
@@ -62,8 +65,11 @@ exports.unfollowUser = async (req, res) => {
             });
         }
 
-        // Remove the follower ID from the associated user
+        // Remove the follower ID from the associated user's followers array
         await User.findByIdAndUpdate(followingId, { $pull: { followers: deletedFollower._id } });
+
+        // Remove the following ID from the associated user's following array
+        await User.findByIdAndUpdate(followerId, { $pull: { following: deletedFollower._id } });
 
         return res.status(200).json({
             success: true,

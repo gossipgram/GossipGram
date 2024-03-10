@@ -56,21 +56,21 @@ const userSchema = new mongoose.Schema(
         }],
 
         // Relationship with Comments
-        comments: [{
+        likes: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comment'
+            ref: 'Like'
         }],
 
         // Relationship with Followers
         followers: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'Follower'
         }],
 
         // Relationship with Following
         following: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'Follower'
         }],
 		// likes: [{
 		// 	type: mongoose.Schema.Types.ObjectId,
