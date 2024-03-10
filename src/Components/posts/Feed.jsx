@@ -8,13 +8,16 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const token1 = token.split('"')[1];
+  // console.log(token1);
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
 
       try {
-        const posts = await getAllPosts(token);
-        setAllPosts(posts);
+        const posts = await getAllPosts(token1);
+        // setAllPosts(posts);
+        console.log(posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       } finally {
