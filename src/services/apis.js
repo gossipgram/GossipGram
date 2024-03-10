@@ -11,21 +11,21 @@ export const endpoints = {
 
 // MEDIA ENDPOINTS
 export const mediaEndpoints = {
-  CREATE_POST_API: BASE_URL + "media/posts" ,                //post
-  GET_POST_BY_ID_API: BASE_URL + "media/posts/:postId" ,         //get
-  GET_ALL_POSTS_API: BASE_URL + "media/posts" ,                  //get 
-  UPDATE_POST_BY_ID_API: BASE_URL + "media/posts/:postId" ,      //put
-  DELETE_POST_BY_ID_API: BASE_URL + "media/posts/:postId"        //delete
+  CREATE_POST_API: BASE_URL + "/media/posts" ,                //post
+  GET_POST_BY_ID_API: BASE_URL + "/media/posts/:postId" ,         //get
+  GET_ALL_POSTS_API: BASE_URL + "/media/posts" ,                  //get 
+  UPDATE_POST_BY_ID_API: BASE_URL + "/media/posts/:postId" ,      //put
+  DELETE_POST_BY_ID_API: BASE_URL + "/media/posts/:postId"        //delete
 }
 
 // CHAT ENDPOINTS
 export const chatEndpoints = {
-  ACCESS_CHAT_API: BASE_URL + "chat/"  ,                          //post 
-  FETCH_CHATS_API: BASE_URL + "chat/"  ,                          //get
-  CREATE_GROUP_CHAT_API: BASE_URL + "chat/group"  ,               //post
-  RENAME_GROUP_API: BASE_URL + "chat/rename"  ,                   //put
-  REMOVE_FROM_GROUP_API: BASE_URL + "chat/groupremove"  ,         //put
-  ADD_TO_GROUP_API: BASE_URL + "chat/groupadd"  ,                 //put
+  ACCESS_CHAT_API: BASE_URL + "/chat/"  ,                          //post 
+  FETCH_CHATS_API: BASE_URL + "/chat/"  ,                          //get
+  CREATE_GROUP_CHAT_API: BASE_URL + "/chat/group"  ,               //post
+  RENAME_GROUP_API: BASE_URL + "/chat/rename"  ,                   //put
+  REMOVE_FROM_GROUP_API: BASE_URL + "/chat/groupremove"  ,         //put
+  ADD_TO_GROUP_API: BASE_URL + "/chat/groupadd"  ,                 //put
 }
 
 // MESSAGES ENDPOINTS
@@ -43,11 +43,11 @@ export const likesEndpoints = {
 
 // COMMENTS ENDPOINTS
 export const commentsEndpoints = {
-  CREATE_COMMENT_API: BASE_URL + "comments/posts/:postId/comments"  ,         //post
-  GET_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId"  ,         //get
-  GET_ALL_COMMENTS_FOR_POST_API: BASE_URL + "comments/posts/:postId/comments"  ,   //get
-  UPDATE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId"  ,           //put
-  DELETE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId"  ,          //delete
+  CREATE_COMMENT_API: BASE_URL + "/comments/posts/:postId/comments"  ,         //post
+  GET_COMMENT_BY_ID_API: BASE_URL + "/comments/comments/:commentId"  ,         //get
+  GET_ALL_COMMENTS_FOR_POST_API: BASE_URL + "/comments/posts/:postId/comments"  ,   //get
+  UPDATE_COMMENT_BY_ID_API: BASE_URL + "/comments/comments/:commentId"  ,           //put
+  DELETE_COMMENT_BY_ID_API: BASE_URL + "/comments/comments/:commentId"  ,          //delete
 }
 
 // FRIENDS ENDPOINTS

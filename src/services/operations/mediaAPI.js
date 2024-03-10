@@ -11,7 +11,7 @@ const {
 } = mediaEndpoints
 
 
-export const getPostById = async () => {
+export const getPostById = async (token ,postId) => {
     const toastId = toast.loading("Loading...")
     let result = null
     try {
@@ -22,7 +22,7 @@ export const getPostById = async () => {
                 postId,
             },
             {
-                Authorisation: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             }
         )
 
@@ -49,7 +49,7 @@ export const getAllPosts = async (token) => {
       GET_ALL_POSTS_API,
       null,
       {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       }
     )
     console.log("GET ALL POSTS API RESPONSE............", response)
@@ -71,7 +71,7 @@ export const createPost = async(data , token) => {
     const toastId = toast.loading("Loading...")
     try {
         const response = await apiConnector("POST", CREATE_POST_API, data, {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         })
         console.log("CREATE POST API RESPONSE............", response)
         if (!response?.data?.success) {
@@ -93,7 +93,7 @@ export const updatePostById = async(data , token) => {
     const toastId = toast.loading("Loading...")
     try {
         const response = await apiConnector("PUT", UPDATE_POST_BY_ID_API, data, {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         })
         console.log("UPDATE POST BY ID API RESPONSE............", response)
         if (!response?.data?.success) {
@@ -115,7 +115,7 @@ export const deletePostById = async (data , token) => {
     const toastId = toast.loading("Loading...")
     try {
         const response = await apiConnector("DELETE", DELETE_POST_BY_ID_API, data, {
-        Authorisation: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         })
         console.log("DELETE POST BU ID API RESPONSE............", response)
         if (!response?.data?.success) {

@@ -50,7 +50,7 @@ export const getCommentById = async(commentId  , token) => {
             Authorisation: `Bearer ${token}`,
         }
         )
-        console.log("GET_API API RESPONSE............", response)
+        console.log("GET_COMMENT_BY_ID_API API RESPONSE............", response)
 
         if (!response.data.success) {
         throw new Error(response.data.message)

@@ -1,5 +1,3 @@
-// yeh bnana hai
-// user model me followers orr baaki array jo empty arhe h 
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { chatEndpoints } from "../apis"
