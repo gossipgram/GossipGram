@@ -23,14 +23,8 @@ function VerifyEmail() {
 
   const handleVerifyAndSignup = (e) => {
     e.preventDefault();
-    const {
-      firstName,
-      lastName,
-      username,
-      email,
-      password,
-      confirmPassword,
-    } = signupData;
+    const { firstName, lastName, username, email, password, confirmPassword } =
+      signupData;
 
     dispatch(
       signUp(
@@ -47,7 +41,7 @@ function VerifyEmail() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center">
+    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center w-full">
       {loading ? (
         <div>
           <div className="spinner"></div>
@@ -109,9 +103,6 @@ function VerifyEmail() {
 
 export default VerifyEmail;
 
-
-
-
 // import React, { useEffect, useState } from 'react'
 // import OTPInput from 'react-otp-input';
 // import { useDispatch, useSelector } from 'react-redux'
@@ -153,7 +144,7 @@ export default VerifyEmail;
 //       {
 //         loading
 //         ? (<div className='spinner'>
-          
+
 //         </div>)
 //         : (
 //           <div className="max-w-[500px] p-4 lg:p-8">
@@ -166,7 +157,7 @@ export default VerifyEmail;
 //                 numInputs={6}
 //                 renderSeparator={<span>-</span>}
 //                 placeholder='-'
-//                 renderInput={(props) => <input 
+//                 renderInput={(props) => <input
 //                   {...props}
 //                   style={{
 //                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
@@ -178,7 +169,7 @@ export default VerifyEmail;
 //                   gap: "0 6px",
 //               }}
 //               />
-//               <button 
+//               <button
 //               type='submit'
 //               className="w-full bg-yellow-50 py-[12px] px-[12px] rounded-[8px] mt-6 font-medium text-richblack-900">
 //                 Verify Email
@@ -186,7 +177,7 @@ export default VerifyEmail;
 //             </form>
 
 //             <div className="mt-6 flex items-center justify-between">
-          
+
 //                 <Link to="/login">
 //                   <p className="flex items-center gap-x-2 text-richblack-5">
 //                     <BiArrowBack /> Back to Login</p>
@@ -198,7 +189,7 @@ export default VerifyEmail;
 //                   <RxCountdownTimer />
 //                   Resend it
 //                 </button>
-            
+
 //             </div>
 //             </div>
 //         )
