@@ -8,6 +8,7 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
+  
 
   useEffect(() => {
     let fetchedPosts = [];
