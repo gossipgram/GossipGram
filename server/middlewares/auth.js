@@ -5,11 +5,8 @@ const User = require("../models/User");
 // auth
 exports.auth = async (req, res, next) => {
   try {
-    //extract token
-    const token =
-      req.cookies.token ||
-      req.body.token ||
-      req.header("Authorization").replace("Bearer ", "");
+    // extract token from Authorization header
+    const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
 
     // if token missing then return res
     if (!token) {
@@ -19,16 +16,16 @@ exports.auth = async (req, res, next) => {
       });
     }
 
-    //verify the token
+    // verify the token
     try {
       const decode = JWT.verify(token, process.env.JWT_SECRET);
       console.log(decode);
       req.user = decode;
     } catch (err) {
-      //verification issue
+      // verification issue
       return res.status(401).json({
         success: false,
-        message: "token is invalid",
+        message: "Token is invalid",
       });
     }
     next();
@@ -43,27 +40,27 @@ exports.auth = async (req, res, next) => {
 exports.protect = async (req, res, next) => {
   let token;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      //decodes token id
+      // decodes token id
       const decoded = JWT.verify(token, process.env.JWT_SECRET);
 
       req.user = await User.findById(decoded.id).select("-password");
 
-      next();
+      return next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized, token failed");
+      console.error("JWT verification failed:", error.message);
+      return res.status(401).json({
+        success: false,
+        message: "Not authorized, token failed",
+      });
     }
   }
 
-  if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
-  }
+  return res.status(401).json({
+    success: false,
+    message: "Not authorized, no token",
+  });
 };

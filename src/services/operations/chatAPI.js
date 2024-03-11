@@ -43,16 +43,17 @@ export const accessChat = async (userId, token) => {
   return result;
 };
 
-export const fetchChats = async (userId, token) => {
+export const fetchChats = async ( token) => {
   const toastId = toast.loading("Loading...");
   let result = [];
   try {
     const response = await apiConnector(
       "GET",
       FETCH_CHATS_API,
-      {
-        userId,
-      },
+      null,
+      // {
+      //   userId,
+      // },
       {
         Authorization: `Bearer ${token}`,
       }

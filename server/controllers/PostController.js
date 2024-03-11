@@ -47,33 +47,6 @@ exports.createPost = async (req, res) => {
       error: "Internal Server Error",
     });
   }
-
-  //   const mediaUrlImage = await uploadImageToCloudinary(
-  //     mediaUrl,
-  //     process.env.FOLDER_NAME
-  //   );
-  //   console.log(mediaUrlImage);
-
-  //   const newPost = new Post({
-  //     caption,
-  //     mediaUrl: mediaUrlImage.secure_url,
-  //     user: userId,
-  //   });
-
-  //   const savedPost = await newPost.save();
-
-  //   return res.status(201).json({
-  //     success: true,
-  //     message: "Post created successfully",
-  //     post: savedPost,
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  //   return res.status(500).json({
-  //     success: false,
-  //     error: "Internal Server Error",
-  //   });
-  // }
 };
 
 // Get post details by ID
