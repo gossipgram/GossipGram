@@ -43,7 +43,7 @@ const Feed = () => {
           <p className="font-bold text-2xl text-white">No Posts Found !</p>
         </div>
       ) : (
-        allPosts.map((post) => <PostCard post={post} id={post._id} />)
+        allPosts.map((post) => <PostCard post={post} key={post._id} />)
       )}
     </div>
   );
