@@ -25,31 +25,6 @@ export const getPostById = async (token, postId) => {
       }
     );
 
-<<<<<<< HEAD
-export const getPostById = async (token ,postId) => {
-    const toastId = toast.loading("Loading...")
-    let result = null
-    try {
-        const response = await apiConnector(
-            "GET", 
-            GET_POST_BY_ID_API ,
-            {
-                postId,
-            },
-            {
-                Authorization: `Bearer ${token}`,
-            }
-        )
-
-        console.log("GET_POST_BY_ID_API API RESPONSE............", response)
-        if (!response?.data?.success) {
-        throw new Error("Could Not Fetch Course Categories")
-        }
-        result = response?.data?.data
-    }catch (error) {
-    console.log("GET_POST_BY_ID_API ERROR............", error)
-    toast.error(error.message)
-=======
     console.log("GET_POST_BY_ID_API API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories");
@@ -58,27 +33,12 @@ export const getPostById = async (token ,postId) => {
   } catch (error) {
     console.log("GET_POST_BY_ID_API ERROR............", error);
     toast.error(error.message);
->>>>>>> c9808be0fbd5673de18fa06471e7a03761afedaf
   }
   toast.dismiss(toastId);
   return result;
 };
 
 export const getAllPosts = async (token) => {
-<<<<<<< HEAD
-    let result = []
-    const toastId = toast.loading("Loading...")
-    try{
-        const response = await apiConnector(
-      "GET",
-      GET_ALL_POSTS_API,
-      null,
-      {
-        Authorization: `Bearer ${token}`
-      }
-    )
-    console.log("GET ALL POSTS API RESPONSE............", response)
-=======
   let result = [];
   const toastId = toast.loading("Loading...");
   try {
@@ -87,7 +47,6 @@ export const getAllPosts = async (token) => {
     });
 
     console.log("GETT ALL POSTS API RESPONSE............", response);
->>>>>>> c9808be0fbd5673de18fa06471e7a03761afedaf
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch ALL POSTS");
     }
@@ -100,25 +59,6 @@ export const getAllPosts = async (token) => {
   return result;
 };
 
-<<<<<<< HEAD
-
-export const createPost = async(data , token) => {
-    let result = null
-    const toastId = toast.loading("Loading...")
-    try {
-        const response = await apiConnector("POST", CREATE_POST_API, data, {
-        Authorization: `Bearer ${token}`,
-        })
-        console.log("CREATE POST API RESPONSE............", response)
-        if (!response?.data?.success) {
-        throw new Error("Could Not CREATE POST")
-        }
-        toast.success("POST CREATED")
-        result = response?.data?.data
-    } catch (error) {
-        console.log("CREATE POST API ERROR............", error)
-        toast.error(error.message)
-=======
 export const createPost = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
@@ -129,7 +69,6 @@ export const createPost = async (data, token) => {
     console.log("CREATE POST API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not CREATE POST");
->>>>>>> c9808be0fbd5673de18fa06471e7a03761afedaf
     }
     toast.success("POST CREATED");
     result = response?.data?.data;
@@ -141,25 +80,6 @@ export const createPost = async (data, token) => {
   return result;
 };
 
-<<<<<<< HEAD
-
-export const updatePostById = async(data , token) => {
-    let result = null
-    const toastId = toast.loading("Loading...")
-    try {
-        const response = await apiConnector("PUT", UPDATE_POST_BY_ID_API, data, {
-        Authorization: `Bearer ${token}`,
-        })
-        console.log("UPDATE POST BY ID API RESPONSE............", response)
-        if (!response?.data?.success) {
-        throw new Error("Could Not Update POST")
-        }
-        toast.success("Post Updated")
-        result = response?.data?.data
-    } catch (error) {
-        console.log("UPDATE POST BY ID API ERROR............", error)
-        toast.error(error.message)
-=======
 export const updatePostById = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
@@ -170,7 +90,6 @@ export const updatePostById = async (data, token) => {
     console.log("UPDATE POST BY ID API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update POST");
->>>>>>> c9808be0fbd5673de18fa06471e7a03761afedaf
     }
     toast.success("Post Updated");
     result = response?.data?.data;
@@ -182,25 +101,6 @@ export const updatePostById = async (data, token) => {
   return result;
 };
 
-<<<<<<< HEAD
-
-export const deletePostById = async (data , token) => {
-    let result = null
-    const toastId = toast.loading("Loading...")
-    try {
-        const response = await apiConnector("DELETE", DELETE_POST_BY_ID_API, data, {
-        Authorization: `Bearer ${token}`,
-        })
-        console.log("DELETE POST BU ID API RESPONSE............", response)
-        if (!response?.data?.success) {
-        throw new Error("Could Not Delete POST")
-        }
-        toast.success("POST Deleted")
-        result = response?.data?.data
-    } catch (error) {
-        console.log("DELETE POST BY ID API ERROR............", error)
-        toast.error(error.message)
-=======
 export const deletePostById = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
@@ -211,7 +111,6 @@ export const deletePostById = async (data, token) => {
     console.log("DELETE POST BU ID API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete POST");
->>>>>>> c9808be0fbd5673de18fa06471e7a03761afedaf
     }
     toast.success("POST Deleted");
     result = response?.data?.data;
