@@ -1,25 +1,27 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import "../common/spinner.css";
-// import PostCard from "./PostCard";
+import PostCard from "./PostCard";
 import { getAllPosts } from "../../services/operations/mediaAPI";
+import { all } from "axios";
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
+
   useEffect(() => {
+    let fetchedPosts = [];
     const fetchPosts = async () => {
       setLoading(true);
 
       try {
-        const posts = await getAllPosts(token);
-        // setAllPosts(posts);
-        console.log(posts);
+        fetchedPosts = await getAllPosts(token);
+        setAllPosts(fetchedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       } finally {
         setLoading(false);
+        console.log(allPosts);
       }
     };
     if (token) {
@@ -40,7 +42,7 @@ const Feed = () => {
           </p>
         </div>
       ) : (
-        <h1>hello</h1>
+        allPosts.map((post) => <PostCard post={post} id={post._id} />)
       )}
     </div>
   );

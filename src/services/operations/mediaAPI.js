@@ -50,7 +50,7 @@ export const getAllPosts = async (token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch ALL POSTS");
     }
-    result = response?.data?.data;
+    result = response?.data?.posts;
   } catch (error) {
     console.log("GET ALL POSTS API ERROR............", error);
     toast.error(error.message);

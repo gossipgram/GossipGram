@@ -6,15 +6,16 @@ const PostCard = ({ post }) => {
   return (
     <div>
       <div>
-        <div>{post.user.image}</div>
-        <div>{post.user.username}</div>
+        <div>{post.caption}</div>
+        <div>{}</div>
       </div>
       <div>
         <img src={post.mediaUrl}></img>
       </div>
       <div>
-        <div>
+        <div className="flex">
           <CiHeart />
+          <p>{post.likes.length}</p>
         </div>
         <div>
           <BiCommentDetail />
