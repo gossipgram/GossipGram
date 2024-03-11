@@ -16,7 +16,7 @@ import UpdatedPassword from "./Pages/UpdatedPassword";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen bg-richblack-300 flex  font-inter">
+    <div className="w-screen min-h-screen bg-black flex  font-inter">
       <SideBarLayout />
       <Routes>
         <Route
@@ -28,22 +28,22 @@ function App() {
           }
         />
         <Route
-        path="/forgot-password"
-        element={
+          path="/forgot-password"
+          element={
             <OpenRoute>
-                <ForgetPassword />
+              <ForgetPassword />
             </OpenRoute>
-        }
-        />  
+          }
+        />
 
         <Route
-        path="/update-password/:id"
-        element={
+          path="/update-password/:id"
+          element={
             <OpenRoute>
-                <UpdatedPassword />
+              <UpdatedPassword />
             </OpenRoute>
-        }
-        />  
+          }
+        />
 
         <Route
           path="/verify-email"

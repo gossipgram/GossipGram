@@ -16,12 +16,15 @@ const Feed = () => {
 
       try {
         fetchedPosts = await getAllPosts(token);
-        setAllPosts(fetchedPosts);
+        const sortedFetchedPosts = fetchedPosts
+          .slice()
+          .sort((a, b) => b.createdAt - a.createdAt);
+
+        setAllPosts(sortedFetchedPosts.reverse());
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       } finally {
         setLoading(false);
-        console.log(allPosts);
       }
     };
     if (token) {
@@ -30,16 +33,14 @@ const Feed = () => {
   }, [token]);
 
   return (
-    <div>
+    <div className="flex flex-col h w-full">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner "></div>
         </div>
       ) : allPosts.length === 0 ? (
         <div className="flex h-screen items-center justify-center">
-          <p className="font-bold text-2xl text-richblue-700">
-            No Posts Found !
-          </p>
+          <p className="font-bold text-2xl text-white">No Posts Found !</p>
         </div>
       ) : (
         allPosts.map((post) => <PostCard post={post} id={post._id} />)

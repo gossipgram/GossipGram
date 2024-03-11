@@ -106,7 +106,7 @@ exports.getPostById = async (req, res) => {
 // Get a list of all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("user", "-password").exec();
 
     return res.status(200).json({
       success: true,
