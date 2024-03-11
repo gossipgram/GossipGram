@@ -14,6 +14,7 @@ const Feed = () => {
 
       try {
         const posts = await getAllPosts(token);
+        
         // setAllPosts(posts);
         console.log(posts);
       } catch (error) {
