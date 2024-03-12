@@ -86,7 +86,7 @@ exports.getAllUserData = async (req , res) => {
         const id = req.user.id;
 
         //validatio and ge user details 
-        const userDetails = await User.findById(id).populate("additionalDetails").exec();
+        const userDetails = await User.findById(id).select('-password').populate("additionalDetails").exec();
 
         //return res
         return res.status(200).json({
