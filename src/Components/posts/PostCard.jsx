@@ -23,11 +23,11 @@ const PostCard = ({ post }) => {
         </p>
       </div>
       <div className="flex gap-x-5 items-center">
-        <div className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60">
+        <div className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60 transition-all duration-200">
           <FaRegHeart className="text-2xl text-pure-greys-50" />
           <p>{post.likes.length}</p>
         </div>
-        <div className="text-white flex gap-x-3 items-center cursor-pointer hover:opacity-60">
+        <div className="text-white flex gap-x-3 items-center cursor-pointer hover:opacity-60 transition-all duration-200">
           <FaRegCommentAlt className="text-2xl text-pure-greys-50" />
           <p className="text-lg">{post.comments.length}</p>
         </div>

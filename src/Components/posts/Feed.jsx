@@ -8,14 +8,12 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
-  
 
   useEffect(() => {
     let fetchedPosts = [];
     const fetchPosts = async () => {
-      setLoading(true);
-
       try {
+        setLoading(true);
         fetchedPosts = await getAllPosts(token);
         const sortedFetchedPosts = fetchedPosts
           .slice()
@@ -34,7 +32,7 @@ const Feed = () => {
   }, [token]);
 
   return (
-    <div className="flex flex-col h w-full">
+    <div className="flex flex-col w-full">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner "></div>
