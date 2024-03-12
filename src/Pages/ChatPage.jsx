@@ -14,6 +14,8 @@ const [chats, setChats] = useState([]);
     try {
       const response = await fetchChats(token);
 
+      setChats(response.data);
+
       if (response && response.data) {
         setChats(response.data);
       } else {

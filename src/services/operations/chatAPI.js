@@ -51,9 +51,6 @@ export const fetchChats = async ( token) => {
       "GET",
       FETCH_CHATS_API,
       null,
-      // {
-      //   userId,
-      // },
       {
         Authorization: `Bearer ${token}`,
       }
