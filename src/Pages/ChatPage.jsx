@@ -9,9 +9,11 @@ const ChatPage = () => {
 
   useEffect(() => {
     const fetchUserChats = async () => {
-      // setLoading(true);
+      setLoading(true);
       try {
         const response = await fetchChats(token);
+
+        setChats(response.data);
 
         if (response && response.data) {
           setChats(response.data);
