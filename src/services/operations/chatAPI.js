@@ -43,31 +43,26 @@ export const accessChat = async (userId, token) => {
   return result;
 };
 
-export const fetchChats = async ( token) => {
+export const fetchChats = async (token) => {
   const toastId = toast.loading("Loading...");
   let result = [];
   try {
-    const response = await apiConnector(
-      "GET",
-      FETCH_CHATS_API,
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    const response = await apiConnector("GET", FETCH_CHATS_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("FETCH_CHATS_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
-    result = response.data;
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
+    result = response;
   } catch (error) {
     console.log("FETCH_CHATS_API API ERROR............", error);
     result = error.response.data;
     toast.error(error.response.data.message);
   }
   toast.dismiss(toastId);
-  //   dispatch(setLoading(false));
+  // dispatch(setLoading(false));
   return result;
 };
 
