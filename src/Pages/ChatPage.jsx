@@ -13,7 +13,6 @@ const ChatPage = () => {
       try {
         const response = await fetchChats(token);
         // console.log(response);
-
         setChats(response.data);
 
         // if (response && response.data) {
@@ -26,7 +25,6 @@ const ChatPage = () => {
         toast.error("Failed to fetch chats. Please try again.");
       } finally {
         setLoading(false);
-        console.log(chats);
       }
     };
 
@@ -37,7 +35,7 @@ const ChatPage = () => {
 
   return (
     <div>
-      <h1 className="text-white">{chats[0].users[0].firstName}</h1>
+      <h1 className="text-white">{chats[0]?._id}</h1>
       <h2>Chat List</h2>
       {loading && <p>Loading...</p>}
       {!loading && chats.length === 0 && <p>No chats available.</p>}

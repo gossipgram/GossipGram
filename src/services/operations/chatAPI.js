@@ -58,7 +58,7 @@ export const fetchChats = async (token) => {
     result = response;
   } catch (error) {
     console.log("FETCH_CHATS_API API ERROR............", error);
-    result = error.response.data;
+    result = error.response;
     toast.error(error.response.data.message);
   }
   toast.dismiss(toastId);
