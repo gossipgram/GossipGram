@@ -16,7 +16,7 @@ import UpdatedPassword from "./Pages/UpdatedPassword";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen bg-black flex  font-inter">
+    <div className="w-screen min-h-screen bg-richblack-800 flex  font-inter">
       <SideBarLayout />
       <Routes>
         <Route

@@ -1,56 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { fetchChats } from "../services/operations/chatAPI";
+import ListChats from "../Components/Chat/ListChats";
+
 
 const ChatPage = () => {
-  const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token").split('"')[1];
-
-  useEffect(() => {
-    const fetchUserChats = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchChats(token);
-        // console.log(response);
-
-        setChats(response.data);
-
-        // if (response && response.data) {
-        //   setChats(response.data);
-        // } else {
-        //   throw new Error("Invalid response data format");
-        // }
-      } catch (error) {
-        console.error("Error fetching chats:", error.message);
-        toast.error("Failed to fetch chats. Please try again.");
-      } finally {
-        setLoading(false);
-        console.log(chats);
-      }
-    };
-
-    if (token) {
-      fetchUserChats();
-    }
-  }, [token]);
 
   return (
-    <div>
-      <h1 className="text-white">{chats[0]?.users[0]?.firstName}</h1>
-      <h2>{chats[0]?.users[0]?.lastName}</h2>
-      {loading && <p>Loading...</p>}
-      {!loading && chats.length === 0 && <p>No chats available.</p>}
-      {!loading && chats.length > 0 && (
-        <ul>
-          {chats.map((chat) => (
-            <li key={chat._id}>
-              <h3>{chat.chatName}</h3>
-              {/* Add more details based on your chat data structure */}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="w-full overflow-x-hidden flex flex-row mt-10 mx-auto">
+      <div className=" w-4/12 h-full flex flex-row bg-richblack-700 rounded-md mx-10">
+        <ListChats />
+      </div>
+
+      <div className="w-full h-full flex flex-row bg-richblack-700 rounded-md mx-10">
+        
+      </div>
     </div>
   );
 };
