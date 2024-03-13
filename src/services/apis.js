@@ -57,3 +57,12 @@ export const friendsEndpoints = {
   GET_FOLLOWERS_FOR_USER_API: BASE_URL + "friends/followers/:userId", //get
   GET_FOLLOWING_FOR_USER_API: BASE_URL + "friends/following/:userId", //get
 };
+
+// PROFILE ENDPOINTS
+export const profileEndpoints = {
+  UPDATE_PROFILE_API: BASE_URL + "profile/update-profile"  ,    //put
+  DELETE_ACCOUNT_API: BASE_URL + "profile/delete-account"  ,    //delete
+  GET_ALL_USER_DATA_API: BASE_URL + "profile/get-all-user-data"  ,  //get
+  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "profile/update-display-picture"    //post
+}
+

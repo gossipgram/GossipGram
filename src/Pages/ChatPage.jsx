@@ -35,8 +35,8 @@ const ChatPage = () => {
 
   return (
     <div>
-      <h1 className="text-white">{chats[0]?._id}</h1>
-      <h2>Chat List</h2>
+      <h1 className="text-white">{chats[0]?.users[0]?.firstName}</h1>
+      <h2>{chats[0]?.users[0]?.lastName}</h2>
       {loading && <p>Loading...</p>}
       {!loading && chats.length === 0 && <p>No chats available.</p>}
       {!loading && chats.length > 0 && (
