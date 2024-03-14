@@ -9,7 +9,7 @@ const LoginSignupPage = () => {
 
   return (
     <div className="max-w-xl mx-auto min-h-[800px]  justify-between shadow-xl shadow-richblack-600 p-5 my-5 rounded-lg">
-      <div className="flex justify-center bg-richblack-500  w-[100%] mt-[5px] mb-[15px] h-[120px] border-none shadow-2xl rounded-full">
+      <div className="flex justify-center bg-richblack-400  w-[100%] mt-[5px] mb-[15px] h-[120px] border-none shadow-2xl rounded-full">
         <img
           src={Logo}
           alt=""

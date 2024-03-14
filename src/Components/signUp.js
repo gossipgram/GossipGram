@@ -83,7 +83,7 @@ const SignUp = () => {
                 onChange={changeHandler}
                 placeholder="Enter First Name"
                 value={formData.firstName}
-                className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+                className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
             </label>
             <label className="w-full relative text-[0.875rem] text-pure-greys-5  mb-1 leading-[1.375rem]">
@@ -98,7 +98,7 @@ const SignUp = () => {
                 onChange={changeHandler}
                 placeholder="Enter Last Name"
                 value={formData.lastName}
-                className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+                className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
             </label>
           </div>
@@ -116,7 +116,7 @@ const SignUp = () => {
                 onChange={changeHandler}
                 placeholder="Enter Username"
                 value={formData.username}
-                className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+                className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
             </label>
           </div>
@@ -133,7 +133,7 @@ const SignUp = () => {
               onChange={changeHandler}
               placeholder="Enter email address"
               value={formData.email}
-              className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+              className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
             />
           </label>
 
@@ -150,7 +150,7 @@ const SignUp = () => {
                 onChange={changeHandler}
                 placeholder="Enter Password"
                 value={formData.password}
-                className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+                className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
 
               <span
@@ -177,7 +177,7 @@ const SignUp = () => {
                 onChange={changeHandler}
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
-                className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
+                className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
 
               <span

@@ -65,15 +65,23 @@ export const unlikePost = async (postId, token) => {
   return result;
 };
 
-export const getLikesForPost = async (token) => {
+export const getLikesForPost = async (postId, token) => {
   //check again
   const toastId = toast.loading("Loading...");
   console.log(token);
+  const BASE_URL = "http://localhost:4000/api/v1/";
   let result = [];
   try {
-    const response = await apiConnector("GET", GET_LIKES_FOR_POST_API, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector(
+      "GET",
+      BASE_URL + `likes/posts/${postId}/likes`,
+      {
+        postId,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("GET_LIKES_FOR_POST API RESPONSE............", response);
     toast.success("likes for a post successfull");
     result = response?.data;

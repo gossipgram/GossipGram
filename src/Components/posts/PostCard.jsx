@@ -5,6 +5,7 @@ import { FcLike } from "react-icons/fc";
 
 const PostCard = ({ post, userId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
+  const postId = post?._id;
   const [liked, setLiked] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
 
@@ -13,7 +14,7 @@ const PostCard = ({ post, userId }) => {
   useEffect(() => {
     const fetchLikeUser = async () => {
       try {
-        const response = await getLikesForPost(token);
+        const response = await getLikesForPost(postId, token);
         setLikeUser(response);
       } catch (error) {
         console.error("Error fetching like Users Data:", error.message);

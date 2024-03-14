@@ -36,15 +36,15 @@ export const chatEndpoints = {
 
 //MESSAGES ENDPOINTS
 export const directMessageEndpoints = {
-  SEND_DIRECT_MESSAGE_API: BASE_URL + "message/" ,  //post
-  GET_ALL_DIRECT_MESSAGE_API: BASE_URL + "message/:chatId"   //get
-}
+  SEND_DIRECT_MESSAGE_API: BASE_URL + "message/", //post
+  GET_ALL_DIRECT_MESSAGE_API: BASE_URL + "message/:chatId", //get
+};
 
 // LIKES ENDPOINTS
 export const likesEndpoints = {
   LIKE_POST_API: BASE_URL + "likes/posts/:postId/like", //post
   UNLIKE_POST_API: BASE_URL + "likes/posts/:postId/unlike", //delete
-  GET_LIKES_FOR_POST_API: BASE_URL + "likes/posts/:postId/likes", //get
+  // GET_LIKES_FOR_POST_API: BASE_URL + "likes/posts/:postId/likes", //get
 };
 
 // COMMENTS ENDPOINTS
@@ -66,9 +66,8 @@ export const friendsEndpoints = {
 
 // PROFILE ENDPOINTS
 export const profileEndpoints = {
-  UPDATE_PROFILE_API: BASE_URL + "profile/update-profile"  ,    //put
-  DELETE_ACCOUNT_API: BASE_URL + "profile/delete-account"  ,    //delete
-  GET_ALL_USER_DATA_API: BASE_URL + "profile/get-all-user-data"  ,  //get
-  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "profile/update-display-picture"    //post
-}
-
+  UPDATE_PROFILE_API: BASE_URL + "profile/update-profile", //put
+  DELETE_ACCOUNT_API: BASE_URL + "profile/delete-account", //delete
+  GET_ALL_USER_DATA_API: BASE_URL + "profile/get-all-user-data", //get
+  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "profile/update-display-picture", //post
+};
