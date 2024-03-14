@@ -8,8 +8,8 @@ const LoginSignupPage = () => {
   const [userType, setUserType] = useState("signup");
 
   return (
-    <div className="max-w-xl mx-auto min-h-[800px] justify-between shadow-2xl p-5 mt-5 mb-5 rounded-lg">
-      <div className="flex justify-center bg-richblack-700  w-[100%] mt-[5px] mb-[15px] h-[120px] border-none shadow-2xl rounded-full">
+    <div className="max-w-xl mx-auto min-h-[800px]  justify-between shadow-xl shadow-richblack-600 p-5 my-5 rounded-lg">
+      <div className="flex justify-center bg-richblack-500  w-[100%] mt-[5px] mb-[15px] h-[120px] border-none shadow-2xl rounded-full">
         <img
           src={Logo}
           alt=""
@@ -24,7 +24,7 @@ const LoginSignupPage = () => {
           <button
             onClick={() => setUserType("login")}
             className={`${
-              userType === "login" ? "bg-richblack-100" : "bg-richblack-500"
+              userType === "login" ? "bg-richblack-100" : "bg-richblack-600"
             } w-[50%] h-[100%] rounded-full text-black font-bold text-xl p-3 transition-all duration-300`}
           >
             Log In
@@ -33,7 +33,7 @@ const LoginSignupPage = () => {
           <button
             onClick={() => setUserType("signup")}
             className={`${
-              userType === "signup" ? "bg-richblack-100" : "bg-richblack-500"
+              userType === "signup" ? "bg-richblack-100" : "bg-richblack-600"
             } w-[50%] h-[100%] rounded-full text-black font-bold text-xl p-3 transition-all duration-300`}
           >
             Sign Up
