@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { fetchChats } from "../services/operations/chatAPI";
+import ListChats from "../Components/Chat/ListChats";
 
 const ChatPage = () => {
   const [chats, setChats] = useState([]);
@@ -34,21 +33,13 @@ const ChatPage = () => {
   }, [token]);
 
   return (
-    <div>
-      <h1 className="text-white">{chats[0]?.users[0]?.firstName}</h1>
-      <h2>{chats[0]?.users[0]?.lastName}</h2>
-      {loading && <p>Loading...</p>}
-      {!loading && chats.length === 0 && <p>No chats available.</p>}
-      {!loading && chats.length > 0 && (
-        <ul>
-          {chats.map((chat) => (
-            <li key={chat._id}>
-              <h3>{chat.chatName}</h3>
-              {/* Add more details based on your chat data structure */}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="w-full overflow-x-hidden flex flex-row mt-10 mx-auto">
+      <div className=" w-4/12 h-full flex flex-col bg-richblack-700 rounded-md mx-10 gap-5">
+        <h1 className="text-white text-4xl mx-auto mt-5">INBOX</h1>
+        <ListChats />
+      </div>
+
+      <div className="w-full h-full flex flex-row bg-richblack-700 rounded-md mx-10"></div>
     </div>
   );
 };

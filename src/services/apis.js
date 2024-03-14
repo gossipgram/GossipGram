@@ -29,10 +29,16 @@ export const chatEndpoints = {
 };
 
 // MESSAGES ENDPOINTS
-export const messageEndpoints = {
-  SEND_MESSAGE_API: BASE_URL + "message/:chatId", //get
-  ALL_MESSAGES_API: BASE_URL + "message/", //post
-};
+// export const messageEndpoints = {
+//   SEND_MESSAGE_API: BASE_URL + "message/:chatId", //get
+//   ALL_MESSAGES_API: BASE_URL + "message/", //post
+// };
+
+//MESSAGES ENDPOINTS
+export const directMessageEndpoints = {
+  SEND_DIRECT_MESSAGE_API: BASE_URL + "message/" ,  //post
+  GET_ALL_DIRECT_MESSAGE_API: BASE_URL + "message/:chatId"   //get
+}
 
 // LIKES ENDPOINTS
 export const likesEndpoints = {
