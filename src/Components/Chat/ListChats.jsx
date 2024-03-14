@@ -42,7 +42,7 @@ const ListChats = () => {
         </div>
       ) : (
         
-        chats.map((chat) => <ChatListItem chat={chat} key={chat._id} />)
+        chats.map((chat) => <ChatListItem chat={chat} chatId ={chat._id} key={chat._id}/>)
       )}
     </div>
   )

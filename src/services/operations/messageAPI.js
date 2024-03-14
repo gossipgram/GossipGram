@@ -1,16 +1,16 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
-import { messageEndpoints } from "../apis";
+import { directMessageEndpoints } from "../apis";
 
-const { SEND_MESSAGE_API, ALL_MESSAGES_API } = messageEndpoints;
+const {SEND_DIRECT_MESSAGE_API , GET_ALL_DIRECT_MESSAGE_API} = directMessageEndpoints
 
-export const sendMessage = async (data, token) => {
+export const sendDirectMessage = async (data , token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
-  try {
+  try{
     const response = await apiConnector(
       "POST",
-      SEND_MESSAGE_API,
+      SEND_DIRECT_MESSAGE_API,
       {
         data,
       },
@@ -32,15 +32,16 @@ export const sendMessage = async (data, token) => {
   toast.dismiss(toastId);
   //   dispatch(setLoading(false));
   return result;
-};
+}
 
-export const allMessage = async (chatId, token) => {
+export const getAllDirectMessage = async (chatId , token) => {
   const toastId = toast.loading("Loading...");
   let result = [];
+  const BASE_URL = "http://localhost:4000/api/v1/";
   try {
     const response = await apiConnector(
       "GET",
-      ALL_MESSAGES_API,
+      BASE_URL + `message/${chatId}`, 
       {
         chatId,
       },
@@ -48,18 +49,20 @@ export const allMessage = async (chatId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("GET_ALL_MESSAGES API RESPONSE............", response);
+    console.log("GET_ALL_DIRECT_MESSAGE_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
+
     result = response.data;
+    console.log("result............................",result)
   } catch (error) {
-    console.log("ALL_MESSAGES_API API ERROR............", error);
+    console.log("GET_ALL_DIRECT_MESSAGE_API API ERROR............", error);
     result = error.response.data;
     toast.error(error.response.data.message);
   }
   toast.dismiss(toastId);
   //   dispatch(setLoading(false));
   return result;
-};
+}
