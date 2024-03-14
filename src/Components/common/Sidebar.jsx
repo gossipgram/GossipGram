@@ -14,16 +14,15 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currPath = location.pathname;
 
   // to keep track of confirmation modal
   const [confirmationModal, setConfirmationModal] = useState(null);
-  const [activeIcon, setActiveIcon] = useState("home");
-
+  const [activeIcon, setActiveIcon] = useState(currPath.replace("/", ""));
   const handleIconClick = (iconName) => {
     setActiveIcon(iconName);
   };
 
-  const currPath = location.pathname;
   return (
     <div className="sticky top-0">
       {currPath === "/home" ? (
@@ -88,10 +87,10 @@ const Sidebar = () => {
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "notification" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("notifications")}
+              onClick={() => handleIconClick("notification")}
             >
               <IoMdNotifications fontSize={25} className="" />
-              <p className="text-xl ">Notifications</p>
+              <p className="text-xl ">Notification</p>
             </div>
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
@@ -120,9 +119,9 @@ const Sidebar = () => {
                 btn2Handler: () => setConfirmationModal(null),
               })
             }
-            className="py-2 ml-5 text-sm font-medium text-richblack-300"
+            className=" ml-5 text-sm font-medium text-richblack-300 absolute bottom-14 w-[90%] mx-auto "
           >
-            <div className="flex w-[90%] items-center  flex-row absolute bottom-10 px-10 py-3 mx-auto  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+            <div className="flex items-center  flex-row px-10 py-3  gap-3 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
               <MdOutlineLogout fontSize={25} className="text-richblack-5" />
               <p className="text-xl ">Log Out</p>
             </div>
@@ -184,11 +183,9 @@ const Sidebar = () => {
           <Link to="/notification">
             <div
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
-                activeIcon === "notifications"
-                  ? "text-yellow-400"
-                  : "text-white"
+                activeIcon === "notification" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("notifications")}
+              onClick={() => handleIconClick("notification")}
             >
               <IoMdNotifications fontSize={35} className="" />
             </div>
@@ -216,9 +213,9 @@ const Sidebar = () => {
                 btn2Handler: () => setConfirmationModal(null),
               })
             }
-            className="px-8 py-2 text-sm font-medium text-richblack-300"
+            className=" py-2 text-sm font-medium text-richblack-300 absolute bottom-14 w-[80%] mx-2"
           >
-            <div className="flex w-[75%] absolute bottom-10 left-4 justify-center py-3 mx-auto gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
+            <div className="flex justify-center py-3 gap-3 hover:scale-110 hover:bg-richblack-700 transition-all rounded-lg duration-200 cursor-pointer">
               <MdOutlineLogout fontSize={35} className="text-richblack-5" />
             </div>
           </button>

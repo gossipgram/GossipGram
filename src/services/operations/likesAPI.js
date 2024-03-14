@@ -68,17 +68,15 @@ export const unlikePost = async (postId, token) => {
 export const getLikesForPost = async (token) => {
   //check again
   const toastId = toast.loading("Loading...");
+  console.log(token);
   let result = [];
   try {
     const response = await apiConnector("GET", GET_LIKES_FOR_POST_API, {
       Authorization: `Bearer ${token}`,
     });
     console.log("GET_LIKES_FOR_POST API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not GET likes for post");
-    }
-    toast.success("likes for a post duccessfull");
-    result = response?.data?.data;
+    toast.success("likes for a post successfull");
+    result = response?.data;
   } catch (error) {
     console.log("GET_LIKES_FOR_POST API ERROR............", error);
     toast.error(error.message);

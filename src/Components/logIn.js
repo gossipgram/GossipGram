@@ -30,9 +30,9 @@ const LogIn = () => {
   };
 
   return (
-    <form className="flex flex-col w-full gap-y-4 mt-6">
+    <form className="flex flex-col w-full gap-y-4 mt-6 relative">
       <label className="w-full">
-        <p className="text-[0.875rem] text-black mb-1 leading-[1.375rem] font-bold">
+        <p className="text-[0.875rem] text-pure-greys-25 mb-1 leading-[1.375rem] font-bold">
           Email Address<sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -47,7 +47,7 @@ const LogIn = () => {
       </label>
 
       <label className=" relative w-full">
-        <p className="text-[0.875rem] text-black mb-1 leading-[1.375rem] font-bold">
+        <p className="text-[0.875rem] text-pure-greys-5 mb-1 leading-[1.375rem] font-bold">
           Password<sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -71,8 +71,8 @@ const LogIn = () => {
           )}
         </span>
 
-        <Link to={"/forgot-password"}>
-          <p className="text-sm mt-1 text-blue-800 max-w-max ml-auto font-bold">
+        <Link to={"/forgot-password"} className="absolute right-4 -bottom-5">
+          <p className="text-sm mt-1 text-yellow-300 max-w-max ml-auto font-bold">
             Forgot Password
           </p>
         </Link>

@@ -71,7 +71,7 @@ const SignUp = () => {
           className="flex flex-col w-full gap-y-3 mt-2"
         >
           <div className="flex gap-x-4 mt-[10px]">
-            <label className="w-full relative text-[0.875rem] text-black  mb-1 leading-[1.375rem]">
+            <label className="w-full relative text-[0.875rem] text-pure-greys-5  mb-1 leading-[1.375rem]">
               <p className="font-bold">
                 First Name<sup className="text-pink-200">*</sup>
               </p>
@@ -86,7 +86,7 @@ const SignUp = () => {
                 className="bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
             </label>
-            <label className="w-full relative text-[0.875rem] text-black  mb-1 leading-[1.375rem]">
+            <label className="w-full relative text-[0.875rem] text-pure-greys-5  mb-1 leading-[1.375rem]">
               <p className="font-bold">
                 Last Name<sup className="text-pink-200">*</sup>
               </p>
@@ -104,7 +104,7 @@ const SignUp = () => {
           </div>
 
           <div className="flex gap-x-4 mt-[10px]">
-            <label className="w-full text-[0.875rem] text-black mb-1 leading-[1.375rem]">
+            <label className="w-full text-[0.875rem] text-pure-greys-5 mb-1 leading-[1.375rem]">
               <p className="font-bold">
                 Username<sup className="text-pink-200">*</sup>
               </p>
@@ -121,7 +121,7 @@ const SignUp = () => {
             </label>
           </div>
 
-          <label className="mt-[10px] w-full text-[0.875rem] text-black mb-1 leading-[1.375rem]">
+          <label className="mt-[10px] w-full text-[0.875rem] text-pure-greys-5 mb-1 leading-[1.375rem]">
             <p className="font-bold">
               Email Address<sup className="text-pink-200">*</sup>
             </p>
@@ -138,7 +138,7 @@ const SignUp = () => {
           </label>
 
           <div className="flex gap-x-4 mt-[10px]">
-            <label className="w-full relative text-[0.875rem] text-black  mb-1 leading-[1.375rem]">
+            <label className="w-full relative text-[0.875rem] text-pure-greys-5  mb-1 leading-[1.375rem]">
               <p className="font-bold">
                 Create Password<sup className="text-pink-200">*</sup>
               </p>
@@ -165,7 +165,7 @@ const SignUp = () => {
               </span>
             </label>
 
-            <label className="w-full relative text-[0.875rem] text-black mb-1 leading-[1.375rem]">
+            <label className="w-full relative text-[0.875rem] text-pure-greys-5 mb-1 leading-[1.375rem]">
               <p className="font-bold">
                 Confirm Password<sup className="text-pink-200">*</sup>
               </p>

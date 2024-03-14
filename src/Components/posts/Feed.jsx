@@ -2,12 +2,31 @@ import React from "react";
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import { getAllPosts } from "../../services/operations/mediaAPI";
+import { getAllUserData } from "../../services/operations/profileAPI";
 import { all } from "axios";
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState([]);
+  const [likeData, setLikeData] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
+
+  useEffect(() => {
+    const fetchUderData = async () => {
+      try {
+        const response = await getAllUserData(token);
+        setUserData(response);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
+    if (token) {
+      fetchUderData();
+    }
+  }, [token]);
+
+  const userId = userData?.userDetails?._id;
 
   useEffect(() => {
     let fetchedPosts = [];
@@ -42,7 +61,9 @@ const Feed = () => {
           <p className="font-bold text-2xl text-white">No Posts Found !</p>
         </div>
       ) : (
-        allPosts.map((post) => <PostCard post={post} key={post._id} />)
+        allPosts.map((post) => (
+          <PostCard post={post} userId={userId} key={post._id} />
+        ))
       )}
     </div>
   );

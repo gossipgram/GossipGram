@@ -3,12 +3,11 @@ import { apiConnector } from "../apiConnector";
 import { profileEndpoints } from "../apis";
 
 const {
-    UPDATE_PROFILE_API ,
-    DELETE_ACCOUNT_API ,
-    GET_ALL_USER_DATA_API ,
-    UPDATE_DISPLAY_PICTURE_API
-} = profileEndpoints ; 
-
+  UPDATE_PROFILE_API,
+  DELETE_ACCOUNT_API,
+  GET_ALL_USER_DATA_API,
+  UPDATE_DISPLAY_PICTURE_API,
+} = profileEndpoints;
 
 export const updatedProfile = async (data, token) => {
   let result = null;
@@ -22,7 +21,7 @@ export const updatedProfile = async (data, token) => {
       throw new Error("Could Not Update Profile");
     }
     toast.success("Profile Updated");
-    result = response?.data?.data;                              //check after run 
+    result = response?.data?.data; //check after run
   } catch (error) {
     console.log("UPDATE_PROFILE_API ERROR............", error);
     toast.error(error.message);
@@ -31,19 +30,13 @@ export const updatedProfile = async (data, token) => {
   return result;
 };
 
-
 export const deleteAccount = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector(
-      "DELETE",
-      DELETE_ACCOUNT_API,
-      data,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
+    const response = await apiConnector("DELETE", DELETE_ACCOUNT_API, data, {
+      Authorization: `Bearer ${token}`,
+    });
     console.log("DELETE_ACCOUNT_API API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete ACCOUNT");
@@ -58,29 +51,20 @@ export const deleteAccount = async (data, token) => {
   return result;
 };
 
-
-export const getAllUserData = async ( token) => {
+export const getAllUserData = async (token) => {
   //check again
   const toastId = toast.loading("Loading...");
   let result = [];
   try {
-    const response = await apiConnector(
-      "GET",
-      GET_ALL_USER_DATA_API,
-      null,
-      {
-        Authorization: `Bearer ${token}`,
-      }
-    );
-    console.log(
-      "GET_ALL_USER_DATA_API API RESPONSE............",
-      response
-    );
+    const response = await apiConnector("GET", GET_ALL_USER_DATA_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("GET_ALL_USER_DATA_API API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not GET all data for user");
     }
     toast.success("All data for user fetched successfull");
-    result = response?.data?.data;
+    result = response?.data;
   } catch (error) {
     console.log("GET_ALL_USER_DATA_API API ERROR............", error);
     toast.error(error.message);
@@ -88,7 +72,6 @@ export const getAllUserData = async ( token) => {
   toast.dismiss(toastId);
   return result;
 };
-
 
 export const createComment = async (data, token) => {
   const toastId = toast.loading("Loading...");

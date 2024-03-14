@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { FaRegCommentAlt, FaRegHeart, FaCommentAlt } from "react-icons/fa";
+import { getLikesForPost } from "../../services/operations/likesAPI";
 import { FcLike } from "react-icons/fc";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, userId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
-  const [liked, setLiked] = useState("");
+  const [liked, setLiked] = useState(false);
+  const token = localStorage.getItem("token").split('"')[1];
+
+  const [likeUser, setLikeUser] = useState([]);
+
+  useEffect(() => {
+    const fetchLikeUser = async () => {
+      try {
+        const response = await getLikesForPost(token);
+        setLikeUser(response);
+      } catch (error) {
+        console.error("Error fetching like Users Data:", error.message);
+      }
+    };
+
+    fetchLikeUser();
+  }, [token]);
 
   const likeHandler = () => {
-    return 0;
+    setTotalLike(totalLike + 1);
   };
+
+  const unlikeHandler = () => {
+    setTotalLike(totalLike - 1);
+  };
+
   return (
     <div className="flex flex-col max-w-lg pb-3 max-h-[700px] bg-richblack-800 ">
       <div className="py-5 flex  items-center">
@@ -33,7 +55,7 @@ const PostCard = ({ post }) => {
       </div>
       <div className="flex gap-x-5 mt-[2px] items-center">
         <button
-          onClick={likeHandler}
+          onClick={liked ? unlikeHandler : likeHandler}
           className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60 transition-all duration-200"
         >
           <FaRegHeart className="text-2xl text-pure-greys-50" />
