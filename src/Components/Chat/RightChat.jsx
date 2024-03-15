@@ -1,9 +1,10 @@
 import React from 'react'
 
-const RightChat = ({ message }) => {
+const RightChat = ({ message , time}) => {
   return (
-    <div className="bg-richblue-200 p-2 rounded-lg shadow-md mb-2 max-w-[40rem]">
+    <div className="flex flex-col bg-richblue-200 p-2 rounded-lg shadow-md mb-2 max-w-[40rem] gap-2">
         <p className="text-richblack-5">{message}</p>
+        <p className='text-richblack-100 text-xs flex justify-end'>{time}</p>
     </div>
   )
 }

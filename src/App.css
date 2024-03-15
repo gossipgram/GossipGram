@@ -1,3 +1,14 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+.scrolling {
+    overflow: scroll;
+    scrollbar-color: rgb(138, 138, 245) rgb(128, 118, 118);
+    scrollbar-width: thin;
+}
+
 .spinner {
     width: 56px;
     height: 56px;
