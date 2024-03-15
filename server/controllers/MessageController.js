@@ -8,8 +8,15 @@ const Chat = require("../models/Conversation");
 const allMessages = async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
-      .populate("sender", "name pic email")
-      .populate("chat");
+      .populate("sender", "username image email")
+      .populate("chat")
+      .populate({
+        path: "chat",
+        populate: {
+          path: "users",
+          select: "username image email",
+        }
+      });
     res.json(messages);
   } catch (error) {
     res.status(400);

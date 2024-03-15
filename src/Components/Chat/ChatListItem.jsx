@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getAllDirectMessage } from "../../services/operations/messageAPI"
 
-const ChatListItem = ({ chat }) => {
+const ChatListItem = ({ chat , setMessages}) => {
   
   const navigate = useNavigate();
   const [user1 , user2] = chat.users;
@@ -20,6 +20,7 @@ const ChatListItem = ({ chat }) => {
       const messages = await getAllDirectMessage(chatId, token);
       // Now you can use the fetched messages as needed
       console.log('Messages for chat', chatId, ':', messages);
+      setMessages(messages);
       
       // Optionally, navigate to a new route if needed
       navigate(`/chat/${chatId}`);
