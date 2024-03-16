@@ -9,6 +9,7 @@ const SendMessage = ({ chatId }) => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem("token").split('"')[1];
+    console.log("_______________________", chatId)
 
     const handleMessageChange = (event) => {
         setMessage(event.target.value);

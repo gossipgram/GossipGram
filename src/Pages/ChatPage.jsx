@@ -56,7 +56,7 @@ const ChatPage = () => {
         /> : null }
 
         {showSendMessage ? <SendMessage 
-        hatId={chatId} 
+        chatId={chatId} 
         /> : null}
 
       </div>
