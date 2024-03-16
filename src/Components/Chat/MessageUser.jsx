@@ -2,10 +2,14 @@ import React from 'react'
 import { FaVideo } from "react-icons/fa";
 import { MdAddIcCall } from "react-icons/md";
 
-const MessageUser = ({ messages }) => {
+const MessageUser = ({ messages ,userData}) => {
   const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
-  const username = user?.username;
-  const image = user?.image;
+  const userUsername = userData?.userDetails?.username ;                       // username of user logged in
+  console.log(userUsername) 
+
+  const { username: userName, image: userImage } = messages[0]?.chat?.users.find(user => user.username !== userUsername) || {};
+  console.log("userName",userName);
+  console.log("userImage",userImage);
 
   if (!user) {
     return null;
@@ -14,9 +18,9 @@ const MessageUser = ({ messages }) => {
   return (
     <div className="flex items-center justify-between p-4 bg-richblack-700">
       <div className="flex items-center">
-        <img src={image} loading='lazy' alt='' className="w-14 h-14 rounded-full mr-4" />
+        <img src={userImage} loading='lazy' alt='' className="w-14 h-14 rounded-full mr-4" />
         <div className='flex flex-col'>
-          <h3 className="font-semibold text-richblack-5 text-2xl">{username}</h3>
+          <h3 className="font-semibold text-richblack-5 text-2xl">{userName}</h3>
           {/* active status  */}
         </div>
       </div>

@@ -23,10 +23,10 @@ export const sendDirectMessage = async (data , token) => {
     );
     console.log("SEND_MESSAGE_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
-    result = response.data;
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
+    // result = response.data;
   } catch (error) {
     console.log("SEND_MESSAGE_API API ERROR............", error);
     result = error.response.data;

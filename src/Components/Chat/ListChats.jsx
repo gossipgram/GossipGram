@@ -3,16 +3,18 @@ import ChatListItem from './ChatListItem'
 import { fetchChats } from '../../services/operations/chatAPI';
 import toast from 'react-hot-toast';
 
-const ListChats = ({ setMessages ,setChatId , handleSendMessageClick }) => {
+const ListChats = ({ setMessages ,setChatId , handleSendMessageClick , userData}) => {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem("token").split('"')[1];
+
 
     useEffect(() => {
         const fetchUserChats = async () => {
         setLoading(true);
         try {
             const response = await fetchChats(token);
+            console.log("chat all chat all chat all achat all ", response);
         
             setChats(response.data);
 
@@ -45,7 +47,8 @@ const ListChats = ({ setMessages ,setChatId , handleSendMessageClick }) => {
         chats.map((chat) => 
           <ChatListItem 
           chat={chat} 
-          chatId ={chat._id} 
+          chatId ={chat._id}
+          userData={userData}
           key={chat._id} 
           setMessages={setMessages}
           setChatId={setChatId}
