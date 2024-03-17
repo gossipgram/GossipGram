@@ -68,7 +68,6 @@ export const unlikePost = async (postId, token) => {
 export const getLikesForPost = async (postId, token) => {
   //check again
   const toastId = toast.loading("Loading...");
-  console.log(token);
   const BASE_URL = "http://localhost:4000/api/v1/";
   let result = [];
   try {

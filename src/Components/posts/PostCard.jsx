@@ -1,35 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { FaRegCommentAlt, FaRegHeart, FaCommentAlt } from "react-icons/fa";
+import React, { useState, useEffect, useId } from "react";
+import {
+  FaRegCommentAlt,
+  FaRegHeart,
+  FaCommentAlt,
+  FaChessKing,
+} from "react-icons/fa";
 import { getLikesForPost } from "../../services/operations/likesAPI";
 import { FcLike } from "react-icons/fc";
 
 const PostCard = ({ post, userId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
   const postId = post?._id;
-  const [liked, setLiked] = useState(false);
+
   const token = localStorage.getItem("token").split('"')[1];
 
   const [likeUser, setLikeUser] = useState([]);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const fetchLikeUser = async () => {
       try {
         const response = await getLikesForPost(postId, token);
-        setLikeUser(response);
+        const data = await response?.likes;
+        setLikeUser(data);
       } catch (error) {
         console.error("Error fetching like Users Data:", error.message);
       }
     };
+    const compareUserlikeId = (userId, likeUser) => {
+      console.log(likeUser);
+      const likedUserArray = likeUser;
+      for (let i = 0; i < likedUserArray?.length; i++) {
+        if (likedUserArray[i]?.user === userId) {
+          setLiked(true);
+          console.log("i am in ifelse");
+          return;
+        } else {
+          continue;
+        }
+      }
+      setLiked(false);
+    };
 
     fetchLikeUser();
-  }, [token]);
+    compareUserlikeId(userId, likeUser);
+  }, []);
+
+  // useEffect(() => {
+  //   compareUserlikeId(userId, likeUser);
+  //   console.log(liked);
+  // }, [token]);
 
   const likeHandler = () => {
     setTotalLike(totalLike + 1);
+    setLiked(true);
   };
 
   const unlikeHandler = () => {
     setTotalLike(totalLike - 1);
+    setLiked(false);
+  };
+
+  const likeButtonHandler = () => {
+    if (!liked) {
+      likeHandler();
+    } else {
+      unlikeHandler();
+    }
   };
 
   return (
@@ -56,7 +93,7 @@ const PostCard = ({ post, userId }) => {
       </div>
       <div className="flex gap-x-5 mt-[2px] items-center">
         <button
-          onClick={liked ? unlikeHandler : likeHandler}
+          onClick={likeButtonHandler}
           className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60 transition-all duration-200"
         >
           <FaRegHeart className="text-2xl text-pure-greys-50" />
