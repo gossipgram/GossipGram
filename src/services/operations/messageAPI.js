@@ -7,12 +7,15 @@ const {SEND_DIRECT_MESSAGE_API , GET_ALL_DIRECT_MESSAGE_API} = directMessageEndp
 export const sendDirectMessage = async (data , token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
+  const chatId = data?.chatId;
+  const content = data?.content;
+  console.log("datadatadatadatadatadatadatadata", chatId , content);
   try{
     const response = await apiConnector(
       "POST",
       SEND_DIRECT_MESSAGE_API,
       {
-        data,
+        chatId,content
       },
       {
         Authorization: `Bearer ${token}`,
@@ -20,10 +23,10 @@ export const sendDirectMessage = async (data , token) => {
     );
     console.log("SEND_MESSAGE_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
-    result = response.data;
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
+    // result = response.data;
   } catch (error) {
     console.log("SEND_MESSAGE_API API ERROR............", error);
     result = error.response.data;

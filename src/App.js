@@ -13,6 +13,7 @@ import SideBarLayout from "./Components/common/SideBarLayout";
 import NotFound from "./Pages/NotFound";
 import ForgetPassword from "./Pages/ForgetPassword";
 import UpdatedPassword from "./Pages/UpdatedPassword";
+import MessageBox from "./Components/Chat/MessageBox";
 
 function App() {
   return (
@@ -61,7 +62,9 @@ function App() {
               <ChatPage />
             </PrivateRoute>
           }
-        />
+        >
+          <Route path="/chat/:chatId" element={<MessageBox />}></Route>
+        </Route>
 
         <Route
           path="/home"

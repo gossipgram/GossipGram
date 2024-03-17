@@ -1,45 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ListChats from "../Components/Chat/ListChats";
+import MessageUser from "../Components/Chat/MessageUser";
+import MessageBox from "../Components/Chat/MessageBox";
+import SendMessage from "../Components/Chat/SendMessage";
+import { getAllUserData } from "../services/operations/profileAPI";
+
 
 const ChatPage = () => {
-  const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
+  const [messages, setMessages] = useState([]);
+  const [showSendMessage, setShowSendMessage] = useState(false);
+  const [userData, setUserData] = useState([]);
+  // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
+  const [chatId , setChatId] = useState('')
 
   useEffect(() => {
-    const fetchUserChats = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchChats(token);
-        // console.log(response);
-        setChats(response.data);
-
-        // if (response && response.data) {
-        //   setChats(response.data);
-        // } else {
-        //   throw new Error("Invalid response data format");
-        // }
-      } catch (error) {
-        console.error("Error fetching chats:", error.message);
-        toast.error("Failed to fetch chats. Please try again.");
-      } finally {
-        setLoading(false);
+      const fetchUderData = async () => {
+        try {
+          const res = await getAllUserData(token);
+          setUserData(res);
+        } catch (error) {
+          console.error("Error fetching user data:", error.message);
+        }
+      };
+      if (token) {
+        fetchUderData();
       }
-    };
+    }, [token]);
 
-    if (token) {
-      fetchUserChats();
-    }
-  }, [token]);
+  const handleSendMessageClick = () => {
+    setShowSendMessage(true);
+    // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
+  };
+  // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
 
   return (
-    <div className="w-full overflow-x-hidden flex flex-row mt-10 mx-auto">
+    <div className="w-full overflow-x-hidden overflow-y-hidden flex flex-row mt-10 mx-auto">
       <div className=" w-4/12 h-full flex flex-col bg-richblack-700 rounded-md mx-10 gap-5">
         <h1 className="text-white text-4xl mx-auto mt-5">INBOX</h1>
-        <ListChats />
+        <ListChats 
+        setMessages={setMessages} 
+        setChatId={setChatId} 
+        handleSendMessageClick={handleSendMessageClick}
+        userData={userData}
+        />
       </div>
 
-      <div className="w-full h-full flex flex-row bg-richblack-700 rounded-md mx-10"></div>
+      <div className="w-full h-full flex flex-col p-6 bg-richblack-700 rounded-md mx-10 justify-evenly items-stretch">
+
+        <MessageUser messages={messages} userData={userData}/>
+
+        {showSendMessage ? <MessageBox 
+        messages={messages}
+        userData={userData}
+        /> : null }
+
+        {showSendMessage ? <SendMessage 
+        chatId={chatId} 
+        /> : null}
+
+      </div>
     </div>
   );
 };
