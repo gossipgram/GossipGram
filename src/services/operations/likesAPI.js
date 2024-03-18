@@ -2,8 +2,9 @@ import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { likesEndpoints } from "../apis";
 
-const { LIKE_POST_API, UNLIKE_POST_API, GET_LIKES_FOR_POST_API } =
-  likesEndpoints;
+// const { LIKE_POST_API, UNLIKE_POST_API } = likesEndpoints;
+
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const likePost = async (postId, token) => {
   const toastId = toast.loading("Loading...");
@@ -11,7 +12,7 @@ export const likePost = async (postId, token) => {
   try {
     const response = await apiConnector(
       "POST",
-      LIKE_POST_API,
+      BASE_URL + `likes/posts/${postId}/like`,
       {
         postId,
       },
@@ -41,7 +42,7 @@ export const unlikePost = async (postId, token) => {
   try {
     const response = await apiConnector(
       "DELETE",
-      UNLIKE_POST_API,
+      BASE_URL + `likes/posts/${postId}/unlike`,
       {
         postId,
       },
@@ -68,7 +69,6 @@ export const unlikePost = async (postId, token) => {
 export const getLikesForPost = async (postId, token) => {
   //check again
   const toastId = toast.loading("Loading...");
-  const BASE_URL = "http://localhost:4000/api/v1/";
   let result = [];
   try {
     const response = await apiConnector(

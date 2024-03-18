@@ -41,11 +41,11 @@ export const directMessageEndpoints = {
 };
 
 // LIKES ENDPOINTS
-export const likesEndpoints = {
-  LIKE_POST_API: BASE_URL + "likes/posts/:postId/like", //post
-  UNLIKE_POST_API: BASE_URL + "likes/posts/:postId/unlike", //delete
-  // GET_LIKES_FOR_POST_API: BASE_URL + "likes/posts/:postId/likes", //get
-};
+// export const likesEndpoints = {
+//   LIKE_POST_API: BASE_URL + "likes/posts/:postId/like", //post
+//   UNLIKE_POST_API: BASE_URL + "likes/posts/:postId/unlike", //delete
+// GET_LIKES_FOR_POST_API: BASE_URL + "likes/posts/:postId/likes", //get
+// };
 
 // COMMENTS ENDPOINTS
 export const commentsEndpoints = {

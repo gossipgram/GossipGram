@@ -5,7 +5,11 @@ import {
   FaCommentAlt,
   FaChessKing,
 } from "react-icons/fa";
-import { getLikesForPost } from "../../services/operations/likesAPI";
+import {
+  getLikesForPost,
+  likePost,
+  unlikePost,
+} from "../../services/operations/likesAPI";
 import { FcLike } from "react-icons/fc";
 
 const PostCard = ({ post, userId }) => {
@@ -21,19 +25,20 @@ const PostCard = ({ post, userId }) => {
     const fetchLikeUser = async () => {
       try {
         const response = await getLikesForPost(postId, token);
-        const data = await response?.likes;
-        setLikeUser(data);
+        setLikeUser(response?.likes);
       } catch (error) {
         console.error("Error fetching like Users Data:", error.message);
       }
     };
-    const compareUserlikeId = (userId, likeUser) => {
-      console.log(likeUser);
-      const likedUserArray = likeUser;
-      for (let i = 0; i < likedUserArray?.length; i++) {
-        if (likedUserArray[i]?.user === userId) {
+
+    fetchLikeUser();
+  }, [token]);
+
+  useEffect(() => {
+    const compareUserlikeId = () => {
+      for (let i = 0; i < likeUser?.length; i++) {
+        if (likeUser[i]?.user === userId) {
           setLiked(true);
-          console.log("i am in ifelse");
           return;
         } else {
           continue;
@@ -42,23 +47,19 @@ const PostCard = ({ post, userId }) => {
       setLiked(false);
     };
 
-    fetchLikeUser();
-    compareUserlikeId(userId, likeUser);
-  }, []);
-
-  // useEffect(() => {
-  //   compareUserlikeId(userId, likeUser);
-  //   console.log(liked);
-  // }, [token]);
+    compareUserlikeId();
+  }, [likeUser]);
 
   const likeHandler = () => {
     setTotalLike(totalLike + 1);
     setLiked(true);
+    likePost(postId, token);
   };
 
   const unlikeHandler = () => {
     setTotalLike(totalLike - 1);
     setLiked(false);
+    unlikePost(postId, token);
   };
 
   const likeButtonHandler = () => {
@@ -96,14 +97,17 @@ const PostCard = ({ post, userId }) => {
           onClick={likeButtonHandler}
           className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60 transition-all duration-200"
         >
-          <FaRegHeart className="text-2xl text-pure-greys-50" />
-          {/* <FcLike /> */}
+          {liked ? (
+            <FcLike className="text-2xl " />
+          ) : (
+            <FaRegHeart className="text-2xl text-pure-greys-50" />
+          )}
+          {/*  */}
           <p>{totalLike}</p>
         </button>
         <div className="text-white flex gap-x-3 items-center cursor-pointer hover:opacity-60 transition-all duration-200">
           <FaRegCommentAlt className="text-2xl text-pure-greys-50" />
-          {/* <FaCommentAlt />t */}
-          <p className="text-lg">{post.comments.length}</p>
+          {/* <FaCommentAlt />t<p className="text-lg">{post.comments.length}</p> */}
         </div>
       </div>
       <div className="w-full h-[2px] bg-yellow-600 mt-8"></div>
