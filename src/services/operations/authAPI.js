@@ -11,6 +11,7 @@ const {
   LOGIN_API,
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
+  GET_ALL_USERS_API
 } = endpoints
 
 export function sendOtp(email, navigate) {
@@ -128,7 +129,6 @@ export function logout(navigate) {
   }
 }
 
-
 export function getPasswordResetToken(email , setEmailSent) {
   return async(dispatch) => {
     dispatch(setLoading(true));
@@ -174,3 +174,26 @@ export function resetPassword(password, confirmPassword, token) {
     dispatch(setLoading(false));
   }
 }
+
+export const getAllUsers = async (token) => {
+
+  const toastId = toast.loading("Loading...");
+  let result = [];
+  try {
+    const response = await apiConnector("GET", GET_ALL_USERS_API, null, {
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("GET_ALL_USERS_API API RESPONSE............", response);
+    if (!response?.data?.success) {
+      throw new Error("Could Not GET all users");
+    }
+    toast.success("All users fetched successfull");
+    result = response?.data;
+  } catch (error) {
+    console.log("GET_ALL_USERS_API API ERROR............", error);
+    toast.error(error.message);
+  }
+  toast.dismiss(toastId);
+  return result;
+};

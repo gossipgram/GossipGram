@@ -14,6 +14,7 @@ import NotFound from "./Pages/NotFound";
 import ForgetPassword from "./Pages/ForgetPassword";
 import UpdatedPassword from "./Pages/UpdatedPassword";
 import MessageBox from "./Components/Chat/MessageBox";
+import SearchPage from "./Pages/SearchPage";
 
 function App() {
   return (
@@ -76,6 +77,16 @@ function App() {
         >
           {/* <Route path="" element={<MyProfile />} /> */}
           {/* <Route path="" element={<Settings />} /> */}
+        </Route>
+
+        <Route
+          path="/search"
+          element={
+            <PrivateRoute>
+              <SearchPage />
+            </PrivateRoute>
+          }>
+
         </Route>
 
         <Route

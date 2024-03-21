@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { getAllDirectMessage } from "../../services/operations/messageAPI"
+import io from "socket.io-client";        //____
+
+const ENDPOINT = "http://localhost:4000";    //____
+var socket , chatCompare ;            //____
 
 const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick , userData}) => {
   
@@ -10,7 +14,15 @@ const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick 
   const [user1 , user2] = chat.users;
   const chatId = chat._id;
   const token = localStorage.getItem("token").split('"')[1];
-  console.log("chatchatchatchatchatchat", chat)
+  // console.log("chatchatchatchatchatchat", chat)
+
+  const [socketConnected, setSocketConnected] = useState(false);     //_____
+
+    useEffect(()=> {
+        socket = io(ENDPOINT);
+        socket.emit("setup", userData);
+        socket.on("connection",() => setSocketConnected(true));
+    }, []);
 
   const content = chat.latestMessage ? `${chat.latestMessage.content.substring(0, 25)}${chat.latestMessage.content.length > 25 ? '...' : ''}` : '';      // latest message ko chhota krne k liye
   const { username: userName, image: userImage } = chat.users.find(user => user.username !== userUsername) || {};                                        // chat.users me se voh user alag krna hai jiska username logged in user k username k equal na ho
@@ -28,6 +40,10 @@ const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick 
       handleSendMessageClick()
       
       navigate(`/chat/${chatId}`);
+
+      chatCompare = chat;
+
+      socket.emit("join chat", chatId);
     } catch (error) {
       console.error('Error fetching messages:', error.message);
       toast.error('Failed to fetch messages. Please try again.');

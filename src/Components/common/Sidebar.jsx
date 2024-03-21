@@ -57,15 +57,18 @@ const Sidebar = () => {
           </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <div
-            className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
-              activeIcon === "search" ? "text-yellow-400 " : "text-white"
-            }`}
-            onClick={() => handleIconClick("search")}
-          >
-            <GoSearch fontSize={25} className="" />
-            <p className="text-xl ">Search</p>
-          </div>
+          <Link to="/search">
+              <div
+              className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "search" ? "text-yellow-400 " : "text-white"
+              }`}
+              onClick={() => handleIconClick("search")}
+            >
+              <GoSearch fontSize={25} className="" />
+              <p className="text-xl ">Search</p>
+            </div>
+          </Link>
+          
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
           <Link to="/chat">
@@ -161,14 +164,17 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <div
+          <Link to="/search">
+            <div
             className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
               activeIcon === "search" ? "text-yellow-400" : "text-white"
             }`}
             onClick={() => handleIconClick("search")}
-          >
-            <GoSearch fontSize={35} className=" " />
-          </div>
+            >
+              <GoSearch fontSize={35} className=" " />
+            </div>
+          </Link>
+
           <Link to="/chat">
             <div
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${

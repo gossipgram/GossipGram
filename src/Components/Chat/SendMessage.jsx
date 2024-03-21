@@ -4,12 +4,23 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { MdOutlineAdd } from "react-icons/md";
 import { sendDirectMessage } from "../../services/operations/messageAPI";
 import toast from 'react-hot-toast';
+import io from "socket.io-client";        //____
 
-const SendMessage = ({ chatId }) => {
+const ENDPOINT = "http://localhost:4000";    //____
+var socket , selectedChatCompare ;            //____
+
+const SendMessage = ({ chatId , userData }) => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem("token").split('"')[1];
-    console.log("_______________________", chatId)
+    // console.log("_______________________", chatId)
+      const [socketConnected, setSocketConnected] = useState(false);     //_____
+
+    useEffect(()=> {
+        socket = io(ENDPOINT);
+        socket.emit("setup", userData);
+        socket.on("connection",() => setSocketConnected(true));
+    }, []);
 
     const handleMessageChange = (event) => {
         setMessage(event.target.value);
