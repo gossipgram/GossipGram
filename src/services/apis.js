@@ -7,7 +7,7 @@ export const endpoints = {
   LOGIN_API: BASE_URL + "auth/login",
   RESETPASSTOKEN_API: BASE_URL + "auth/reset-password-token",
   RESETPASSWORD_API: BASE_URL + "auth/reset-password",
-  GET_ALL_USERS_API: BASE_URL + "auth/users"
+  GET_ALL_USERS_API: BASE_URL + "auth/users",
 };
 
 // MEDIA ENDPOINTS
@@ -49,13 +49,13 @@ export const directMessageEndpoints = {
 // };
 
 // COMMENTS ENDPOINTS
-export const commentsEndpoints = {
-  CREATE_COMMENT_API: BASE_URL + "comments/posts/:postId/comments", //post
-  GET_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //get
-  GET_ALL_COMMENTS_FOR_POST_API: BASE_URL + "comments/posts/:postId/comments", //get
-  UPDATE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //put
-  DELETE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //delete
-};
+// export const commentsEndpoints = {
+//   CREATE_COMMENT_API: BASE_URL + "comments/posts/:postId/comments", //post
+//   GET_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //get
+//   GET_ALL_COMMENTS_FOR_POST_API: BASE_URL + "comments/posts/:postId/comments", //get
+//   UPDATE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //put
+//   DELETE_COMMENT_BY_ID_API: BASE_URL + "comments/comments/:commentId", //delete
+// };
 
 // FRIENDS ENDPOINTS
 export const friendsEndpoints = {
