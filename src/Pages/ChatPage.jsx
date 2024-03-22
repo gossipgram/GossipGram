@@ -56,6 +56,7 @@ const ChatPage = () => {
         /> : null }
 
         {showSendMessage ? <SendMessage 
+        userData={userData}
         chatId={chatId} 
         /> : null}
 
