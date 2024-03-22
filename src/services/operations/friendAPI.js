@@ -13,6 +13,7 @@ export const followUser = async (followingId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   try {
+    console.log("followingId",followingId);
     const response = await apiConnector(
       "POST",
       FOLLOW_USER_API,
@@ -25,9 +26,9 @@ export const followUser = async (followingId, token) => {
     );
     console.log("FOLLOW_USER_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("FOLLOW_USER_API API ERROR............", error);
@@ -54,9 +55,9 @@ export const unfollowUser = async (followingId, token) => {
       }
     );
     console.log("UNFOLLOW_USER_API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not UNFOLLOW USER");
-    }
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not UNFOLLOW USER");
+    // }
     toast.success("UNFOLLOW USER");
     result = response?.data?.data;
   } catch (error) {

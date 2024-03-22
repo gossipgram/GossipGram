@@ -27,28 +27,20 @@ const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick 
   const content = chat.latestMessage ? `${chat.latestMessage.content.substring(0, 25)}${chat.latestMessage.content.length > 25 ? '...' : ''}` : '';      // latest message ko chhota krne k liye
   const { username: userName, image: userImage } = chat.users.find(user => user.username !== userUsername) || {};                                        // chat.users me se voh user alag krna hai jiska username logged in user k username k equal na ho
  
-  const handleChatItemClick = async () => {
-    try {
-
-      const messages = await getAllDirectMessage(chatId, token);
-
-      console.log('Messages for chat', chatId, ':', messages);
-      // console.log(messages , " ---------------------------------")
-      setMessages(messages);
-      setChatId(chatId)
-
-      handleSendMessageClick()
-      
-      navigate(`/chat/${chatId}`);
-
-      chatCompare = chat;
-
-      socket.emit("join chat", chatId);
-    } catch (error) {
-      console.error('Error fetching messages:', error.message);
-      toast.error('Failed to fetch messages. Please try again.');
-    }
-  };
+    const handleChatItemClick = async () => {
+        try {
+            const messages = await getAllDirectMessage(chatId, token);
+            console.log('Messages for chat', chatId, ':', messages);
+            setMessages(messages);
+            setChatId(chatId);
+            handleSendMessageClick();
+            navigate(`/chat/${chatId}`);
+            socket.emit("join chat", chatId);
+        } catch (error) {
+            console.error('Error fetching messages:', error.message);
+            toast.error('Failed to fetch messages. Please try again.');
+        }
+    };
 
   return (
     <div className="flex items-center p-4 border-b border-yellow-500 bg-richblack-700 hover:bg-richblack-600 cursor-pointer transition-all duration-200"

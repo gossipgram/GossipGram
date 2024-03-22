@@ -48,7 +48,7 @@ const ChatPage = () => {
 
       <div className="w-full h-full flex flex-col p-6 bg-richblack-700 rounded-md mx-10 justify-evenly items-stretch">
 
-        <MessageUser messages={messages} userData={userData}/>
+        <MessageUser messages={messages} userData={userData} chatId={chatId} />
 
         {showSendMessage ? <MessageBox 
         messages={messages}
