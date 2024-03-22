@@ -48,7 +48,9 @@ exports.createComment = async (req, res) => {
 exports.getCommentById = async (req, res) => {
   try {
     const commentId = req.params.commentId;
-    const comment = await Comment.findById(commentId);
+    const comment = await Comment.findById(commentId)
+      .populate("user", "-password")
+      .exec();
 
     if (!comment) {
       return res.status(404).json({
@@ -75,7 +77,9 @@ exports.getCommentById = async (req, res) => {
 exports.getAllCommentsForPost = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const comments = await Comment.find({ post: postId });
+    const comments = await Comment.find({ post: postId })
+      .populate("user", "-password")
+      .exec();
 
     return res.status(200).json({
       success: true,

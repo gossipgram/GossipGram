@@ -53,7 +53,6 @@ export const deleteAccount = async (data, token) => {
 
 export const getAllUserData = async (token) => {
   //check again
-  const toastId = toast.loading("Loading...");
   let result = [];
   try {
     const response = await apiConnector("GET", GET_ALL_USER_DATA_API, null, {
@@ -63,13 +62,10 @@ export const getAllUserData = async (token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not GET all data for user");
     }
-    toast.success("All data for user fetched successfull");
     result = response?.data;
   } catch (error) {
     console.log("GET_ALL_USER_DATA_API API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 

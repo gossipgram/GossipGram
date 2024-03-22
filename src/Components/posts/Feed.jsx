@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import { getAllPosts } from "../../services/operations/mediaAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
-import { all } from "axios";
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([]);
-  const [likeData, setLikeData] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const Feed = () => {
   }, [token]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full m-3">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner "></div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
 import {
   FaRegCommentAlt,
   FaRegHeart,
@@ -11,15 +11,82 @@ import {
   unlikePost,
 } from "../../services/operations/likesAPI";
 import { FcLike } from "react-icons/fc";
+import CommentsModal from "./CommentsModal";
+import { getAllCommentsForPost } from "../../services/operations/commentsAPI";
+// import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 const PostCard = ({ post, userId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
+
   const postId = post?._id;
-
   const token = localStorage.getItem("token").split('"')[1];
-
   const [likeUser, setLikeUser] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [totalComments, setTotalComments] = useState(post?.comments?.length);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [allComments, setAllComments] = useState([]);
+
+  // !code not working for modal close on clicking out side screen
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [commentsModal, setCommentsModal] = useState(null);
+
+  // const modalRef = useRef();
+
+  // useOnClickOutside(modalRef, closeModal);
+
+  // const openModal = () => {
+  //   addingCommentsData();
+  //   setIsModalOpen(true);
+  // };
+
+  // const addingCommentsData = () => {
+  //   const fetchAllCommnets = async () => {
+  //     try {
+  //       const response = await getAllCommentsForPost(postId, token);
+  //       setCommentsModal(response?.comments);
+  //     } catch (error) {
+  //       console.error("Eroor fetching comments data");
+  //     }
+  //   };
+  //   fetchAllCommnets();
+  // };
+
+  // ?modal logic
+  // const toggleModal = () => {
+  //   setIsModalOpen(!isModalOpen);
+  // };
+
+  // useEffect(() => {
+  //   const handleClickOutsideModal = (event) => {
+  //     if (isModalOpen && !event.target.closest(".modal-content")) {
+  //       toggleModal();
+  //     }
+  //   };
+
+  //   if (isModalOpen) {
+  //     document.addEventListener("click", handleClickOutsideModal);
+  //   } else {
+  //     document.removeEventListener("click", handleClickOutsideModal);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutsideModal);
+  //   };
+  // }, [isModalOpen]);
+
+  const openModal = () => {
+    const fetchAllCommnets = async () => {
+      try {
+        const response = await getAllCommentsForPost(postId, token);
+        setAllComments(response?.comments);
+      } catch (error) {
+        console.error("Error fetching comments data");
+      }
+    };
+    fetchAllCommnets();
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const fetchLikeUser = async () => {
@@ -71,7 +138,7 @@ const PostCard = ({ post, userId }) => {
   };
 
   return (
-    <div className="flex flex-col max-w-lg pb-3 max-h-[700px] bg-richblack-800 ">
+    <div className="flex flex-col max-w-lg pb-3 max-h-[700px] bg-richblack-800">
       <div className="py-5 flex  items-center">
         <img
           src={post.user.image}
@@ -105,10 +172,25 @@ const PostCard = ({ post, userId }) => {
           {/*  */}
           <p>{totalLike}</p>
         </button>
-        <div className="text-white flex gap-x-3 items-center cursor-pointer hover:opacity-60 transition-all duration-200">
+        <button
+          onClick={openModal}
+          className="text-white flex gap-2 items-center cursor-pointer hover:opacity-60 transition-all duration-200"
+        >
           <FaRegCommentAlt className="text-2xl text-pure-greys-50" />
           {/* <FaCommentAlt />t<p className="text-lg">{post.comments.length}</p> */}
-        </div>
+          <p>{totalComments}</p>
+        </button>
+
+        {isModalOpen && (
+          <div>
+            <CommentsModal
+              modalData={allComments}
+              changeIsModalOpen={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="w-full h-[2px] bg-yellow-600 mt-8"></div>
     </div>

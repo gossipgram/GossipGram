@@ -40,7 +40,6 @@ export const getPostById = async (token, postId) => {
 
 export const getAllPosts = async (token) => {
   let result = [];
-  const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector("GET", GET_ALL_POSTS_API, null, {
       Authorization: `Bearer ${token}`,
@@ -53,9 +52,7 @@ export const getAllPosts = async (token) => {
     result = response?.data?.posts;
   } catch (error) {
     console.log("GET ALL POSTS API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 

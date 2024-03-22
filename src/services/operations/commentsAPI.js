@@ -2,21 +2,23 @@ import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { commentsEndpoints } from "../apis";
 
-const {
-  CREATE_COMMENT_API,
-  GET_COMMENT_BY_ID_API,
-  GET_ALL_COMMENTS_FOR_POST_API,
-  UPDATE_COMMENT_BY_ID_API,
-  DELETE_COMMENT_BY_ID_API,
-} = commentsEndpoints;
+// const {
+//   CREATE_COMMENT_API,
+//   GET_COMMENT_BY_ID_API,
+//   GET_ALL_COMMENTS_FOR_POST_API,
+//   UPDATE_COMMENT_BY_ID_API,
+//   DELETE_COMMENT_BY_ID_API,
+// } = commentsEndpoints;
 
-export const createComment = async (data, token) => {
+const BASE_URL = "http://localhost:4000/api/v1/";
+
+export const createComment = async (data, postId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   try {
     const response = await apiConnector(
       "POST",
-      CREATE_COMMENT_API,
+      BASE_URL + `comments/posts/${postId}/comments`,
       {
         data,
       },
@@ -46,7 +48,7 @@ export const getCommentById = async (commentId, token) => {
   try {
     const response = await apiConnector(
       "GET",
-      GET_COMMENT_BY_ID_API,
+      BASE_URL + `comments/comments/${commentId}`,
       {
         commentId,
       },
@@ -72,12 +74,11 @@ export const getCommentById = async (commentId, token) => {
 
 export const getAllCommentsForPost = async (postId, token) => {
   //check again
-  const toastId = toast.loading("Loading...");
   let result = [];
   try {
     const response = await apiConnector(
       "GET",
-      GET_ALL_COMMENTS_FOR_POST_API,
+      BASE_URL + `comments/posts/${postId}/comments`,
       {
         postId,
       },
@@ -92,23 +93,25 @@ export const getAllCommentsForPost = async (postId, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not GET all comments for post");
     }
-    toast.success("All comments for post successfull");
-    result = response?.data?.data;
+    result = response?.data;
   } catch (error) {
     console.log("GET_ALL_COMMENTS_FOR_POST API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 
-export const updateCommentById = async (data, token) => {
+export const updateCommentById = async (data, commentId, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector("PUT", UPDATE_COMMENT_BY_ID_API, data, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector(
+      "PUT",
+      BASE_URL + `comments/comments/${commentId}`,
+      data,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("UPDATE COMMENT BY ID API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update COMMENT");
@@ -123,13 +126,13 @@ export const updateCommentById = async (data, token) => {
   return result;
 };
 
-export const deleteCommentById = async (data, token) => {
+export const deleteCommentById = async (data, commentId, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector(
       "DELETE",
-      DELETE_COMMENT_BY_ID_API,
+      BASE_URL + `comments/comments/${commentId}`,
       data,
       {
         Authorization: `Bearer ${token}`,
