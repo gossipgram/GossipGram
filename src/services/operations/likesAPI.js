@@ -1,5 +1,5 @@
 import { apiConnector } from "../apiConnector";
-import { likesEndpoints } from "../apis";
+// import { likesEndpoints } from "../apis";
 
 // const { LIKE_POST_API, UNLIKE_POST_API } = likesEndpoints;
 
