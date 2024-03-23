@@ -22,8 +22,10 @@ const CommentCard = ({
   const [editedText, setEditedText] = useState(comment?.text);
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
+    console.log(comment?.createdAt);
     const checkCommentUser = () => {
       if (userId === comment?.user?._id) {
         setCommentUser(true);
@@ -38,6 +40,27 @@ const CommentCard = ({
 
     checkCommentUser();
     checkPostUser();
+
+    // Calculate time ago
+    const createdTime = new Date(comment?.createdAt);
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdTime;
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    let timeAgoString = "";
+    if (days > 0) {
+      timeAgoString = `${days}d ago`;
+    } else if (hours > 0) {
+      timeAgoString = `${hours}h ago`;
+    } else if (minutes > 0) {
+      timeAgoString = `${minutes}m ago`;
+    } else {
+      timeAgoString = `${seconds}s ago`;
+    }
+    setTimeAgo(timeAgoString);
   }, [token]);
 
   const confirmDeleteHandler = () => {
@@ -130,6 +153,7 @@ const CommentCard = ({
 
             {isEditing ? (
               <div className="flex gap-5 items-center ">
+                <p className="text-richblack-300 text-sm flex">{timeAgo}</p>
                 <p
                   onClick={doneHandler}
                   className="text-richblack-300 text-sm flex items-center gap-1 cursor-pointer hover:text-yellow-400 transition-all duration-200"
@@ -147,6 +171,7 @@ const CommentCard = ({
               </div>
             ) : (
               <div className="flex gap-5 items-center ">
+                <p className="text-richblack-300 text-sm flex">{timeAgo}</p>
                 {commentUser ? (
                   <p
                     onClick={editHandler}
