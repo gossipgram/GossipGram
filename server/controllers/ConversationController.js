@@ -4,7 +4,7 @@ const User = require("../models/User");
 //@description     Create or fetch One to One Chat
 //@route           POST /api/chat/
 //@access          Protected
-const accessChat =async (req, res) => {
+const accessChat = async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {
@@ -12,43 +12,39 @@ const accessChat =async (req, res) => {
     return res.sendStatus(400);
   }
 
-  var isChat = await Chat.find({
+  // Check if a chat with the same users exists
+  const existingChat = await Chat.findOne({
     isGroupChat: false,
-    $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
-      { users: { $elemMatch: { $eq: userId } } },
+    $or: [
+      { users: { $all: [req.user._id, userId] } },
+      { users: { $all: [userId, req.user._id] } },
     ],
-  })
-    .populate("users", "-password")
-    .populate("latestMessage");
-
-  isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "name pic email",
   });
 
-  if (isChat.length > 0) {
-    res.send(isChat[0]);
-  } else {
-    var chatData = {
-      chatName: "sender",
-      isGroupChat: false,
-      users: [req.user._id, userId],
-    };
+  if (existingChat) {
+    return res.send(existingChat);
+  }
 
-    try {
-      const createdChat = await Chat.create(chatData);
-      const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
-        "users",
-        "-password"
-      );
-      res.status(200).json(FullChat);
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
-    }
+  // Create a new chat if no existing chat is found
+  const chatData = {
+    chatName: "sender",
+    isGroupChat: false,
+    users: [req.user._id, userId],
+  };
+
+  try {
+    const createdChat = await Chat.create(chatData);
+    const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+      "users",
+      "-password"
+    );
+    res.status(200).json(FullChat);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
   }
 };
+
 
 //@description     Fetch all chats for a user
 //@route           GET /api/chat/

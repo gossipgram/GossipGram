@@ -29,9 +29,9 @@ export const accessChat = async (userId, token) => {
     );
     console.log("ACCESS_CHAT_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("ACCESS_CHAT_API API ERROR............", error);

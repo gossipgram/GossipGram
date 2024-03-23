@@ -15,6 +15,7 @@ import ForgetPassword from "./Pages/ForgetPassword";
 import UpdatedPassword from "./Pages/UpdatedPassword";
 import MessageBox from "./Components/Chat/MessageBox";
 import SearchPage from "./Pages/SearchPage";
+import UserProfile from "./Components/Profile/UserProfile";
 
 function App() {
   return (
@@ -86,7 +87,7 @@ function App() {
               <SearchPage />
             </PrivateRoute>
           }>
-
+            <Route path="/search/:username" element={<UserProfile />}></Route>
         </Route>
 
         <Route

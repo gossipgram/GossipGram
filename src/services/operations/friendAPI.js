@@ -1,22 +1,16 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
-import { friendsEndpoints } from "../apis";
 
-const {
-  FOLLOW_USER_API,
-  UNFOLLOW_USER_API,
-  GET_FOLLOWERS_FOR_USER_API,
-  GET_FOLLOWING_FOR_USER_API,
-} = friendsEndpoints;
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const followUser = async (followingId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   try {
+    console.log("followingId",followingId);
     const response = await apiConnector(
       "POST",
-      FOLLOW_USER_API,
-      {
+      BASE_URL + `friends/follow/${followingId}`,{
         followingId,
       },
       {
@@ -25,9 +19,9 @@ export const followUser = async (followingId, token) => {
     );
     console.log("FOLLOW_USER_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("FOLLOW_USER_API API ERROR............", error);
@@ -45,8 +39,7 @@ export const unfollowUser = async (followingId, token) => {
   try {
     const response = await apiConnector(
       "DELETE",
-      UNFOLLOW_USER_API,
-      {
+      BASE_URL + `friends/unfollow/${followingId}`, {
         followingId,
       },
       {
@@ -54,9 +47,9 @@ export const unfollowUser = async (followingId, token) => {
       }
     );
     console.log("UNFOLLOW_USER_API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not UNFOLLOW USER");
-    }
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not UNFOLLOW USER");
+    // }
     toast.success("UNFOLLOW USER");
     result = response?.data?.data;
   } catch (error) {
@@ -73,20 +66,19 @@ export const getFollowersForUser = async (userId, token) => {
   try {
     const response = await apiConnector(
       "GET",
-      GET_FOLLOWERS_FOR_USER_API,
-      null,
+      BASE_URL + `friends/followers/${userId}`,
       {
-        userId,
+        userId
       },
       {
         Authorization: `Bearer ${token}`,
       }
     );
     console.log("GET_FOLLOWERS_FOR_USER_API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not Fetch ALL FOLLOWERS");
-    }
-    result = response?.data?.data;
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not Fetch ALL FOLLOWERS");
+    // }
+    result = response?.data;
   } catch (error) {
     console.log("GET_FOLLOWERS_FOR_USER_API ERROR............", error);
     toast.error(error.message);
@@ -101,8 +93,7 @@ export const getFollowingForUser = async (userId, token) => {
   try {
     const response = await apiConnector(
       "GET",
-      GET_FOLLOWING_FOR_USER_API,
-      null,
+      BASE_URL + `friends/following/${userId}` ,
       {
         userId,
       },
@@ -111,10 +102,10 @@ export const getFollowingForUser = async (userId, token) => {
       }
     );
     console.log("GET_FOLLOWING_FOR_USER_API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not Fetch ALL FOLLOWING");
-    }
-    result = response?.data?.data;
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not Fetch ALL FOLLOWING");
+    // }
+    result = response?.data;
   } catch (error) {
     console.log("GET_FOLLOWING_FOR_USER_API ERROR............", error);
     toast.error(error.message);
