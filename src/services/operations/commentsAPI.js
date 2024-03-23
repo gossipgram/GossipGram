@@ -12,15 +12,16 @@ import { commentsEndpoints } from "../apis";
 
 const BASE_URL = "http://localhost:4000/api/v1/";
 
-export const createComment = async (data, postId, token) => {
+export const createComment = async (text, postId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
+  console.log(text, postId, token);
   try {
     const response = await apiConnector(
       "POST",
       BASE_URL + `comments/posts/${postId}/comments`,
       {
-        data,
+        text,
       },
       {
         Authorization: `Bearer ${token}`,
@@ -100,14 +101,14 @@ export const getAllCommentsForPost = async (postId, token) => {
   return result;
 };
 
-export const updateCommentById = async (data, commentId, token) => {
-  let result = null;
-  const toastId = toast.loading("Loading...");
+export const updateCommentById = async (text, commentId, token) => {
   try {
     const response = await apiConnector(
       "PUT",
       BASE_URL + `comments/comments/${commentId}`,
-      data,
+      {
+        text,
+      },
       {
         Authorization: `Bearer ${token}`,
       }
@@ -116,38 +117,23 @@ export const updateCommentById = async (data, commentId, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Update COMMENT");
     }
-    toast.success("Comment Updated");
-    result = response?.data?.data;
   } catch (error) {
     console.log("UPDATE COMMENT BY ID API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
-  return result;
 };
 
-export const deleteCommentById = async (data, commentId, token) => {
-  let result = null;
-  const toastId = toast.loading("Loading...");
+export const deleteCommentById = async (commentId, token) => {
   try {
     const response = await apiConnector(
       "DELETE",
       BASE_URL + `comments/comments/${commentId}`,
-      data,
+      null,
       {
         Authorization: `Bearer ${token}`,
       }
     );
     console.log("DELETE COMMENT BY ID API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not Delete COMMENT");
-    }
-    toast.success("COMMENT Deleted");
-    result = response?.data?.data;
   } catch (error) {
     console.log("DELETE COMMENT BY ID API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
-  return result;
 };

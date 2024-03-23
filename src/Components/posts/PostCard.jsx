@@ -185,6 +185,10 @@ const PostCard = ({ post, userId }) => {
           <div>
             <CommentsModal
               modalData={allComments}
+              token={token}
+              postId={postId}
+              updateCommentNumber={setTotalComments}
+              numberOfComment={totalComments}
               changeIsModalOpen={() => {
                 setIsModalOpen(false);
               }}
