@@ -25,7 +25,6 @@ const CommentCard = ({
   const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
-    console.log(comment?.createdAt);
     const checkCommentUser = () => {
       if (userId === comment?.user?._id) {
         setCommentUser(true);
