@@ -94,7 +94,6 @@ export const getFollowingForUser = async (userId, token) => {
     const response = await apiConnector(
       "GET",
       BASE_URL + `friends/following/${userId}` ,
-      null,
       {
         userId,
       },

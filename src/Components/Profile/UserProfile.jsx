@@ -5,16 +5,16 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 import { getAllUserData } from '../../services/operations/profileAPI';
 import { followUser, getFollowersForUser, getFollowingForUser, unfollowUser } from '../../services/operations/friendAPI';
 
-
 const UserProfile = ({ userId }) => {
+
   const searchedUserId = userId?._id;
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowBack, setIsFollowBack] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
   const [userData, setUserData] = useState([]);
-  const [isFollowback, setIsFollowback] = useState(false) ;
-  const [followers, setFollowers] = useState([])
-  const [following, setFollowing] = useState([])
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -31,59 +31,64 @@ const UserProfile = ({ userId }) => {
   }, [token]);
 
   useEffect(() => {
-    const fetchAllFollowings = async () => {
+    const fetchAllFollowers = async () => {
       try {
-        const response = await getFollowingForUser(userId , token);
-        setFollowing(response);
+        const response = await getFollowersForUser(searchedUserId , token);
+        setFollowers(response);
         
       } catch (error) {
-        console.error("Error fetching user data:", error.message);
+        console.error("Error in fetching followers of user:", error.message);
       }
     };
     if (token) {
-      fetchAllFollowings();
+      fetchAllFollowers();
     }
-  }, [token ,userId]);
+  }, [token ,searchedUserId ]);
+
+  useEffect(() => {
+    const fetchAllFollowing = async () => {
+      try {
+        const response = await getFollowingForUser(searchedUserId , token);
+        setFollowing(response);
+        
+      } catch (error) {
+        console.error("Error in fetching following for user", error.message);
+      }
+    };
+    if (token) {
+      fetchAllFollowing();
+    }
+  }, [token ,searchedUserId]);
 
 
   useEffect(() => {
-    const checkFollowing = () => {
+    const checkFollowingStatus = () => {
+      const isCurrentUserFollowing = followers?.some(follower => follower?.follower === userData?.userDetails?._id);
+      const isCurrentUserFollowedBack = following?.some(followingUser => followingUser?.following === userData?.userDetails?._id);
+      
+      setIsFollowing(isCurrentUserFollowing);
+      setIsFollowBack(!isCurrentUserFollowing && isCurrentUserFollowedBack);
+    };
+
+    checkFollowingStatus();
+  }, [followers, following, userData]);
+
+  const handleFollowButtonClick = async () => {
     try {
-      if (userData?.following?.includes(searchedUserId)) {
+      if (!isFollowing && !isFollowBack) {
+        await followUser(searchedUserId, token);
         setIsFollowing(true);
-      } else if (userData?.followers?.includes(searchedUserId)) {
-        setIsFollowback(true);
-      } else {
+      } else if (!isFollowing && isFollowBack) {
+        await followUser(searchedUserId, token);
+        setIsFollowing(true);
+      } else if (isFollowing) {
+        await unfollowUser(searchedUserId, token);
         setIsFollowing(false);
-        setIsFollowback(false);
       }
     } catch (error) {
-      console.error('Error checking following:', error.message);
+      console.error("Error:", error.message);
     }
   };
-    checkFollowing();
-  }, [userData, searchedUserId , token]);
-
-  const handleFollowButton = async () => {
-  try {
-    if (!isFollowing && !isFollowback) {
-      const response = await followUser(searchedUserId, token);
-      console.log("Response:", response);
-      setIsFollowing(true);
-    } else if (!isFollowing && isFollowback) {
-      const response = await followUser(searchedUserId, token);
-      console.log("Response:", response);
-      setIsFollowing(true);
-    } else if (isFollowing) {
-      const response = await unfollowUser(searchedUserId, token);
-      console.log("Response:", response);
-      setIsFollowing(false);
-      setIsFollowback(false);
-    }
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-};
 
   const messageClickHandler = async () => {
     try {
@@ -102,10 +107,10 @@ const UserProfile = ({ userId }) => {
         <img src={userId?.image} alt='' className="w-32 h-32 rounded-full mr-4" />
         <div className='flex flex-row gap-2'>
           <button
-            className={`bg-${isFollowing ? 'yellow' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : 'blue'}-200`}
-            onClick={handleFollowButton}
+          className={`bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
+          onClick={handleFollowButtonClick}
           >
-            {isFollowing ? 'Following' : isFollowback ? 'Follow Back' : 'Follow'}
+            {isFollowing ? 'Following' : isFollowBack ? 'Follow Back' : 'Follow'}
           </button>
           <button
             className="bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
