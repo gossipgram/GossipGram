@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import {
   deleteCommentById,
@@ -13,13 +13,33 @@ const CommentCard = ({
   updateCommentNumber,
   totalComments,
   fetchAllCommnets,
+  userId,
+  postUserId,
 }) => {
-  // const [commentUser, setCommentUser] = useState(true);
-  // const [postUser, setPostUser] = useState(true);
+  const [commentUser, setCommentUser] = useState(false);
+  const [postUser, setPostUser] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(comment?.text);
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  useEffect(() => {
+    const checkCommentUser = () => {
+      if (userId === comment?.user?._id) {
+        setCommentUser(true);
+      }
+    };
+
+    const checkPostUser = () => {
+      if (userId === postUserId) {
+        setPostUser(true);
+      }
+    };
+
+    checkCommentUser();
+    checkPostUser();
+  }, [token]);
+
   const confirmDeleteHandler = () => {
     try {
       deleteCommentById(comment?._id, token);
@@ -42,6 +62,7 @@ const CommentCard = ({
     });
     setShowDeleteModal(true);
   };
+
   const cancelDeleteHandler = () => {
     setShowDeleteModal(false);
   };
@@ -61,6 +82,7 @@ const CommentCard = ({
       }
 
       setIsEditing(false);
+      fetchAllCommnets();
     } catch (error) {
       console.log("error while updating comment");
       console.error(error);
@@ -125,20 +147,28 @@ const CommentCard = ({
               </div>
             ) : (
               <div className="flex gap-5 items-center ">
-                <p
-                  onClick={editHandler}
-                  className="text-richblack-300 flex text-sm items-center gap-1 cursor-pointer hover:text-yellow-400 transition-all duration-200"
-                >
-                  <MdOutlineEdit />
-                  Edit
-                </p>
-                <p
-                  onClick={deleteHandler}
-                  className="text-richblack-300 text-sm flex items-center gap-1 cursor-pointer hover:text-yellow-400 transition-all duration-200"
-                >
-                  <MdDeleteOutline />
-                  Delete
-                </p>
+                {commentUser ? (
+                  <p
+                    onClick={editHandler}
+                    className="text-richblack-300 flex text-sm items-center gap-1 cursor-pointer hover:text-yellow-400 transition-all duration-200"
+                  >
+                    <MdOutlineEdit />
+                    Edit
+                  </p>
+                ) : (
+                  <div></div>
+                )}
+                {postUser || commentUser ? (
+                  <p
+                    onClick={deleteHandler}
+                    className="text-richblack-300 text-sm flex items-center gap-1 cursor-pointer hover:text-yellow-400 transition-all duration-200"
+                  >
+                    <MdDeleteOutline />
+                    Delete
+                  </p>
+                ) : (
+                  <div></div>
+                )}
 
                 {showDeleteModal && (
                   <ConfirmationModal modalData={confirmationModal} />

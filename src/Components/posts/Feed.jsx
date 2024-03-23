@@ -60,7 +60,12 @@ const Feed = () => {
         </div>
       ) : (
         allPosts.map((post) => (
-          <PostCard post={post} userId={userId} key={post._id} />
+          <PostCard
+            post={post}
+            userId={userId}
+            key={post._id}
+            postUserId={post?.user?._id}
+          />
         ))
       )}
     </div>

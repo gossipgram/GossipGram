@@ -12,6 +12,8 @@ const CommentsModal = ({
   token,
   updateCommentNumber,
   numberOfComment,
+  userId,
+  postUserId,
 }) => {
   const [commentText, setCommentText] = useState("");
   const [allComments, setAllComments] = useState([]);
@@ -29,7 +31,7 @@ const CommentsModal = ({
   };
   useEffect(() => {
     fetchAllCommnets();
-  }, [token]);
+  }, [token, numberOfComment]);
 
   const commentChangeHandler = (event) => {
     setCommentText(event.target.value);
@@ -77,6 +79,8 @@ const CommentsModal = ({
                 updateCommentNumber={updateCommentNumber}
                 totalComments={numberOfComment}
                 fetchAllCommnets={fetchAllCommnets}
+                userId={userId}
+                postUserId={postUserId}
               />
             ))}
           </div>

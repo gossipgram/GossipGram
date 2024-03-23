@@ -15,7 +15,7 @@ import CommentsModal from "./CommentsModal";
 import { getAllCommentsForPost } from "../../services/operations/commentsAPI";
 // import useOnClickOutside from "../../hooks/useOnClickOutside";
 
-const PostCard = ({ post, userId }) => {
+const PostCard = ({ post, userId, postUserId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
 
   const postId = post?._id;
@@ -179,6 +179,8 @@ const PostCard = ({ post, userId }) => {
               postId={postId}
               updateCommentNumber={setTotalComments}
               numberOfComment={totalComments}
+              userId={userId}
+              postUserId={postUserId}
               changeIsModalOpen={() => {
                 setIsModalOpen(false);
               }}
