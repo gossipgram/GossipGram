@@ -12,6 +12,7 @@ const CommentCard = ({
   token,
   updateCommentNumber,
   totalComments,
+  fetchAllCommnets,
 }) => {
   // const [commentUser, setCommentUser] = useState(true);
   // const [postUser, setPostUser] = useState(true);
@@ -23,6 +24,7 @@ const CommentCard = ({
     try {
       deleteCommentById(comment?._id, token);
       updateCommentNumber(totalComments - 1);
+      fetchAllCommnets();
       setShowDeleteModal(false);
     } catch (error) {
       console.log(`error while delteing the modal ${error}`);

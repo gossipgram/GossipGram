@@ -15,7 +15,6 @@ const BASE_URL = "http://localhost:4000/api/v1/";
 export const createComment = async (text, postId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
-  console.log(text, postId, token);
   try {
     const response = await apiConnector(
       "POST",

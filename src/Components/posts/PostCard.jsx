@@ -76,15 +76,6 @@ const PostCard = ({ post, userId }) => {
   // }, [isModalOpen]);
 
   const openModal = () => {
-    const fetchAllCommnets = async () => {
-      try {
-        const response = await getAllCommentsForPost(postId, token);
-        setAllComments(response?.comments);
-      } catch (error) {
-        console.error("Error fetching comments data");
-      }
-    };
-    fetchAllCommnets();
     setIsModalOpen(true);
   };
 
@@ -184,7 +175,6 @@ const PostCard = ({ post, userId }) => {
         {isModalOpen && (
           <div>
             <CommentsModal
-              modalData={allComments}
               token={token}
               postId={postId}
               updateCommentNumber={setTotalComments}

@@ -1,12 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import CommentCard from "./CommentCard";
 import { createComment } from "../../services/operations/commentsAPI";
 import { MdToken } from "react-icons/md";
+import { getAllCommentsForPost } from "../../services/operations/commentsAPI";
 
 const CommentsModal = ({
-  modalData,
   changeIsModalOpen,
   postId,
   token,
@@ -14,6 +14,23 @@ const CommentsModal = ({
   numberOfComment,
 }) => {
   const [commentText, setCommentText] = useState("");
+  const [allComments, setAllComments] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchAllCommnets = async () => {
+    try {
+      setLoading(true);
+      const response = await getAllCommentsForPost(postId, token);
+      setAllComments(response?.comments);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching comments data");
+    }
+  };
+  useEffect(() => {
+    fetchAllCommnets();
+  }, [token]);
+
   const commentChangeHandler = (event) => {
     setCommentText(event.target.value);
   };
@@ -22,6 +39,7 @@ const CommentsModal = ({
     try {
       createComment(commentText, postId, token);
       updateCommentNumber(numberOfComment + 1);
+      fetchAllCommnets();
     } catch (error) {
       console.log("error while creating comment");
       console.error(error);
@@ -39,7 +57,11 @@ const CommentsModal = ({
             <RxCross2 />
           </button>
         </div>
-        {modalData.length === 0 ? (
+        {loading ? (
+          <div className="flex h-4/5 flex-col items-center justify-center">
+            <div className="spinner "></div>
+          </div>
+        ) : allComments?.length === 0 ? (
           <div className="h-5/6  w-full">
             <p className="text-richblack-5 h-full text-3xl flex items-center justify-center">
               No Comments
@@ -47,13 +69,14 @@ const CommentsModal = ({
           </div>
         ) : (
           <div className="w-full  flex gap-5 flex-col mt-7">
-            {modalData.map((comment) => (
+            {allComments?.map((comment) => (
               <CommentCard
                 comment={comment}
                 key={comment._id}
                 token={token}
                 updateCommentNumber={updateCommentNumber}
                 totalComments={numberOfComment}
+                fetchAllCommnets={fetchAllCommnets}
               />
             ))}
           </div>
