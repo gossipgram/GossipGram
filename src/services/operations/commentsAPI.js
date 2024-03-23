@@ -101,14 +101,14 @@ export const getAllCommentsForPost = async (postId, token) => {
   return result;
 };
 
-export const updateCommentById = async (data, commentId, token) => {
-  let result = null;
-  const toastId = toast.loading("Loading...");
+export const updateCommentById = async (text, commentId, token) => {
   try {
     const response = await apiConnector(
       "PUT",
       BASE_URL + `comments/comments/${commentId}`,
-      data,
+      {
+        text,
+      },
       {
         Authorization: `Bearer ${token}`,
       }
@@ -117,14 +117,9 @@ export const updateCommentById = async (data, commentId, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Update COMMENT");
     }
-    toast.success("Comment Updated");
-    result = response?.data?.data;
   } catch (error) {
     console.log("UPDATE COMMENT BY ID API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
-  return result;
 };
 
 export const deleteCommentById = async (commentId, token) => {

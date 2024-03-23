@@ -30,7 +30,7 @@ const CommentsModal = ({
   return (
     <div className="fixed inset-0 z-[1000]   grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
       <div className=" w-2/5  max-h-2/3 h-4/5 relative rounded-lg border border-richblack-400 bg-richblack-800 p-6">
-        <div className="flex justify-between items-center">
+        <div className="flex  justify-between items-center ">
           <p className="text-2xl font-semibold  text-richblack-5">Comments</p>
           <button
             onClick={changeIsModalOpen}
@@ -40,13 +40,13 @@ const CommentsModal = ({
           </button>
         </div>
         {modalData.length === 0 ? (
-          <div className="h-full">
+          <div className="h-5/6  w-full">
             <p className="text-richblack-5 h-full text-3xl flex items-center justify-center">
               No Comments
             </p>
           </div>
         ) : (
-          <div className="w-full flex gap-5 flex-col mt-7">
+          <div className="w-full  flex gap-5 flex-col mt-7">
             {modalData.map((comment) => (
               <CommentCard
                 comment={comment}
@@ -68,12 +68,13 @@ const CommentsModal = ({
             name="comment"
             id="comment"
             placeholder="Write a comment here"
+            spellCheck="false"
             onChange={commentChangeHandler}
             className="bg-richblack-500 rounded-lg text-richblack-5 py-3 px-5 text-lg pr-32 block w-full border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200"
           />
           <button
             onClick={commentSubmitHandler}
-            className="absolute  inset-y-2 w-lg right-2  px-4 h-10  bg-yellow-200 text-white font-semibold rounded-2xl hover:bg-yellow-300 focus:outline-none focus:bg-yellow-400"
+            className="absolute  inset-y-2 w-lg right-2  px-4 h-10  bg-yellow-300 text-richblack-5 font-semibold rounded-2xl hover:bg-yellow-400 focus:outline-none focus:bg-yellow-400 transition-all duration-300"
           >
             Comment
           </button>
