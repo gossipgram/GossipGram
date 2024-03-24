@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 import { getAllUserData } from '../../services/operations/profileAPI';
 import { followUser, getFollowersForUser, getFollowingForUser, unfollowUser } from '../../services/operations/friendAPI';
 
-const UserProfile = ({ userId }) => {
+const UserProfile = ({ userId , handleSearchItemClick}) => {
 
   const searchedUserId = userId?._id;
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
+  const [totalFollower, setTotalFollower] = useState(userId?.followers?.length);
+  // const [totalFollowing, setTotalFollowing] = useState(userId?.followeing?.length);
   const [isFollowBack, setIsFollowBack] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
   const [userData, setUserData] = useState([]);
@@ -43,10 +45,9 @@ const UserProfile = ({ userId }) => {
     if (token) {
       fetchAllFollowers();
     }
-  }, [token ,searchedUserId ]);
+  }, [token ,searchedUserId , totalFollower]);
 
-  useEffect(() => {
-    const fetchAllFollowing = async () => {
+  const fetchAllFollowing = async () => {
       try {
         const response = await getFollowingForUser(searchedUserId , token);
         setFollowing(response);
@@ -55,34 +56,65 @@ const UserProfile = ({ userId }) => {
         console.error("Error in fetching following for user", error.message);
       }
     };
-    if (token) {
-      fetchAllFollowing();
-    }
-  }, [token ,searchedUserId]);
-
 
   useEffect(() => {
-    const checkFollowingStatus = () => {
-      const isCurrentUserFollowing = followers?.some(follower => follower?.follower === userData?.userDetails?._id);
-      const isCurrentUserFollowedBack = following?.some(followingUser => followingUser?.following === userData?.userDetails?._id);
-      
-      setIsFollowing(isCurrentUserFollowing);
-      setIsFollowBack(!isCurrentUserFollowing && isCurrentUserFollowedBack);
-    };
+    fetchAllFollowing()
+  }, [token ,searchedUserId , userId]);
 
-    checkFollowingStatus();
-  }, [followers, following, userData]);
+useEffect(() => {
+  const checkFollowingStatus = async () => {
+    try {
+      if(followers.some(follower => follower.follower === userData?.userDetails?._id)){
+        setIsFollowing(userData?.userDetails?._id);
+      } else if(Array.isArray(following) && following.some(follow => follow.following === userData?.userDetails?._id)){
+        setIsFollowBack(true);
+      } else {
+        setIsFollowing(false);
+        setIsFollowBack(false);
+      }
+    } catch (error) {
+      console.error("Error checking following status:", error.message);
+    }
+  };
+  checkFollowingStatus();
+}, [token , userId, searchedUserId, followers, following, userData]);
+
+
+  // useEffect(() => {
+  //   const checkFollowingStatus = async () => {
+  //     try {
+  //       if(followers.some(follower => follower.follower === userData?.userDetails?._id)){
+  //         setIsFollowing(true);
+  //       }
+  //       else if(Array.isArray(following) && following.some(follow => follow.following === userData?.userDetails?._id)){
+  //         setIsFollowBack(true);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking following status:", error.message);
+  //     }
+  //   };
+  //   if (token && searchedUserId) {
+  //     checkFollowingStatus();
+  //   }
+  // }, [token, searchedUserId, userData , handleSearchItemClick]);
+
+  console.log("FOFOFOFOFOFOFOFOFOFOFOFOOFOFOFO",isFollowing)
+  console.log("FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF",isFollowBack);
+
 
   const handleFollowButtonClick = async () => {
     try {
       if (!isFollowing && !isFollowBack) {
         await followUser(searchedUserId, token);
+        setTotalFollower(totalFollower + 1)
         setIsFollowing(true);
       } else if (!isFollowing && isFollowBack) {
         await followUser(searchedUserId, token);
         setIsFollowing(true);
       } else if (isFollowing) {
         await unfollowUser(searchedUserId, token);
+        setTotalFollower(totalFollower - 1)
+        // setTotalFollowing()
         setIsFollowing(false);
       }
     } catch (error) {
@@ -132,11 +164,11 @@ const UserProfile = ({ userId }) => {
             <span className='text-richblack-100'>  Posts</span>
           </p>
           <p className='text-richblack-25 cursor-pointer'>
-            {userId?.followers.length > 0 ? userId.followers.length : 0}
+            {followers?.followers?.length > 0 ? followers?.followers?.length : 0}
             <span className='text-richblack-100'>  Followers</span>
           </p>
           <p className='text-richblack-25 cursor-pointer'>
-            {userId?.following.length > 0 ? userId.following.length : 0}
+            {following?.following?.length > 0 ? following?.following?.length : 0}
             <span className='text-richblack-100'>  Following</span>
           </p>
         </div>
