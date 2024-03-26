@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../services/operations/authAPI';
 import SearchedItem from '../Components/Search/SearchedItem';
 import UserProfile from '../Components/Profile/UserProfile';
+import { getAllUsers } from '../services/operations/authAPI';
 
 const SearchPage = () => {
     const token = localStorage.getItem("token").split('"')[1];
@@ -74,8 +74,8 @@ const SearchPage = () => {
                 />
             </div>
 
-            <div className='flex flex-row bg-richblack-700 w-full p-5 rounded-md '>
-                {showUserProfile && <UserProfile userId={userId} handleSearchItemClick={handleSearchItemClick}/>}
+            <div className='flex flex-row bg-richblack-700 w-full p-5 rounded-md overflow-y-scroll'>
+                {showUserProfile && <UserProfile userId={userId} matchingUsers={matchingUsers} handleSearchItemClick={handleSearchItemClick}/>}
             </div>
         </div>
     );
