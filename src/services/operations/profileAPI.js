@@ -69,7 +69,7 @@ export const getAllUserData = async (token) => {
   return result;
 };
 
-export const createComment = async (data, token) => {
+export const updateDp = async (data, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   try {

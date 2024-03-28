@@ -49,7 +49,7 @@ const CommentsModal = ({
   };
   return (
     <div className="fixed inset-0 z-[1000]   grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
-      <div className=" w-2/5  max-h-2/3 h-4/5 relative rounded-lg border border-richblack-400 bg-richblack-800 p-6">
+      <div className=" w-2/6  max-h-2/3 h-4/5 relative rounded-lg border border-richblack-400 bg-richblack-800 p-6">
         <div className="flex  justify-between items-center ">
           <p className="text-2xl font-semibold  text-richblack-5">Comments</p>
           <button

@@ -11,7 +11,7 @@ const Feed = () => {
   const token = localStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
-    const fetchUderData = async () => {
+    const fetchUserData = async () => {
       try {
         const response = await getAllUserData(token);
         setUserData(response);
@@ -20,7 +20,7 @@ const Feed = () => {
       }
     };
     if (token) {
-      fetchUderData();
+      fetchUserData();
     }
   }, [token]);
 
