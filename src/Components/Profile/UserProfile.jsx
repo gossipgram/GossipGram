@@ -38,7 +38,7 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers}) => {
     },
     {
       id: 3,
-      title: "tagged",
+      title: "Tagged",
     },
   ]
 
@@ -154,7 +154,7 @@ useEffect(() => {
     try {
       const response = await accessChat(searchedUserId, token);
       console.log("Response:", response);
-      navigate(`/chat/${response?._id}`);
+      navigate(`/chat`);                            // check later for this ${response?._id}
     } catch (error) {
       console.error('Error in accessing chat:', error.message);
       toast.error('Failed to access chat. Please try again.');
@@ -162,25 +162,12 @@ useEffect(() => {
   };
 
   return (
-    <div className='flex flex-col mx-auto gap-5'>
+    <div className='flex flex-col mx-auto gap-2'>
 
       <div className='flex flex-row justify-center mx-auto gap-20'>
         <div className='flex flex-col gap-8 items-center'>
           <img src={userId?.image} alt='' className="w-32 h-32 rounded-full mr-4" />
-          <div className='flex flex-row gap-2'>
-            <button
-            className={`bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
-            onClick={handleFollowButtonClick}
-            >
-              { itsUser ? 'Edit profile' : isFollowing ? 'Following' : isFollowBack ? 'Follow Back' : 'Follow'}
-            </button>
-            <button
-              className="bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
-              onClick={messageClickHandler}
-            >
-              { itsUser ? 'Liked Posts' : 'Message' }
-            </button>
-          </div>
+          
         </div>
         <div className='flex flex-col gap-4'>
           <h1 className='text-richblack-5 text-2xl'>{userId?.username}</h1>
@@ -203,15 +190,30 @@ useEffect(() => {
             </p>
           </div>
         </div>
-        </div>
+      </div>
 
-        <div className='w-full h-[1px] bg-yellow-500 mt-5'></div>
+      <div className='flex flex-row items-center justify-center gap-2'>
+            <button
+            className={`bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
+            onClick={handleFollowButtonClick}
+            >
+              { itsUser ? 'Edit profile' : isFollowing ? 'Following' : isFollowBack ? 'Follow Back' : 'Follow'}
+            </button>
+            <button
+              className="bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
+              onClick={messageClickHandler}
+            >
+              { itsUser ? 'Liked Posts' : 'Message' }
+            </button>
+          </div>
+
+      <div className='w-full h-[1px] bg-yellow-500 mt-12'></div>
 
       <div className="relative flex w-full justify-center gap-32">
         {steps.map((item) => (
           <div className="flex flex-col items-center" key={item.id}>
             <button
-              className={`grid cursor-default aspect-square w-[70px] place-items-center rounded-full border-[1px] ${
+              className={`grid cursor-pointer aspect-rectangle w-[70px] h-[40px] place-items-center rounded-xl border-[1px] mt-3 p-5${
                 postSection === item.title
                   ? "border-yellow-50 bg-yellow-900 text-yellow-50"
                   : "border-richblack-700 bg-richblack-800 text-richblack-300"
@@ -225,7 +227,7 @@ useEffect(() => {
           </div>
         ))}
       </div>
-      <div className='w-full h-[1px] bg-yellow-500 mt-5'></div>
+      <div className='w-full h-[1px] bg-yellow-500 mt-5 mb-5'></div>
 
       {/* <div className="relative mb-16 flex w-full select-none justify-between">
         {steps.map((item) => (
@@ -243,7 +245,7 @@ useEffect(() => {
           </div>
         ))}
       </div> */}
-      <div>{postSection === "Posts" ? <PostGrid userId={userId} searchedUserId={searchedUserId} matchingUsers={matchingUsers}/> : postSection === "Videos" ? <PostRow /> : postSection=== "Tagged" ? <TaggedPost /> : <PostGrid />}</div>
+      <div>{postSection === "Posts" ? <PostGrid userId={userId} searchedUserId={searchedUserId} matchingUsers={matchingUsers}/> : postSection === "Videos" ? <PostRow /> : postSection === "Tagged" ? <TaggedPost /> : <PostGrid />}</div>
     </div>
     
   );

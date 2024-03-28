@@ -7,14 +7,15 @@ import io from "socket.io-client";        //____
 const ENDPOINT = "http://localhost:4000";    //____
 var socket , chatCompare ;            //____
 
-const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick , userData}) => {
-  
+const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick , userData , setChatUser }) => {
+  const chatTotal = chat
   const navigate = useNavigate();
-  const userUsername = userData.userDetails.username ;                        // username of user logged in 
+  const userUsername = userData?.userDetails?.username ;                        // username of user logged in 
   const [user1 , user2] = chat.users;
   const chatId = chat._id;
   const token = localStorage.getItem("token").split('"')[1];
-  // console.log("chatchatchatchatchatchat", chat)
+  // setChatFinal(chat)
+  console.log("chatchatchatchatchatchat", chat)
 
   const [socketConnected, setSocketConnected] = useState(false);     //_____
 
@@ -31,9 +32,10 @@ const ChatListItem = ({ chat , setMessages , setChatId , handleSendMessageClick 
         try {
             const messages = await getAllDirectMessage(chatId, token);
             console.log('Messages for chat', chatId, ':', messages);
+            setChatUser(chat);
             setMessages(messages);
             setChatId(chatId);
-            handleSendMessageClick();
+            handleSendMessageClick(chatTotal);
             navigate(`/chat/${chatId}`);
             socket.emit("join chat", chatId);
         } catch (error) {

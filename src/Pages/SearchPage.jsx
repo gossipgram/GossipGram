@@ -74,7 +74,7 @@ const SearchPage = () => {
                 />
             </div>
 
-            <div className='flex flex-row bg-richblack-700 w-full p-5 rounded-md overflow-y-scroll'>
+            <div className='flex flex-row bg-richblack-700 w-full p-5 rounded-md overflow-y-scroll scroll-smooth scrolling'>
                 {showUserProfile && <UserProfile userId={userId} matchingUsers={matchingUsers} handleSearchItemClick={handleSearchItemClick}/>}
             </div>
         </div>

@@ -4,7 +4,8 @@
   margin: 0;
 }
 .scrolling {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-color: rgb(138, 138, 245) rgb(128, 118, 118);
   scrollbar-width: thin;
 }
