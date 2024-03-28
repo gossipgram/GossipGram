@@ -2,25 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { FaVideo } from "react-icons/fa";
 import { MdAddIcCall } from "react-icons/md";
 
-const MessageUser = ({ messages, userData, chatId }) => {
+const MessageUser = ({ messages, userData, chatId , chatUser , chatFinal}) => {
   const [currentChatId, setCurrentChatId] = useState(chatId);
+  console.log("CHATIDIDIDIDIDIIDIDIDIDIIDIDIDIDIDI",chatId);
+  console.log("???????????????????????????????????",chatFinal)
 
   useEffect(() => {
     setCurrentChatId(chatId);
   }, [chatId]);
 
   console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb", currentChatId);
+  console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",chatUser);
 
-  const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
+  // const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
   const userUsername = userData?.userDetails?.username;
   console.log(userUsername);
 
-  const { username: userName, image: userImage } = messages[0]?.chat?.users.find(user => user.username !== userUsername) || {};
+  const { username: userName, image: userImage } = chatUser?.users?.find(user => user.username !== userUsername) || {};
 
   console.log("userName", userName);
   console.log("userImage", userImage);
 
-  if (!user) {
+  if (!chatUser) {
     return null;
   }
 

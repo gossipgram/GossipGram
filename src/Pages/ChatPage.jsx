@@ -12,7 +12,10 @@ const ChatPage = () => {
   const [showSendMessage, setShowSendMessage] = useState(false);
   const [userData, setUserData] = useState([]);
   // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
-  const [chatId , setChatId] = useState('')
+  const [chatId , setChatId] = useState('')          //__
+  const [chatUser, setChatUser] = useState([]);    //__
+  const [chatFinal, setChatFinal] = useState([]);
+
 
   useEffect(() => {
       const fetchUderData = async () => {
@@ -28,27 +31,37 @@ const ChatPage = () => {
       }
     }, [token]);
 
-  const handleSendMessageClick = () => {
+  const handleSendMessageClick = (chat) => {
     setShowSendMessage(true);
+    console.log("Chat object received in ChatPage:", chat);
+    setChatUser(chat);    // --
     // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
   };
-  // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
+  // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)   
 
   return (
     <div className="w-full overflow-x-hidden overflow-y-hidden flex flex-row mt-10 mx-auto">
       <div className=" w-4/12 h-full flex flex-col bg-richblack-700 rounded-md mx-10 gap-5">
         <h1 className="text-white text-4xl mx-auto mt-5">INBOX</h1>
         <ListChats 
+        setChatFinal={setChatFinal}
         setMessages={setMessages} 
         setChatId={setChatId} 
         handleSendMessageClick={handleSendMessageClick}
+        setChatUser={setChatUser}
         userData={userData}
         />
       </div>
 
       <div className="w-full h-full flex flex-col p-6 bg-richblack-700 rounded-md mx-10 justify-evenly items-stretch">
 
-        <MessageUser messages={messages} userData={userData} chatId={chatId} />
+        {showSendMessage ? <MessageUser 
+        messages={messages} 
+        userData={userData} 
+        chatId={chatId} 
+        chatUser={chatUser} 
+        chatFinal={chatFinal}
+        /> : null}
 
         {showSendMessage ? <MessageBox 
         messages={messages}
