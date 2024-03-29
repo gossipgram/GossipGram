@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { getAllUsers } from "../../services/operations/authAPI";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 const CreateForm = ({ postType }) => {
   const [image, setImage] = useState(null);
@@ -92,7 +93,7 @@ const CreateForm = ({ postType }) => {
             {image ? (
               <div className="w-full h-full relative  overflow-hidden">
                 <button
-                  className="z-30 text-2xl text-richblack-25 absolute top-4 right-4 bg-richblack-700 rounded-full bg-opacity-20 p-1"
+                  className="z-30 text-2xl hover:scale-110 transition-all duration-200 text-richblack-25 absolute top-4 right-4 bg-richblack-700 rounded-full bg-opacity-20 p-1"
                   onClick={handleCrossButton}
                 >
                   <RxCross2 />
@@ -107,9 +108,10 @@ const CreateForm = ({ postType }) => {
                 </span>
                 <label
                   htmlFor="imageFile"
-                  className="text-richblack-5 cursor-pointer text-lg px-7 py-2  rounded-xl bg-yellow-400 hover:bg-yellow-500 transition-all duration-300"
+                  className="text-richblack-5 flex items-center gap-2 cursor-pointer text-lg px-7 py-2  rounded-xl bg-yellow-400 hover:bg-yellow-500 transition-all duration-300"
                 >
-                  Select
+                  <AiOutlineCloudUpload className="text-2xl" />
+                  Upload
                 </label>
                 <input
                   type="file"
@@ -132,7 +134,7 @@ const CreateForm = ({ postType }) => {
                 onChange={captionChangeHandler}
                 value={captionText}
                 placeholder="Enter your caption here..."
-                className="bg-richblack-500 scrolling py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300"
+                className="bg-richblack-500 scrolling py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
               />
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">

@@ -1,6 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import CreateForm from "./CreateForm";
+import {
+  MdOutlineAddPhotoAlternate,
+  MdOutlineVideoLibrary,
+  MdOutlineTextSnippet,
+} from "react-icons/md";
 
 const Create = () => {
   const [postType, setpostType] = useState("");
@@ -28,7 +33,10 @@ const Create = () => {
               onChange={radioChangeHandler}
               className="sr-only"
             />
-            <span>Text</span>
+            <span className="flex items-center gap-2">
+              <MdOutlineTextSnippet className="text-xl" />
+              Text
+            </span>
           </label>
 
           <div className="w-[1px] h-full bg-richblack-100 "></div>
@@ -45,7 +53,10 @@ const Create = () => {
               onChange={radioChangeHandler}
               className="sr-only"
             />
-            <span>Photo</span>
+            <span className="flex items-center gap-2">
+              <MdOutlineAddPhotoAlternate className="text-xl" />
+              Photo
+            </span>
           </label>
 
           <div className="w-[1px] h-full bg-richblack-100 "></div>
@@ -62,7 +73,10 @@ const Create = () => {
               onChange={radioChangeHandler}
               className="sr-only"
             />
-            <span>Video</span>
+            <span className="flex items-center gap-2">
+              <MdOutlineVideoLibrary className="text-xl" />
+              Video
+            </span>
           </label>
         </div>
       </div>
