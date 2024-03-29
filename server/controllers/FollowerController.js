@@ -89,7 +89,7 @@ exports.unfollowUser = async (req, res) => {
 exports.getFollowersForUser = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const followers = await Follower.find({ following: userId });
+        const followers = await Follower.find({ following: userId }).populate('follower','-password -email');
 
         return res.status(200).json({
             success: true,
@@ -109,7 +109,7 @@ exports.getFollowersForUser = async (req, res) => {
 exports.getFollowingForUser = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const following = await Follower.find({ follower: userId });
+        const following = await Follower.find({ follower: userId }).select('-password -email').populate('following');
 
         return res.status(200).json({
             success: true,

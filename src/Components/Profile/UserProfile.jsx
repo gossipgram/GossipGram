@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import PostGrid from './PostGrid';
 import PostRow from './PostRow';
 import TaggedPost from './TaggedPost';
+import FollowerModal from './FollowerModal';
+import FollowingModal from './FollowingModal';
 
 const UserProfile = ({ userId , handleSearchItemClick , matchingUsers}) => {
 
@@ -25,6 +27,9 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers}) => {
   const [following, setFollowing] = useState([]);
   const [itsUser, setItsUser] = useState(false);
   const [postSection, setPostSection] = useState('Posts')
+  const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
+  const [followerDetails, setFollowerDetails] = useState([]);
 
 
   const steps = [
@@ -41,6 +46,16 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers}) => {
       title: "Tagged",
     },
   ]
+
+  const openFollowerModal = (userId) => {
+      setIsFollowerModalOpen(true);
+      setFollowerDetails(userId)
+    };
+
+  const openFollowingModal = (userId) => {
+    setFollowerDetails(userId)
+    setIsFollowingModalOpen(true);
+  }
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -176,18 +191,43 @@ useEffect(() => {
             <p className='text-richblack-25 text-lg'>{userId?.additionalDetails?.bio}</p>
           </div>
           <div className='flex flex-row gap-4'>
+
             <p className='text-richblack-25 cursor-pointer'>
               {userId?.posts.length > 0 ? userId.posts.length : 0}
               <span className='text-richblack-100'>  Posts</span>
             </p>
-            <p className='text-richblack-25 cursor-pointer'>
+
+            <p className='text-richblack-25 cursor-pointer' onClick ={ () => openFollowerModal(userId)}>
               {followers?.length > 0 ? followers?.length : 0}
               <span className='text-richblack-100'>  Followers</span>
             </p>
-            <p className='text-richblack-25 cursor-pointer'>
+            {isFollowerModalOpen &&
+              <FollowerModal 
+              followers={followers}
+              followerDetails={followerDetails}
+              userData={userData}
+              changeIsFollowerModalOpen={() => {
+                                setIsFollowerModalOpen(false);
+                                }}
+              />
+            }
+
+
+            <p className='text-richblack-25 cursor-pointer' onClick ={ () => openFollowingModal(userId)}>
               {following?.length > 0 ? following?.length : 0}
               <span className='text-richblack-100'>  Following</span>
             </p>
+            {isFollowingModalOpen &&
+              <FollowingModal 
+              following={following}
+              followerDetails={followerDetails}
+              userData={userData}
+              changeIsFollowingModalOpen={() => {
+                                setIsFollowingModalOpen(false);
+                                }}
+              />
+            }
+
           </div>
         </div>
       </div>
@@ -229,22 +269,6 @@ useEffect(() => {
       </div>
       <div className='w-full h-[1px] bg-yellow-500 mt-5 mb-5'></div>
 
-      {/* <div className=" mb-16 flex w-full select-none justify-between">
-        {steps.map((item) => (
-          <div
-            className="flex min-w-[130px] flex-col items-center gap-y-2"
-            key={item.id}
-          >
-            <p
-              className={`text-sm ${
-                step >= item.id ? "text-richblack-5" : "text-richblack-500"
-              }`}
-            >
-              {item.title}
-            </p>
-          </div>
-        ))}
-      </div> */}
       <div>{postSection === "Posts" ? <PostGrid userId={userId} searchedUserId={searchedUserId} matchingUsers={matchingUsers}/> : postSection === "Videos" ? <PostRow /> : postSection === "Tagged" ? <TaggedPost /> : <PostGrid />}</div>
     </div>
     
