@@ -154,7 +154,7 @@ useEffect(() => {
     try {
       const response = await accessChat(searchedUserId, token);
       console.log("Response:", response);
-      navigate(`/chat`);                            // check later for this ${response?._id}
+      navigate(`/chat/${response?._id}`);                            // check later for this ${response?._id}
     } catch (error) {
       console.error('Error in accessing chat:', error.message);
       toast.error('Failed to access chat. Please try again.');
