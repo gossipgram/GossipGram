@@ -5,34 +5,35 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 // Create a new post
 exports.createPost = async (req, res) => {
   try {
-    let { caption } = req.body;
-    const mediaUrl = req.files.mediaUrl;
-    const userId = req.user.id;
-    console.log(userId, mediaUrl, caption);
+    const { caption, mediaUrl, textContent } = req.body; 
 
     // Validation
-    if (!caption || !mediaUrl || !userId) {
+    if (!caption && !mediaUrl && !textContent) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "At least one of caption, mediaUrl, or textContent is required",
       });
     }
 
-    const mediaUrlImage = await uploadImageToCloudinary(
-      mediaUrl,
-      process.env.FOLDER_NAME
-    );
-    console.log(mediaUrlImage);
+    const userId = req.user.id;
+
+    let mediaUrlImage = ""; 
+
+    if (mediaUrl) { 
+      mediaUrlImage = await uploadImageToCloudinary(mediaUrl, process.env.FOLDER_NAME);
+      console.log(mediaUrlImage.secure_url);
+    }
+
 
     const newPost = new Post({
       caption,
-      mediaUrl: mediaUrlImage.secure_url,
+      mediaUrl: mediaUrlImage.secure_url || "", 
+      textContent: textContent || "", 
       user: userId,
     });
 
     const savedPost = await newPost.save();
 
-    // Update the user's posts array
     await User.findByIdAndUpdate(userId, { $push: { posts: savedPost._id } });
 
     return res.status(201).json({
@@ -49,7 +50,59 @@ exports.createPost = async (req, res) => {
   }
 };
 
+
+
+// // Create a new post
+
+// exports.createPost = async (req, res) => {
+//   try {
+//     let { caption } = req.body;
+//     const mediaUrl = req.files.mediaUrl;
+//     const userId = req.user.id;
+//     console.log(userId, mediaUrl, caption);
+
+//     // Validation
+//     if (!caption || !mediaUrl || !userId) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "All fields are required",
+//       });
+//     }
+
+//     const mediaUrlImage = await uploadImageToCloudinary(
+//       mediaUrl,
+//       process.env.FOLDER_NAME
+//     );
+//     console.log(mediaUrlImage);
+
+//     const newPost = new Post({
+//       caption,
+//       mediaUrl: mediaUrlImage.secure_url,
+//       user: userId,
+//     });
+
+//     const savedPost = await newPost.save();
+
+//     // Update the user's posts array
+//     await User.findByIdAndUpdate(userId, { $push: { posts: savedPost._id } });
+
+//     return res.status(201).json({
+//       success: true,
+//       message: "Post created successfully",
+//       post: savedPost,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       error: "Internal Server Error",
+//     });
+//   }
+// };
+
 // Get post details by ID
+
+
 exports.getPostById = async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -95,15 +148,56 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
+// // Update post details by ID
+// exports.updatePostById = async (req, res) => {
+//   try {
+//     const postId = req.params.postId;
+//     const { caption, mediaUrl } = req.body;
+
+//     const updatedPost = await Post.findByIdAndUpdate(
+//       postId,
+//       { caption, mediaUrl },
+//       { new: true }
+//     );
+
+//     if (!updatedPost) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Post not found",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Post updated successfully",
+//       post: updatedPost,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       error: "Internal Server Error",
+//     });
+//   }
+// };
+
+// Delete post by ID
+
 // Update post details by ID
+
 exports.updatePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const { caption, mediaUrl } = req.body;
+    const { caption, mediaUrl, textContent } = req.body;
+
+    const updatedFields = {};
+    if (caption) updatedFields.caption = caption;
+    if (mediaUrl) updatedFields.mediaUrl = mediaUrl;
+    if (textContent) updatedFields.textContent = textContent;
 
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
-      { caption, mediaUrl },
+      updatedFields,
       { new: true }
     );
 
@@ -128,7 +222,37 @@ exports.updatePostById = async (req, res) => {
   }
 };
 
+
+// exports.deletePostById = async (req, res) => {
+//   try {
+//     const postId = req.params.postId;
+
+//     const deletedPost = await Post.findByIdAndDelete(postId);
+
+//     if (!deletedPost) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Post not found",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Post deleted successfully",
+//       post: deletedPost,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       error: "Internal Server Error",
+//     });
+//   }
+// };
+
+
 // Delete post by ID
+
 exports.deletePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -141,6 +265,9 @@ exports.deletePostById = async (req, res) => {
         message: "Post not found",
       });
     }
+
+    // Remove post ID from user's posts array
+    await User.findByIdAndUpdate(deletedPost.user, { $pull: { posts: postId } });
 
     return res.status(200).json({
       success: true,

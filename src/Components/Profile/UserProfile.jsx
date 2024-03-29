@@ -93,8 +93,8 @@ useEffect(() => {
     try {
       // console.log("User Details ID:", userData?.userDetails?._id);
       // console.log("Followers:", followers);
-      console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
-      console.log("|||||||||||||||||||||||||||||||||||",userData?.userDetails?._id)
+      // console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
+      // console.log("|||||||||||||||||||||||||||||||||||",userData?.userDetails?._id)
 
       if(searchedUserId === userData?.userDetails?._id){
         setItsUser(true);
@@ -154,7 +154,7 @@ useEffect(() => {
     try {
       const response = await accessChat(searchedUserId, token);
       console.log("Response:", response);
-      navigate(`/chat`);                            // check later for this ${response?._id}
+      navigate(`/chat/${response?._id}`);                            // check later for this ${response?._id}
     } catch (error) {
       console.error('Error in accessing chat:', error.message);
       toast.error('Failed to access chat. Please try again.');
@@ -192,15 +192,15 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className='flex flex-row items-center justify-center gap-2'>
+      <div className='flex flex-row w-full items-center justify-center gap-2'>
             <button
-            className={`bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
+            className={`w-1/2 bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
             onClick={handleFollowButtonClick}
             >
               { itsUser ? 'Edit profile' : isFollowing ? 'Following' : isFollowBack ? 'Follow Back' : 'Follow'}
             </button>
             <button
-              className="bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
+              className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
               onClick={messageClickHandler}
             >
               { itsUser ? 'Liked Posts' : 'Message' }
@@ -209,14 +209,14 @@ useEffect(() => {
 
       <div className='w-full h-[1px] bg-yellow-500 mt-12'></div>
 
-      <div className="relative flex w-full justify-center gap-32">
+      <div className="flex w-full justify-center gap-32">
         {steps.map((item) => (
           <div className="flex flex-col items-center" key={item.id}>
             <button
               className={`grid cursor-pointer aspect-rectangle w-[70px] h-[40px] place-items-center rounded-xl border-[1px] mt-3 p-5${
                 postSection === item.title
-                  ? "border-yellow-50 bg-yellow-900 text-yellow-50"
-                  : "border-richblack-700 bg-richblack-800 text-richblack-300"
+                  ? "border-yellow-50 bg-yellow-900 text-yellow-50 transition-all duration-700"
+                  : "border-richblack-700 bg-richblack-800 text-richblack-300 hover:text-yellow-400 transition-all duration-700"
               } ${step > item.id && "bg-yellow-50 text-yellow-50"}`}
               onClick={() => setPostSection(item.title)}
             >
@@ -229,7 +229,7 @@ useEffect(() => {
       </div>
       <div className='w-full h-[1px] bg-yellow-500 mt-5 mb-5'></div>
 
-      {/* <div className="relative mb-16 flex w-full select-none justify-between">
+      {/* <div className=" mb-16 flex w-full select-none justify-between">
         {steps.map((item) => (
           <div
             className="flex min-w-[130px] flex-col items-center gap-y-2"
