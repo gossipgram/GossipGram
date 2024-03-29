@@ -111,6 +111,15 @@ exports.signup = async (req, res) => {
       });
     }
 
+    //check for already exist username
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({
+        success: false,
+        message: "Username is already registered",
+      });
+    }
+
     //find most recent OTP
     const recentOtp = await OTP.find({ email })
       .sort({ createdAt: -1 })

@@ -2,7 +2,7 @@ import React from 'react'
 
 const PostRow = () => {
   return (
-    <div>
+    <div className='w-52 h-52'>
       Post In Row
     </div>
   )

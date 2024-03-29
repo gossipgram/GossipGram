@@ -60,10 +60,10 @@ const SendMessage = ({ chatId , userData }) => {
 
     return (
         <div className='flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg'>
-            <div className='p-2 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>
+            <div className='p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200'>
                 <MdOutlineEmojiEmotions className='w-10 h-10 text-white'/>
             </div>
-            <div className='p-2 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>
+            <div className='p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200'>
                 <MdOutlineAdd className='w-10 h-auto text-white'/>
             </div>
             <div className="flex-grow">
@@ -74,7 +74,7 @@ const SendMessage = ({ chatId , userData }) => {
                     onChange={handleMessageChange}
                 />
             </div>
-            <div className='p-2 hover:bg-richblue-300 cursor-pointer transition-all duration-200'>
+            <div className='p-2 hover:bg-richblue-300 rounded-xl cursor-pointer transition-all duration-200'>
                 <MdSend className='w-10 h-10 text-white hover:text-richblue-700 cursor-pointer transition-all duration-200' onClick={sendMessageHandler}/>
             </div>
         </div>

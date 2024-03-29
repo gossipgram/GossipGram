@@ -38,10 +38,10 @@ const MessageUser = ({ messages, userData, chatId , chatUser , chatFinal}) => {
       </div>
 
       <div className="flex items-center gap-10">
-        <div className='p-2 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>
+        <div className='p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200'>
           <FaVideo className='w-10 h-10 text-white' />
         </div>
-        <div className='p-2 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>
+        <div className='p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200'>
           <MdAddIcCall className='w-10 h-10 text-white' />
         </div>
       </div>
