@@ -29,7 +29,7 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
             ) : (
                 <div className="grid grid-cols-3 gap-1 transition-all duration-700">
                     {allUserPost.map(post => (
-                        <div key={post._id} className="w-52 h-52 bg-black hover:scale-105 hover:bg-opacity-10 hover:backdrop-blur-sm transition-all duration-700" onClick ={ () => openModal(post)}>
+                        <div key={post._id} className="w-52 h-52 bg-black hover:scale-105 hover:backdrop-blur-sm transition-all duration-700" onClick ={ () => openModal(post)}>
                             <img src={post.mediaUrl} alt={post.caption} className="object-cover w-full h-full " />
                         </div>
 

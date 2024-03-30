@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		recentSearches: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }],
         // bio: {                        //already added to AdditionalDetails
 		// 	type: String,        
 		// 	required: true,

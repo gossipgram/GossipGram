@@ -92,25 +92,25 @@ import SearchedItem from '../Components/Search/SearchedItem';
 import UserProfile from '../Components/Profile/UserProfile';
 import { getAllUsers } from '../services/operations/authAPI';
 import RecentSearched from '../Components/Search/RecentSearched';
+import { addSearches, getAllUserData, removeSearches } from '../services/operations/profileAPI';
 
 const SearchPage = () => {
     const token = localStorage.getItem("token").split('"')[1];
+    const MAX_RECENT_SEARCHES = 10;
     const [allUsers, setAllUsers] = useState([]);
     const [matchingUsers, setMatchingUsers] = useState([]);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [searchUser, setSearchUser] = useState('');
     const [userId, setUserId] = useState('');
-    const [recentSearches, setRecentSearches] = useState([]);
-    const [recentMatchingUser, setRecentMatchingUser] = useState([]);
+    // const [recentSearches, setRecentSearches] = useState([]);
+    // const [recentMatchingUser, setRecentMatchingUser] = useState([]);
+    const [userData, setUserData] = useState([]);
+
 
     const handleShowUserProfile = () => {
         setShowUserProfile(true);
     };
 
-    useEffect(() => {
-        const recentSearchesFromStorage = JSON.parse(localStorage.getItem('recentSearches')) || [];
-        setRecentSearches(recentSearchesFromStorage);
-    }, []);
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -126,52 +126,73 @@ const SearchPage = () => {
         }
     }, [token, userId]);
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await getAllUserData(token);
+                setUserData(response);
+            } catch (error) {
+                console.error("Error fetching user data:", error.message);
+            }
+        };
+        if (token) {
+            fetchUserData();
+        }
+    }, []);
+
+  console.log("__________________________________________",userData)
+
     const changeHandler = (event) => {
         setSearchUser(event.target.value);
     };
-    console.log("recentMatchingUser",recentMatchingUser)
+    // console.log("recentMatchingUser",recentMatchingUser)
     useEffect(() => {
         if (searchUser) {
             const filteredUsers = allUsers.filter(user =>
                 user.username.toLowerCase().includes(searchUser.toLowerCase())
             );
             setMatchingUsers(filteredUsers);
-        } else if (recentMatchingUser) {
-            setMatchingUsers([recentMatchingUser]);
-            console.log("after recentMatchingUser updation to MatchingUsers",matchingUsers)
-        } else {
+        }else {
             setMatchingUsers([]);
         }
-    }, [searchUser, allUsers , recentMatchingUser]);
+    }, [searchUser, allUsers ,]);
 
-    const handleSearchItemClick = (userId) => {
-        setUserId(userId);
-        setRecentMatchingUser(userId)
-        handleShowUserProfile();
-        // Update recent searches
-        if (!recentSearches.some(search => search._id === userId)) { // Check if the userId is not already in recentSearches
-            const updatedRecentSearches = [userId, ...recentSearches];
-            // Remove duplicates
-            const uniqueRecentSearches = Array.from(new Set(updatedRecentSearches.map(search => search._id)))
-                .map(id => updatedRecentSearches.find(search => search._id === id));
-            // Limit the number of recent searches to, for example, 5
-            if (uniqueRecentSearches.length > 5) {
-                uniqueRecentSearches.pop(); // Remove the last search if the array length exceeds 5
+    const handleSearchItemClick = async (userId) => {
+    setUserId(userId);
+    handleShowUserProfile();
+
+    try {
+        // Check if the user data and recentSearches are available
+        if (userData?.recentSearches) {
+            const isUserInRecentSearches = userData.recentSearches.some(user => user._id === userId);
+        
+            if (!isUserInRecentSearches) {
+                // If the user doesn't exist, add them to recent searches
+                const updatedRecentSearches = [...userData.recentSearches, { _id: userId }];
+                const res = await addSearches(updatedRecentSearches, token);
+                console.log("resresresresresresresresres", res);
+                // Update the local state with the updated recent searches
+                setUserData(prevUserData => ({ ...prevUserData, recentSearches: updatedRecentSearches }));
             }
-            setRecentSearches(uniqueRecentSearches);
-            // Update localStorage
-            localStorage.setItem('recentSearches', JSON.stringify(uniqueRecentSearches));
-        }      
-    };
-    const handleRemoveRecentSearch = (userId) => {
-        const updatedRecentSearches = recentSearches.filter(search => search._id !== userId);
-        setRecentSearches(updatedRecentSearches);
-        localStorage.setItem('recentSearches', JSON.stringify(updatedRecentSearches));
-        console.log("RecentSearches in Remove Function",recentSearches)
-    };
+        }
+    } catch (error) {
+        console.error("Error adding in recent search data:", error.message);
+    }
+};
 
 
-    console.log("RSRSRSRSRSRSRSRSRSRSRSRSRSRSR",recentSearches)
+
+
+    
+    const handleRemoveRecentSearch = async (userId) => {
+            try{
+                const res = await removeSearches(userId , token);
+                console.log("resresresresresresresresres",res);
+            }catch(error){
+                console.error("Error adding in recent search data:", error.message);
+            }
+        
+    };
 
     return (
         <div className='flex flex-row p-10 gap-5 w-full h-screen justify-stretch'>
@@ -192,20 +213,26 @@ const SearchPage = () => {
 
                 <div className='w-full h-[1px] bg-yellow-500 mt-5'></div>
 
-                { searchUser ? <SearchedItem
-                    matchingUsers={matchingUsers}
-                    handleSearchItemClick={handleSearchItemClick}
-                /> : <RecentSearched 
-                setRecentMatchingUser={setRecentMatchingUser}
-                matchingUsers={matchingUsers}
-                recentSearches={recentSearches} 
-                handleSearchItemClick={handleSearchItemClick} 
-                removeRecentSearch={handleRemoveRecentSearch}/> }
+                { 
+                    searchUser ? (
+                        <SearchedItem
+                            matchingUsers={matchingUsers}
+                            handleSearchItemClick={handleSearchItemClick}
+                        />
+                    ) : (
+                        <RecentSearched 
+                            matchingUsers={matchingUsers}
+                            userData={userData}
+                            handleSearchItemClick={handleSearchItemClick} 
+                            removeRecentSearch={handleRemoveRecentSearch}
+                        />
+                    )
+                }
 
             </div>
 
             <div className='flex flex-row bg-richblack-700 w-full p-5 rounded-md overflow-y-scroll scroll-smooth scrolling'>
-                {showUserProfile && <UserProfile userId={userId} matchingUsers={matchingUsers} handleSearchItemClick={handleSearchItemClick} />}
+                {showUserProfile && <UserProfile userData={userData} userId={userId} matchingUsers={matchingUsers} handleSearchItemClick={handleSearchItemClick} />}
             </div>
         </div>
     );

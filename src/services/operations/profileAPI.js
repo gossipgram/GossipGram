@@ -7,6 +7,8 @@ const {
   DELETE_ACCOUNT_API,
   GET_ALL_USER_DATA_API,
   UPDATE_DISPLAY_PICTURE_API,
+  ADD_RECENT_SEARCHES_API,
+  REMOVE_RECENT_SEARCHES_API
 } = profileEndpoints;
 
 export const updatedProfile = async (data, token) => {
@@ -96,5 +98,54 @@ export const updateDp = async (data, token) => {
   }
   toast.dismiss(toastId);
   //   dispatch(setLoading(false));
+  return result;
+};
+
+export const addSearches = async (userId , token) => {
+  let result = [];
+  try{
+    const response = await apiConnector(
+      "POST",
+      ADD_RECENT_SEARCHES_API,
+      {
+        userId,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    console.log("ADD_RECENT_SEARCHES_API RESPONSE............", response);
+
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
+    result = response.data;
+  }catch(error) {
+    console.log("ADD_RECENT_SEARCHES_API API ERROR............", error);
+    result = error.response.data;
+  }
+  return result;
+}
+
+export const removeSearches = async (userId, token) => {
+  let result = [];
+  const toastId = toast.loading("Loading...");
+  try {
+    const response = await apiConnector("DELETE", REMOVE_RECENT_SEARCHES_API, {
+      userId
+    }, {
+      Authorization: `Bearer ${token}`,
+    });
+    console.log("REMOVE_RECENT_SEARCHES_API API RESPONSE............", response);
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not Delete ACCOUNT");
+    // }
+    toast.success("Search Deleted");
+    result = response?.data?.data;
+  } catch (error) {
+    console.log("REMOVE_RECENT_SEARCHES_API ERROR............", error);
+    toast.error(error.message);
+  }
+  toast.dismiss(toastId);
   return result;
 };
