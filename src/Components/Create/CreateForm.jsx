@@ -3,20 +3,30 @@ import { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { getAllUsers } from "../../services/operations/authAPI";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { createPost } from "../../services/operations/mediaAPI";
 
-const CreateForm = ({ postType }) => {
+const CreateForm = ({ postType, setpostType }) => {
   const [image, setImage] = useState(null);
-  // const [titleText, setTitleText] = useState("");
+  const [titleText, setTitleText] = useState("");
   const [captionText, setCaptionText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selecteduser, setSelecteduser] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
+  const [textContent, setTextContent] = useState("");
 
   const handleImageChange = (event) => {
-    const selectedImage = event.target.files[0];
-    setImage(selectedImage);
-    console.log(image);
+    const selectedFile = event.target.files[0];
+    if (
+      selectedFile.type.startsWith("image/") ||
+      selectedFile.type.startsWith("video/")
+    ) {
+      setImage(selectedFile);
+      // setPostType(selectedFile.type.)
+      setpostType(selectedFile.type.split("/")[0]);
+    } else {
+      alert("Please select Image or Video");
+    }
   };
 
   const handleDragOver = (event) => {
@@ -27,10 +37,13 @@ const CreateForm = ({ postType }) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files;
     const droppedImage = droppedFile[0];
-    if (droppedImage && droppedImage.type.startsWith("image/")) {
+    if (
+      droppedImage.type.startsWith("image/") ||
+      droppedImage.type.startsWith("video/")
+    ) {
       setImage(droppedImage);
     } else {
-      alert("Please select Image");
+      alert("Please Drop Image or Video");
     }
   };
 
@@ -47,15 +60,22 @@ const CreateForm = ({ postType }) => {
   };
 
   const handleUserClick = (user, event) => {
-    // event.preventDefault();
     if (!selecteduser.some((selecteduser) => selecteduser._id === user._id)) {
       setSelecteduser([...selecteduser, user]);
     }
     setSearchQuery("");
   };
 
+  const handleTitleChange = (event) => {
+    setTitleText(event.target.value);
+  };
+
   const handleRemoveUser = (userId) => {
     setSelecteduser(selecteduser.filter((user) => user._id !== userId));
+  };
+
+  const handleGossipChange = (event) => {
+    setTextContent(event.target.value);
   };
 
   useEffect(() => {
@@ -72,26 +92,141 @@ const CreateForm = ({ postType }) => {
     }
   }, [token]);
 
+  const handleSubmitPost = (event) => {
+    event.preventDefault();
+    let data = new FormData();
+    if (postType === "image" || postType === "video") {
+      if (!image) {
+        alert("Image or Video is required");
+        return;
+      }
+      data.append("caption", captionText);
+      data.append("mediaUrl", image);
+    } else {
+      if (!textContent) {
+        alert("Text is required");
+        return;
+      }
+      data.append("textContent", textContent);
+      data.append("caption", titleText);
+    }
+    try {
+      createPost(data, token);
+    } catch (error) {
+      console.log("Creating post error", error);
+    }
+  };
+
   return (
-    <divs className="bg-richblack-700  w-11/12 flex gap-5 items-center  h-[90%] transition-all duration-200  rounded-3xl">
+    <div className="bg-richblack-700 relative  w-11/12 flex gap-5  h-full transition-all duration-200  rounded-3xl">
       {postType === "text" ? (
-        <div>text</div>
+        <div className="flex gap-3 w-full ml-20  mt-14 justify-between max-h-full ">
+          <div className="flex flex-col w-3/6 gap-3 ">
+            <label htmlFor="title" className="text-richblack-25 text-2xl">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              placeholder="Enter gossip title here..."
+              onChange={handleTitleChange}
+              value={titleText}
+              className="bg-richblack-500 py-3 text-lg text-richblack-25 rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
+            />
+            <label className="text-richblack-25 text-2xl" htmlFor="caption">
+              Gossip
+            </label>
+            <textarea
+              type="text"
+              id="caption"
+              onChange={handleGossipChange}
+              value={textContent}
+              placeholder="Enter gossip here..."
+              className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
+            />
+          </div>
+
+          <div className="flex gap-3 w-1/3 flex-col mr-20">
+            <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
+              Tag User
+            </label>
+            <input
+              type="text"
+              id="tagUser"
+              placeholder="Search user...."
+              onChange={handleSearchUserInput}
+              value={searchQuery}
+              className="bg-richblack-500 py-3 text-lg text-richblack-25 rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
+            />
+
+            <div className="flex flex-col overflow-y-auto max-h-60 gap-2 ">
+              {searchQuery &&
+                allUsers
+                  ?.filter((user) =>
+                    user?.username
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase())
+                  )
+                  .map((user) => (
+                    <button
+                      className="flex gap-3 items-center  bg-richblack-600 w-full px-5 py-2 rounded-xl hover:bg-richblack-500 transition-all duration-200"
+                      key={user._id}
+                      onClick={() => handleUserClick(user)}
+                    >
+                      <img
+                        src={user.image}
+                        width={50}
+                        height={50}
+                        className="rounded-full"
+                      />
+                      <span className="text-richblack-25">{user.username}</span>
+                    </button>
+                  ))}
+
+              <div className="flex flex-wrap gap-2 mt-2">
+                {selecteduser.map((selecteduser) => (
+                  <div
+                    key={selecteduser._id}
+                    className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
+                  >
+                    <img
+                      src={selecteduser.image}
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <span>{selecteduser.username}</span>
+                    <button onClick={() => handleRemoveUser(selecteduser._id)}>
+                      <RxCross2 />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
-        <div className="w-full h-full mx-7 flex justify-between  p-5">
+        <div className="w-full h-full mx-7 flex gap-32  p-5">
           <div
             className="w-1/3 flex my-auto  items-center justify-center h-5/6  rounded-3xl border-4 border-dashed border-richblack-400"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            style={{
-              backgroundImage: image
-                ? `url(${URL.createObjectURL(image)})`
-                : "none",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
           >
             {image ? (
               <div className="w-full h-full relative  overflow-hidden">
+                {image.type && image.type.startsWith("video/") ? (
+                  <video
+                    src={`${URL.createObjectURL(image)}`}
+                    controls
+                    className="w-full h-full object-cover rounded-3xl"
+                  />
+                ) : (
+                  <img
+                    src={`${URL.createObjectURL(image)}`}
+                    alt="preview"
+                    className="w-full h-full object-cover rounded-3xl"
+                  />
+                )}
                 <button
                   className="z-30 text-2xl hover:scale-110 transition-all duration-200 text-richblack-25 absolute top-4 right-4 bg-richblack-700 rounded-full bg-opacity-20 p-1"
                   onClick={handleCrossButton}
@@ -103,7 +238,7 @@ const CreateForm = ({ postType }) => {
               <div className="flex gap-3  flex-col items-center justify-center">
                 <span className="text-richblack-100 text-xl">
                   Select your{" "}
-                  <span>{postType === "photo" ? "photo" : "video"}</span> or
+                  <span>{postType === "image" ? "photo" : "video"}</span> or
                   drop here
                 </span>
                 <label
@@ -115,7 +250,7 @@ const CreateForm = ({ postType }) => {
                 </label>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="video/*,image/*"
                   id="imageFile"
                   onChange={handleImageChange}
                   className="hidden"
@@ -123,8 +258,8 @@ const CreateForm = ({ postType }) => {
               </div>
             )}
           </div>
-          <div className=" w-3/6 flex   mr-16 rounded-3xl">
-            <div className="flex flex-col gap-3  w-full  h-full">
+          <div className=" w-3/6 flex   rounded-3xl">
+            <div className="flex flex-col gap-3  w-full   max-h-full ">
               <label className="text-richblack-25 text-2xl" htmlFor="caption">
                 Caption
               </label>
@@ -134,7 +269,7 @@ const CreateForm = ({ postType }) => {
                 onChange={captionChangeHandler}
                 value={captionText}
                 placeholder="Enter your caption here..."
-                className="bg-richblack-500 scrolling py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
+                className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden "
               />
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
@@ -145,36 +280,41 @@ const CreateForm = ({ postType }) => {
                 id="tagUser"
                 placeholder="Search user...."
                 onChange={handleSearchUserInput}
-                className="bg-richblack-500 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
+                value={searchQuery}
+                className="bg-richblack-500 py-3 text-lg text-richblack-25 rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
               />
 
-              <div className="flex flex-col overflow-y-scroll scrolling  gap-2">
-                {allUsers
-                  ?.filter((user) =>
-                    user?.username
-                      .toLowerCase()
-                      .includes(searchQuery.toLowerCase())
-                  )
-                  .map((user) => (
-                    <button
-                      className="flex gap-3 items-center"
-                      key={user._id}
-                      onClick={() => handleUserClick(user)}
-                    >
-                      <img
-                        src={user.image}
-                        width={50}
-                        height={50}
-                        className="rounded-full"
-                      />
-                      <span>{user.username}</span>
-                    </button>
-                  ))}
+              <div className="flex flex-col overflow-y-auto max-h-60 gap-2">
+                {searchQuery &&
+                  allUsers
+                    ?.filter((user) =>
+                      user?.username
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
+                    )
+                    .map((user) => (
+                      <button
+                        className="flex gap-3 items-center  bg-richblack-600 w-full px-5 py-2 rounded-xl hover:bg-richblack-500 transition-all duration-200"
+                        key={user._id}
+                        onClick={() => handleUserClick(user)}
+                      >
+                        <img
+                          src={user.image}
+                          width={50}
+                          height={50}
+                          className="rounded-full"
+                        />
+                        <span className="text-richblack-25">
+                          {user.username}
+                        </span>
+                      </button>
+                    ))}
+
                 <div className="flex flex-wrap gap-2 mt-2">
                   {selecteduser.map((selecteduser) => (
                     <div
                       key={selecteduser._id}
-                      className="bg-yellow-400 text-richblue-25 text-lg px-4 py-2 rounded-full flex items-center"
+                      className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
                     >
                       <img
                         src={selecteduser.image}
@@ -196,7 +336,13 @@ const CreateForm = ({ postType }) => {
           </div>
         </div>
       )}
-    </divs>
+      <button
+        onClick={handleSubmitPost}
+        className="text-richblack-5 bg-yellow-400 hover:bg-yellow-500 px-7 py-2 rounded-xl absolute bottom-12 transition-all duration-200 right-12"
+      >
+        Post
+      </button>
+    </div>
   );
 };
 

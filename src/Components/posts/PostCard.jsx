@@ -129,7 +129,7 @@ const PostCard = ({ post, userId, postUserId }) => {
   };
 
   return (
-    <div className="flex flex-col max-w-lg pb-3 max-h-[700px] bg-richblack-800">
+    <div className="flex flex-col  max-w-lg pb-3 max-h-[700px] bg-richblack-800">
       <div className="py-5 flex  items-center">
         <img
           src={post.user.image}
@@ -139,15 +139,33 @@ const PostCard = ({ post, userId, postUserId }) => {
         <div className="text-white font-semibold">{post.user.username}</div>
       </div>
       <div className="w-full flex items-center overflow-hidden border-[1px] border-pure-greys-500 rounded-lg">
-        <img
-          className=" w-full h-full object-cover bg-black"
-          src={post.mediaUrl}
-        ></img>
+        {post.mediaUrl.includes("video") ? (
+          <video
+            src={post.mediaUrl}
+            controls
+            className="w-full h-full object-cover bg-black"
+          />
+        ) : post.mediaUrl.includes("image") ? (
+          <img
+            className=" w-full h-full object-cover bg-black"
+            src={post.mediaUrl}
+          ></img>
+        ) : (
+          <div className="p-5 flex flex-col gap-3">
+            <h2 className="text-richblack-25 text-2xl font-bold">
+              {post.caption}
+            </h2>
+
+            <p className="text-richblack-50 text-xl ml-5">{post.textContent}</p>
+          </div>
+        )}
+
+        {/*  */}
       </div>
-      <div className="my-3">
+      <div className="mb-3 mt-5">
         <p className="text-white">
           <span className="font-semibold">{post.user.username}</span>{" "}
-          {post.caption}
+          {!post.textContent ? post.caption : null}
         </p>
       </div>
       <div className="flex gap-x-5 mt-[2px] items-center">

@@ -5,30 +5,36 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 // Create a new post
 exports.createPost = async (req, res) => {
   try {
-    const { caption, mediaUrl, textContent } = req.body; 
+    const { caption, textContent } = req.body;
+    let mediaUrl = null;
+    if (!textContent) {
+      mediaUrl = req.files.mediaUrl;
+    }
 
     // Validation
-    if (!caption && !mediaUrl && !textContent) {
+    if (!(caption || mediaUrl || textContent) && !(mediaUrl || textContent)) {
       return res.status(400).json({
         success: false,
-        message: "At least one of caption, mediaUrl, or textContent is required",
+        message:
+          "At least one of caption, mediaUrl, or textContent is required",
       });
     }
 
     const userId = req.user.id;
 
-    let mediaUrlImage = ""; 
-
-    if (mediaUrl) { 
-      mediaUrlImage = await uploadImageToCloudinary(mediaUrl, process.env.FOLDER_NAME);
+    let mediaUrlImage = "";
+    if (mediaUrl) {
+      mediaUrlImage = await uploadImageToCloudinary(
+        mediaUrl,
+        process.env.FOLDER_NAME
+      );
       console.log(mediaUrlImage.secure_url);
     }
 
-
     const newPost = new Post({
       caption,
-      mediaUrl: mediaUrlImage.secure_url || "", 
-      textContent: textContent || "", 
+      mediaUrl: mediaUrlImage.secure_url || "",
+      textContent: textContent || "",
       user: userId,
     });
 
@@ -49,8 +55,6 @@ exports.createPost = async (req, res) => {
     });
   }
 };
-
-
 
 // // Create a new post
 
@@ -101,7 +105,6 @@ exports.createPost = async (req, res) => {
 // };
 
 // Get post details by ID
-
 
 exports.getPostById = async (req, res) => {
   try {
@@ -195,11 +198,9 @@ exports.updatePostById = async (req, res) => {
     if (mediaUrl) updatedFields.mediaUrl = mediaUrl;
     if (textContent) updatedFields.textContent = textContent;
 
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      updatedFields,
-      { new: true }
-    );
+    const updatedPost = await Post.findByIdAndUpdate(postId, updatedFields, {
+      new: true,
+    });
 
     if (!updatedPost) {
       return res.status(404).json({
@@ -221,7 +222,6 @@ exports.updatePostById = async (req, res) => {
     });
   }
 };
-
 
 // exports.deletePostById = async (req, res) => {
 //   try {
@@ -250,7 +250,6 @@ exports.updatePostById = async (req, res) => {
 //   }
 // };
 
-
 // Delete post by ID
 
 exports.deletePostById = async (req, res) => {
@@ -267,7 +266,9 @@ exports.deletePostById = async (req, res) => {
     }
 
     // Remove post ID from user's posts array
-    await User.findByIdAndUpdate(deletedPost.user, { $pull: { posts: postId } });
+    await User.findByIdAndUpdate(deletedPost.user, {
+      $pull: { posts: postId },
+    });
 
     return res.status(200).json({
       success: true,

@@ -86,8 +86,9 @@ function App() {
             <PrivateRoute>
               <SearchPage />
             </PrivateRoute>
-          }>
-            <Route path="/search/:username" element={<UserProfile />}></Route>
+          }
+        >
+          <Route path="/search/:username" element={<UserProfile />}></Route>
         </Route>
 
         <Route

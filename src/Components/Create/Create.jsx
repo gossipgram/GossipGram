@@ -8,13 +8,13 @@ import {
 } from "react-icons/md";
 
 const Create = () => {
-  const [postType, setpostType] = useState("");
+  const [postType, setpostType] = useState("image");
 
   const radioChangeHandler = (event) => {
     setpostType(event.target.value);
   };
   return (
-    <div className="w-full flex items-center flex-col gap-1 mt-4">
+    <div className="w-full flex h-[88%] items-center flex-col gap-1 mt-4">
       <div className="bg-richblack-700 w-1/2   flex gap-5 flex-col items-center p-3 rounded-3xl border border-richblack-400">
         <h2 className="text-richblack-25 text-2xl">
           Select what do you want to post ?
@@ -43,13 +43,13 @@ const Create = () => {
 
           <label
             className={` ${
-              postType === "photo" ? "text-yellow-300" : " text-richblack-25"
+              postType === "image" ? "text-yellow-300" : " text-richblack-25"
             } bg-richblack-600 text-lg border rounded-full px-7 cursor-pointer py-2 hover:text-yellow-300 transition-all duration-300 `}
           >
             <input
               type="radio"
-              value="photo"
-              checked={postType === "photo"}
+              value="image"
+              checked={postType === "image"}
               onChange={radioChangeHandler}
               className="sr-only"
             />
@@ -81,8 +81,8 @@ const Create = () => {
         </div>
       </div>
 
-      <div className="w-full flex mt-7 h-full justify-center">
-        <CreateForm postType={postType} />
+      <div className="w-full flex mt-7 h-5/6 items-center justify-center">
+        <CreateForm postType={postType} setpostType={setpostType} />
       </div>
     </div>
   );
