@@ -109,7 +109,7 @@ exports.getFollowersForUser = async (req, res) => {
 exports.getFollowingForUser = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const following = await Follower.find({ follower: userId }).select('-password -email').populate('following');
+        const following = await Follower.find({ follower: userId }).populate('following','-password -email');
 
         return res.status(200).json({
             success: true,

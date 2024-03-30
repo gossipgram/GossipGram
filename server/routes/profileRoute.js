@@ -6,6 +6,8 @@ const {
   deleteAccount,
   getAllUserData,
   updateDisplayPicture,
+  addRecentSearch,
+  removeRecentSearch
 } = require('../controllers/Profile');
 const { auth } = require('../middlewares/auth');
 
@@ -20,5 +22,11 @@ router.get('/get-all-user-data', auth , getAllUserData);
 
 // Update Display Picture Route
 router.post('/update-display-picture', auth , updateDisplayPicture);
+
+// add to recentSearches array
+router.post('/addsearches', auth , addRecentSearch)
+
+//remove from recentSearches
+router.delete('/removesearches', auth , removeRecentSearch)
 
 module.exports = router;
