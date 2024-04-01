@@ -158,12 +158,14 @@ const SearchPage = () => {
     }, [searchUser, allUsers ,]);
 
     const handleSearchItemClick = async (userId) => {
+        console.log("{}{{}{}{}{}{}{}}{}{",userId)
         setUserId(userId);
         setRecentMatchingUser(userId);
         handleShowUserProfile();
 
         try {
             const res = await addSearches(userId, token);
+             console.log("{}{{}{}{}{}{}{}}{}{",res)
             setRecentSearches(res);
         } catch (error) {
             console.error("Error adding in recent search data:", error.message);

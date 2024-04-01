@@ -140,14 +140,16 @@ exports.addRecentSearch = async (req, res) => {
     try {
         const userId = req.body.userId;
         const user = await User.findById(req.user.id);
+        console.log("userId",userId);
+        console.log("user",user)
 
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
         // Check if the userId is already in recentSearches
-        if (!user.recentSearches.includes(userId)) {
-            user.recentSearches.push(userId);
+        if (!user.recentSearches?.includes(userId)) {
+            user.recentSearches?.push(userId);
             await user.save();
         }
 
