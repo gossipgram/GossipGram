@@ -5,6 +5,7 @@ import {
   FaCommentAlt,
   FaChessKing,
 } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   getLikesForPost,
   likePost,
@@ -12,8 +13,6 @@ import {
 } from "../../services/operations/likesAPI";
 import { FcLike } from "react-icons/fc";
 import CommentsModal from "./CommentsModal";
-import { getAllCommentsForPost } from "../../services/operations/commentsAPI";
-// import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 const PostCard = ({ post, userId, postUserId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
@@ -24,56 +23,7 @@ const PostCard = ({ post, userId, postUserId }) => {
   const [liked, setLiked] = useState(false);
   const [totalComments, setTotalComments] = useState(post?.comments?.length);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [allComments, setAllComments] = useState([]);
-
-  // !code not working for modal close on clicking out side screen
-
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [commentsModal, setCommentsModal] = useState(null);
-
-  // const modalRef = useRef();
-
-  // useOnClickOutside(modalRef, closeModal);
-
-  // const openModal = () => {
-  //   addingCommentsData();
-  //   setIsModalOpen(true);
-  // };
-
-  // const addingCommentsData = () => {
-  //   const fetchAllCommnets = async () => {
-  //     try {
-  //       const response = await getAllCommentsForPost(postId, token);
-  //       setCommentsModal(response?.comments);
-  //     } catch (error) {
-  //       console.error("Eroor fetching comments data");
-  //     }
-  //   };
-  //   fetchAllCommnets();
-  // };
-
-  // ?modal logic
-  // const toggleModal = () => {
-  //   setIsModalOpen(!isModalOpen);
-  // };
-
-  // useEffect(() => {
-  //   const handleClickOutsideModal = (event) => {
-  //     if (isModalOpen && !event.target.closest(".modal-content")) {
-  //       toggleModal();
-  //     }
-  //   };
-
-  //   if (isModalOpen) {
-  //     document.addEventListener("click", handleClickOutsideModal);
-  //   } else {
-  //     document.removeEventListener("click", handleClickOutsideModal);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutsideModal);
-  //   };
-  // }, [isModalOpen]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -128,15 +78,55 @@ const PostCard = ({ post, userId, postUserId }) => {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleEditPost = () => {
+    console.log("edit post");
+  };
+
+  const handleDeletePost = () => {
+    console.log("delete post");
+  };
+
   return (
     <div className="flex flex-col  max-w-lg pb-3 max-h-[700px] bg-richblack-800">
-      <div className="py-5 flex  items-center">
-        <img
-          src={post.user.image}
-          width={35}
-          className="rounded-full mr-2"
-        ></img>
-        <div className="text-white font-semibold">{post.user.username}</div>
+      <div className="flex justify-between items-center mr-5">
+        <div className="py-5 flex items-center">
+          <img
+            src={post.user.image}
+            width={35}
+            className="rounded-full mr-2"
+          ></img>
+          <div className="text-white font-semibold">{post.user.username}</div>
+        </div>
+        <div className="relative ">
+          <button
+            onClick={toggleMenu}
+            className="text-richblack-5 cursor-pointer text-xl hover:text-yellow-400 focus:text-yellow-400 transition-all duration-200 "
+          >
+            <BsThreeDotsVertical />
+          </button>
+          {isMenuOpen && (
+            <div className="absolute right-0 top-6 bg-richblack-700  rounded-xl w-[200px]">
+              <div className="flex flex-col gap-3 m-5">
+                <button
+                  onClick={handleEditPost}
+                  className=" px-4 py-2 text-richblack-50  bg-richblack-600 cursor-pointer rounded-xl hover:bg-richblack-500 hover:text-yellow-200 transition-all duration-200"
+                >
+                  Edit Post
+                </button>
+                <button
+                  onClick={handleDeletePost}
+                  className="px-4 py-2 text-richblack-50  bg-richblack-600 cursor-pointer rounded-xl hover:text-yellow-200 hover:bg-richblack-500 transition-all duration-200"
+                >
+                  Delete Post
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <div className="w-full flex items-center overflow-hidden border-[1px] border-pure-greys-500 rounded-lg">
         {post.mediaUrl.includes("video") ? (

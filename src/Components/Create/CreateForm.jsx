@@ -118,9 +118,9 @@ const CreateForm = ({ postType, setpostType }) => {
   };
 
   return (
-    <div className="bg-richblack-700 relative  w-11/12 flex gap-5  h-full transition-all duration-200  rounded-3xl">
+    <div className="bg-richblack-700 relative w-11/12 flex gap-5  h-full transition-all duration-200  rounded-3xl">
       {postType === "text" ? (
-        <div className="flex gap-3 w-full ml-20  mt-14 justify-between max-h-full ">
+        <div className="flex gap-3 z-10 w-full ml-20  mt-14 justify-between max-h-full ">
           <div className="flex flex-col w-3/6 gap-3 ">
             <label htmlFor="title" className="text-richblack-25 text-2xl">
               Title

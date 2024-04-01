@@ -71,6 +71,19 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
+          <Link to="/create">
+            <div
+              className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "create" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("create")}
+            >
+              <CiCirclePlus fontSize={25} className="" />
+              <p className="text-xl ">Create</p>
+            </div>
+          </Link>
+          <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+
           <Link to="/chat">
             <div
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
@@ -85,30 +98,18 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <Link to="/notification">
+          <Link to="/profile">
             <div
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
-                activeIcon === "notification" ? "text-yellow-400" : "text-white"
+                activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("notification")}
+              onClick={() => handleIconClick("profile")}
             >
               <IoMdNotifications fontSize={25} className="" />
-              <p className="text-xl ">Notification</p>
+              <p className="text-xl ">Profile</p>
             </div>
           </Link>
-          <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <Link to="/create">
-            <div
-              className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
-                activeIcon === "create" ? "text-yellow-400" : "text-white"
-              }`}
-              onClick={() => handleIconClick("create")}
-            >
-              <CiCirclePlus fontSize={25} className="" />
-              <p className="text-xl ">Create</p>
-            </div>
-          </Link>
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
           <button
@@ -175,6 +176,17 @@ const Sidebar = () => {
             </div>
           </Link>
 
+          <Link to="/create">
+            <div
+              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+                activeIcon === "create" ? "text-yellow-400" : "text-white"
+              }`}
+              onClick={() => handleIconClick("create")}
+            >
+              <CiCirclePlus fontSize={35} className="" />
+            </div>
+          </Link>
+
           <Link to="/chat">
             <div
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
@@ -186,25 +198,14 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link to="/notification">
+          <Link to="/profile">
             <div
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
-                activeIcon === "notification" ? "text-yellow-400" : "text-white"
+                activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("notification")}
+              onClick={() => handleIconClick("profile")}
             >
               <IoMdNotifications fontSize={35} className="" />
-            </div>
-          </Link>
-
-          <Link to="/create">
-            <div
-              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
-                activeIcon === "create" ? "text-yellow-400" : "text-white"
-              }`}
-              onClick={() => handleIconClick("create")}
-            >
-              <CiCirclePlus fontSize={35} className="" />
             </div>
           </Link>
 

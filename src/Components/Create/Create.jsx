@@ -14,7 +14,7 @@ const Create = () => {
     setpostType(event.target.value);
   };
   return (
-    <div className="w-full flex h-[88%] items-center flex-col gap-1 mt-4">
+    <div className="w-full  flex h-[88%] items-center flex-col gap-1 mt-4">
       <div className="bg-richblack-700 w-1/2   flex gap-5 flex-col items-center p-3 rounded-3xl border border-richblack-400">
         <h2 className="text-richblack-25 text-2xl">
           Select what do you want to post ?

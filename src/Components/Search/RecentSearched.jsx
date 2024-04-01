@@ -15,7 +15,7 @@ const RecentSearched = ({
   return (
     <div className="mt-1 overflow-y-scroll scrolling">
       <h1 className="text-yellow-300 text-xl">Recent</h1>
-      {userData &&
+      {userData?.userDetails?.recentSearches &&
         userData?.userDetails?.recentSearches.map((user) => (
           <div
             key={user._id}

@@ -16,6 +16,7 @@ import UpdatedPassword from "./Pages/UpdatedPassword";
 import MessageBox from "./Components/Chat/MessageBox";
 import SearchPage from "./Pages/SearchPage";
 import UserProfile from "./Components/Profile/UserProfile";
+import Profile from "./Pages/Profile";
 
 function App() {
   return (
@@ -92,10 +93,10 @@ function App() {
         </Route>
 
         <Route
-          path="/notification"
+          path="/profile"
           element={
             <PrivateRoute>
-              <Notification />
+              <Profile />
             </PrivateRoute>
           }
         ></Route>
