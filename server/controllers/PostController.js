@@ -191,7 +191,7 @@ exports.getAllPosts = async (req, res) => {
 exports.updatePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const { caption, mediaUrl, textContent } = req.body;
+    const { caption, mediaUrl, textContent } = req.body.data;
 
     const updatedFields = {};
     if (caption) updatedFields.caption = caption;

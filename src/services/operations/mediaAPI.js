@@ -10,6 +10,8 @@ const {
   DELETE_POST_BY_ID_API,
 } = mediaEndpoints;
 
+const BASE_URL = "http://localhost:4000/api/v1/";
+
 export const getPostById = async (token, postId) => {
   const toastId = toast.loading("Loading...");
   let result = null;
@@ -78,13 +80,20 @@ export const createPost = async (data, token) => {
   return result;
 };
 
-export const updatePostById = async (data, token) => {
+export const updatePostById = async (postId, data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector("PUT", UPDATE_POST_BY_ID_API, data, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector(
+      "PUT",
+      BASE_URL + `media/posts/${postId}`,
+      {
+        data,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("UPDATE POST BY ID API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update POST");
@@ -99,13 +108,20 @@ export const updatePostById = async (data, token) => {
   return result;
 };
 
-export const deletePostById = async (data, token) => {
+export const deletePostById = async (postId, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector("DELETE", DELETE_POST_BY_ID_API, data, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector(
+      "DELETE",
+      BASE_URL + `media/posts/${postId}`,
+      {
+        postId,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("DELETE POST BU ID API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete POST");
