@@ -8,7 +8,7 @@ const {
   GET_ALL_USER_DATA_API,
   UPDATE_DISPLAY_PICTURE_API,
   ADD_RECENT_SEARCHES_API,
-  REMOVE_RECENT_SEARCHES_API
+  REMOVE_RECENT_SEARCHES_API,
 } = profileEndpoints;
 
 export const updatedProfile = async (data, token) => {
@@ -18,7 +18,6 @@ export const updatedProfile = async (data, token) => {
     const response = await apiConnector("PUT", UPDATE_PROFILE_API, data, {
       Authorization: `Bearer ${token}`,
     });
-    console.log("UPDATE_PROFILE_API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update Profile");
     }
@@ -60,7 +59,6 @@ export const getAllUserData = async (token) => {
     const response = await apiConnector("GET", GET_ALL_USER_DATA_API, null, {
       Authorization: `Bearer ${token}`,
     });
-    console.log("GET_ALL_USER_DATA_API API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not GET all data for user");
     }
@@ -101,9 +99,9 @@ export const updateDp = async (data, token) => {
   return result;
 };
 
-export const addSearches = async (userId , token) => {
+export const addSearches = async (userId, token) => {
   let result = [];
-  try{
+  try {
     const response = await apiConnector(
       "POST",
       ADD_RECENT_SEARCHES_API,
@@ -114,29 +112,33 @@ export const addSearches = async (userId , token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("ADD_RECENT_SEARCHES_API RESPONSE............", response);
 
     // if (!response.data.success) {
     //   throw new Error(response.data.message);
     // }
     result = response.data;
-  }catch(error) {
+  } catch (error) {
     console.log("ADD_RECENT_SEARCHES_API API ERROR............", error);
     result = error.response.data;
   }
   return result;
-}
+};
 
 export const removeSearches = async (userId, token) => {
   let result = [];
   const toastId = toast.loading("Loading...");
   try {
-    const response = await apiConnector("DELETE", REMOVE_RECENT_SEARCHES_API, {
-      userId
-    }, {
-      Authorization: `Bearer ${token}`,
-    });
-    console.log("REMOVE_RECENT_SEARCHES_API API RESPONSE............", response);
+    const response = await apiConnector(
+      "DELETE",
+      REMOVE_RECENT_SEARCHES_API,
+      {
+        userId,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
     // if (!response?.data?.success) {
     //   throw new Error("Could Not Delete ACCOUNT");
     // }
