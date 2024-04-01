@@ -102,13 +102,27 @@ const SearchPage = () => {
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [searchUser, setSearchUser] = useState("");
   const [userId, setUserId] = useState("");
-  // const [recentSearches, setRecentSearches] = useState([]);
-  // const [recentMatchingUser, setRecentMatchingUser] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [recentMatchingUser, setRecentMatchingUser] = useState([]);
   const [userData, setUserData] = useState([]);
 
   const handleShowUserProfile = () => {
     setShowUserProfile(true);
   };
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const res = await getAllUsers(token);
+        setAllUsers(res.users);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
+    if (token) {
+      fetchAllUsers();
+    }
+  }, [token, userId]);
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -136,7 +150,9 @@ const SearchPage = () => {
     if (token) {
       fetchUserData();
     }
-  }, []);
+  }, [userId]);
+
+  console.log("__________________________________________", userData);
 
   const changeHandler = (event) => {
     setSearchUser(event.target.value);
@@ -145,7 +161,7 @@ const SearchPage = () => {
   useEffect(() => {
     if (searchUser) {
       const filteredUsers = allUsers.filter((user) =>
-        user.username.toLowerCase().includes(searchUser.toLowerCase())
+        user?.username.toLowerCase().includes(searchUser.toLowerCase())
       );
       setMatchingUsers(filteredUsers);
     } else {
@@ -155,33 +171,21 @@ const SearchPage = () => {
 
   const handleSearchItemClick = async (userId) => {
     setUserId(userId);
+    setRecentMatchingUser(userId);
     handleShowUserProfile();
 
     try {
-      // Check if the user data and recentSearches are available
-      if (userData?.recentSearches) {
-        const isUserInRecentSearches = userData.recentSearches.some(
-          (user) => user._id === userId
-        );
-
-        if (!isUserInRecentSearches) {
-          // If the user doesn't exist, add them to recent searches
-          const updatedRecentSearches = [
-            ...userData.recentSearches,
-            { _id: userId },
-          ];
-          const res = await addSearches(updatedRecentSearches, token);
-          // Update the local state with the updated recent searches
-          setUserData((prevUserData) => ({
-            ...prevUserData,
-            recentSearches: updatedRecentSearches,
-          }));
-        }
-      }
+      const res = await addSearches(userId, token);
+      setRecentSearches(res);
     } catch (error) {
       console.error("Error adding in recent search data:", error.message);
     }
   };
+
+  console.log(
+    "setRecentSearches_____________setRecentSearches",
+    recentSearches
+  );
 
   const handleRemoveRecentSearch = async (userId) => {
     try {
