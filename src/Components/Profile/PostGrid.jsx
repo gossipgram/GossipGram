@@ -6,10 +6,6 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
     const searchedUser = matchingUsers.find(user => user._id === searchedUserId);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [postDetails, setPostDetails] = useState([]);
-    console.log("searched User Id _____________", searchedUserId);
-    console.log("userId  _____________", userId);
-    console.log("matchingUsers  _____________", matchingUsers);
-
 
     const openModal = (post) => {
         setIsModalOpen(true);

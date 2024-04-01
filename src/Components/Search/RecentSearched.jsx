@@ -2,7 +2,6 @@ import React from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 
 const RecentSearched = ({ recentSearches, handleSearchItemClick, removeRecentSearch , matchingUsers , userData}) => {
-  console.log("matchingUsers={matchingUsers}",matchingUsers);
   console.log("++++++++++++++++++++++++++++",userData);
   const handleRemoveRecentSearch = (userId) => {
     removeRecentSearch(userId);
