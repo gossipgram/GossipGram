@@ -71,6 +71,10 @@ export const profileEndpoints = {
   DELETE_ACCOUNT_API: BASE_URL + "profile/delete-account", //delete
   GET_ALL_USER_DATA_API: BASE_URL + "profile/get-all-user-data", //get
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + "profile/update-display-picture", //post
-  ADD_RECENT_SEARCHES_API: BASE_URL + "profile/addsearches" ,    //post
-  REMOVE_RECENT_SEARCHES_API: BASE_URL + "profile/removesearches" ,    //delete
+};
+
+// recentSearch ENDPOINTS
+export const recentSearchEndpoints = {
+  ADD_RECENT_SEARCHES_API: BASE_URL + "recents/addsearches", //post
+  REMOVE_RECENT_SEARCHES_API: BASE_URL + "recents/removesearches", //delete
 };

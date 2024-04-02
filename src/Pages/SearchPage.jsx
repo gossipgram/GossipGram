@@ -3,11 +3,11 @@ import SearchedItem from "../Components/Search/SearchedItem";
 import UserProfile from "../Components/Profile/UserProfile";
 import { getAllUsers } from "../services/operations/authAPI";
 import RecentSearched from "../Components/Search/RecentSearched";
+import { getAllUserData } from "../services/operations/profileAPI";
 import {
   addSearches,
-  getAllUserData,
   removeSearches,
-} from "../services/operations/profileAPI";
+} from "../services/operations/recentSearch";
 import { Navigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const SearchPage = () => {

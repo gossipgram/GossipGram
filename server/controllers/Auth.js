@@ -298,17 +298,25 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// get all users 
+// get all users
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').populate("additionalDetails").populate({
-                path: 'posts',
-                model: 'Post',
-                populate: {
-                  path: 'user',
-                  model: 'User'
-                }
-                }).exec();
+    const users = await User.find()
+      .select("-password")
+      .populate("additionalDetails")
+      .populate({
+        path: "posts",
+        model: "Post",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "recentSearches",
+        model: "RecentSearch",
+      })
+      .exec();
     return res.status(200).json({
       success: true,
       users: users,

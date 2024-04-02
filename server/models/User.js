@@ -44,11 +44,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     recentSearches: [
       {
-        type: String,
-        ref: "User",
-        unique: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "RecentSearch",
       },
     ],
 

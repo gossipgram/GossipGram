@@ -92,11 +92,7 @@ exports.getAllUserData = async (req, res) => {
       })
       .populate({
         path: "recentSearches",
-        model: "User",
-        populate: {
-          path: "posts",
-          model: "Post",
-        },
+        model: "RecentSearch",
       })
       .exec();
 
@@ -140,70 +136,5 @@ exports.updateDisplayPicture = async (req, res) => {
       success: false,
       message: error.message,
     });
-  }
-};
-
-// Controller to add userId to recentSearches array
-exports.addRecentSearch = async (req, res) => {
-  try {
-    const userId = req.body.userId;
-    const user = await User.findById(req.user.id);
-    console.log("userId", userId);
-    console.log("user", user.id);
-
-    if (!userId) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
-
-    // Check if the userId is already in recentSearches
-    if (!user?.recentSearches?.includes(userId)) {
-      console.log("inside if statement");
-      user?.recentSearches?.push(userId);
-      console.log("after push");
-      await user.save();
-      console.log("after save");
-    }
-
-    return res
-      .status(200)
-      .json({ success: true, message: "User added to recent searches", user });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
-  }
-};
-
-// Controller to remove userId from recentSearches array
-exports.removeRecentSearch = async (req, res) => {
-  try {
-    const userId = req.body.userId;
-    const user = await User.findById(req.user.id);
-
-    if (!userId) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
-
-    const index = user.recentSearches.indexOf(userId);
-    if (index > -1) {
-      user.recentSearches.splice(index, 1);
-      await user.save();
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "User removed from recent searches",
-      user,
-    });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
   }
 };
