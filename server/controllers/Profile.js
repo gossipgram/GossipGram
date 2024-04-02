@@ -151,16 +151,19 @@ exports.addRecentSearch = async (req, res) => {
     console.log("userId", userId);
     console.log("user", user);
 
-    if (!user) {
+    if (!userId) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
 
     // Check if the userId is already in recentSearches
-    if (!user.recentSearches?.includes(userId)) {
-      user.recentSearches?.push(userId);
-      await user?.save();
+    if (!user?.recentSearches?.includes(userId)) {
+      console.log("inside if statement");
+      user?.recentSearches?.push(userId);
+      console.log("after push");
+      await user.save();
+      console.log("after save");
     }
 
     return res
@@ -192,13 +195,11 @@ exports.removeRecentSearch = async (req, res) => {
       await user.save();
     }
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "User removed from recent searches",
-        user,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "User removed from recent searches",
+      user,
+    });
   } catch (error) {
     console.error(error);
     return res
