@@ -30,6 +30,8 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers , userData
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
 
+  console.log("userId _______",userId)
+
 
   const steps = [
     {
@@ -38,7 +40,7 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers , userData
     },
     {
       id: 2,
-      title: "Videos",
+      title: "Gossip",
     },
     {
       id: 3,
@@ -93,10 +95,10 @@ const UserProfile = ({ userId , handleSearchItemClick , matchingUsers , userData
 useEffect(() => {
   const checkFollowingStatus = async () => {
     try {
-      console.log("User Details ID:", userData?.userDetails?._id);
-      console.log("Followers:", followers);
-      console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
-      console.log("|||||||||||||||||||||||||||||||||||",userData)
+      // console.log("User Details ID:", userData?.userDetails?._id);
+      // console.log("Followers:", followers);
+      // console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
+      // console.log("|||||||||||||||||||||||||||||||||||",userData)
 
       if(searchedUserId === userData?.userDetails?._id){
         console.log("if case k under")
@@ -271,7 +273,20 @@ useEffect(() => {
       </div>
       <div className='w-full h-[1px] bg-yellow-500 mt-5 mb-5'></div>
 
-      <div>{postSection === "Posts" ? <PostGrid userId={userId} searchedUserId={searchedUserId} matchingUsers={matchingUsers}/> : postSection === "Videos" ? <PostRow /> : postSection === "Tagged" ? <TaggedPost /> : <PostGrid />}</div>
+      <div>  {postSection === "Posts" ? 
+      <PostGrid 
+        userId={userId} 
+        searchedUserId={searchedUserId} 
+        matchingUsers={matchingUsers}/> : 
+      postSection === "Gossip" ? 
+      <PostRow 
+        userData={userData}
+        userId={userId} 
+        searchedUserId={searchedUserId} 
+        matchingUsers={matchingUsers}/> : 
+      postSection === "Tagged" ? 
+      <TaggedPost /> : 
+      <PostGrid />}</div>
     </div>
     
   );

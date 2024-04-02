@@ -80,30 +80,42 @@ exports.deleteAccount = async (req , res) => {
 }
 
 //show user details
-exports.getAllUserData = async (req , res) => {
-    try{
-        //get id
+exports.getAllUserData = async (req, res) => {
+    try {
         const id = req.user.id;
 
-        //validatio and ge user details 
-        const userDetails = await User.findById(id).select('-password').populate("additionalDetails").populate({
+        // Validation and get user details 
+        const userDetails = await User.findById(id)
+            .select('-password')
+            .populate("additionalDetails")
+            .populate({
                 path: 'posts',
-                model: 'Post' 
-            }).populate("recentSearches").exec();
+                model: 'Post'
+            })
+            .populate({
+                path: 'recentSearches',
+                model: 'User',
+                populate: {
+                    path: 'posts',
+                    model: 'Post'
+                }
+            })
+            .exec();
 
-        //return res
+        // Return response
         return res.status(200).json({
-            success:true,
-            message:'User data fetched successfully',
+            success: true,
+            message: 'User data fetched successfully',
             userDetails,
         });
-    }catch(error){
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            error:error.message,
+            success: false,
+            error: error.message,
         });
     }
 }
+
 
 //update display picture
 exports.updateDisplayPicture = async (req, res) => {
@@ -150,10 +162,10 @@ exports.addRecentSearch = async (req, res) => {
         // Check if the userId is already in recentSearches
         if (!user.recentSearches?.includes(userId)) {
             user.recentSearches?.push(userId);
-            await user.save();
+            await user?.save();
         }
 
-        return res.status(200).json({ success: true, message: 'User added to recent searches' });
+        return res.status(200).json({ success: true, message: 'User added to recent searches', user });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -176,7 +188,7 @@ exports.removeRecentSearch = async (req, res) => {
             await user.save();
         }
 
-        return res.status(200).json({ success: true, message: 'User removed from recent searches' });
+        return res.status(200).json({ success: true, message: 'User removed from recent searches' , user});
     } catch (error) {
         console.error(error);
         return res.status(500).json({ success: false, error: 'Internal Server Error' });
