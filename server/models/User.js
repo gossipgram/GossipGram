@@ -46,13 +46,11 @@ const userSchema = new mongoose.Schema(
     },
     recentSearches: [
       {
-        // type: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "User",
+        unique: true,
       },
     ],
-    // unique: true // Ensure only unique elements in the recentSearches array
-    // },
 
     // Relationship with Posts
     posts: [

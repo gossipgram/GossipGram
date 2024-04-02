@@ -149,7 +149,7 @@ exports.addRecentSearch = async (req, res) => {
     const userId = req.body.userId;
     const user = await User.findById(req.user.id);
     console.log("userId", userId);
-    console.log("user", user);
+    console.log("user", user.id);
 
     if (!userId) {
       return res
@@ -183,7 +183,7 @@ exports.removeRecentSearch = async (req, res) => {
     const userId = req.body.userId;
     const user = await User.findById(req.user.id);
 
-    if (!user) {
+    if (!userId) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
