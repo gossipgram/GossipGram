@@ -45,10 +45,10 @@ const userSchema = new mongoose.Schema(
 			required: true,
 		},
 		recentSearches: {
-            // type: [{
+            type: [{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User'
-            // }],
+            }],
         // unique: true // Ensure only unique elements in the recentSearches array
         },
         // bio: {                        //already added to AdditionalDetails

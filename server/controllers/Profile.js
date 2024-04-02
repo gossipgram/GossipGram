@@ -80,10 +80,9 @@ exports.deleteAccount = async (req, res) => {
 //show user details
 exports.getAllUserData = async (req, res) => {
   try {
-    //get id
     const id = req.user.id;
 
-    //validatio and ge user details
+    // Validation and get user details
     const userDetails = await User.findById(id)
       .select("-password")
       .populate("additionalDetails")
@@ -91,10 +90,17 @@ exports.getAllUserData = async (req, res) => {
         path: "posts",
         model: "Post",
       })
-      .populate("recentSearches")
+      .populate({
+        path: "recentSearches",
+        model: "User",
+        populate: {
+          path: "posts",
+          model: "Post",
+        },
+      })
       .exec();
 
-    //return res
+    // Return response
     return res.status(200).json({
       success: true,
       message: "User data fetched successfully",
@@ -142,6 +148,8 @@ exports.addRecentSearch = async (req, res) => {
   try {
     const userId = req.body.userId;
     const user = await User.findById(req.user.id);
+    console.log("userId", userId);
+    console.log("user", user);
 
     if (!user) {
       return res
@@ -150,14 +158,14 @@ exports.addRecentSearch = async (req, res) => {
     }
 
     // Check if the userId is already in recentSearches
-    if (!user.recentSearches.includes(userId)) {
-      user.recentSearches.push(userId);
-      await user.save();
+    if (!user.recentSearches?.includes(userId)) {
+      user.recentSearches?.push(userId);
+      await user?.save();
     }
 
     return res
       .status(200)
-      .json({ success: true, message: "User added to recent searches" });
+      .json({ success: true, message: "User added to recent searches", user });
   } catch (error) {
     console.error(error);
     return res
@@ -186,7 +194,11 @@ exports.removeRecentSearch = async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: "User removed from recent searches" });
+      .json({
+        success: true,
+        message: "User removed from recent searches",
+        user,
+      });
   } catch (error) {
     console.error(error);
     return res

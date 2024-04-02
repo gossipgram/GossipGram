@@ -256,7 +256,7 @@ exports.deletePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
 
-    const deletedPost = await Post.findByIdAndDelete(postId);
+    const deletedPost = await Post?.findByIdAndDelete(postId);
 
     if (!deletedPost) {
       return res.status(404).json({
@@ -266,7 +266,7 @@ exports.deletePostById = async (req, res) => {
     }
 
     // Remove post ID from user's posts array
-    await User.findByIdAndUpdate(deletedPost.user, {
+    await User.findByIdAndUpdate(deletedPost?.user, {
       $pull: { posts: postId },
     });
 
