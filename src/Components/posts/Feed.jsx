@@ -8,6 +8,7 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [refetchPost, setRefetchPost] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const Feed = () => {
     if (token) {
       fetchPosts();
     }
-  }, [token]);
+  }, [token, refetchPost]);
 
   return (
     <div className="flex flex-col w-full m-3">
