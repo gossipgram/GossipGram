@@ -1,7 +1,7 @@
 import React from "react";
-import UserProfile from "../Components/Profile/UserProfile";
 import { getAllUserData } from "../services/operations/profileAPI";
 import { useState, useEffect } from "react";
+import MyProfile from "../Components/Profile/MyProfile";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -21,16 +21,12 @@ const Profile = () => {
       fetchUserData();
     }
   }, [token]);
+  console.log("userData",userData)
   const userId = userData?._id;
 
   return (
     <div>
-      {/* <UserProfile
-      // userData={userData}
-      // userId={userId}
-      // matchingUsers={matchingUsers}
-      // handleSearchItemClick={handleSearchItemClick}
-      /> */}
+      <MyProfile />
     </div>
   );
 };
