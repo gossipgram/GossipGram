@@ -71,10 +71,11 @@ const SearchPage = () => {
     }, [searchUser, allUsers ]);
 
     const handleSearchItemClick = async (userId) => {
+        console.log("userId",userId);
         console.log("||||||||||||||||||",userId);
         setUserId(userId);
         setRecentMatchingUser(userId);
-        setSearchUser(userId?.username)
+        // setSearchUser(userId?.username)
         handleShowUserProfile();
 
         try {
