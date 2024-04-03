@@ -3,9 +3,7 @@ import PostModal from "./PostModal";
 
 const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   const [allUserPost, setAllUserPost] = useState([]);
-  const searchedUser = matchingUsers.find(
-    (user) => user._id === searchedUserId
-  );
+  const searchedUser = userId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postDetails, setPostDetails] = useState(null); // Changed to null to prevent errors
   const [hoveredPost, setHoveredPost] = useState(null); // Keep track of hovered post
@@ -16,9 +14,9 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   };
 
   useEffect(() => {
-    if (searchedUser) {
+    if (searchedUser && searchedUser.posts) {
       // Filter out posts where mediaUrl includes "video" or "image"
-      const filteredPosts = searchedUser?.posts.filter(
+      const filteredPosts = searchedUser.posts.filter(
         (post) =>
           post.mediaUrl.includes("video") || post.mediaUrl.includes("image")
       );

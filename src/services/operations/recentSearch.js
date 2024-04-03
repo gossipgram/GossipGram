@@ -30,7 +30,7 @@ export const addSearches = async (userId, token) => {
   return result;
 };
 
-export const removeSearches = async (userId, token) => {
+export const removeSearches = async (recentSearchId, token) => {
   let result = [];
   const toastId = toast.loading("Loading...");
   try {
@@ -38,7 +38,7 @@ export const removeSearches = async (userId, token) => {
       "DELETE",
       REMOVE_RECENT_SEARCHES_API,
       {
-        userId,
+        recentSearchId,
       },
       {
         Authorization: `Bearer ${token}`,

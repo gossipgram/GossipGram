@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PostCard from '../posts/PostCard';
 
-const PostRow = ({ matchingUsers, userId, searchedUserId , userData}) => {
-  
+const PostRow = ({ matchingUsers, userId, searchedUserId , userData , searchedUser}) => {
+
     const [textPosts, setTextPosts] = useState([]);
 
     useEffect(() => {
-        const searchedUser = matchingUsers.find(user => user._id === searchedUserId);
-        if (searchedUser) {
+        // const searchedUser = matchingUsers.find(user => user._id === searchedUserId);
+        if (searchedUser && searchedUser.posts) {
             // Filter out posts with text content
             const filteredPosts = searchedUser.posts.filter(post => post.textContent);
             setTextPosts(filteredPosts.reverse()); // Reverse the order of posts

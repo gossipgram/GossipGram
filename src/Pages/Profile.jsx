@@ -2,10 +2,12 @@ import React from "react";
 import { getAllUserData } from "../services/operations/profileAPI";
 import { useState, useEffect } from "react";
 import MyProfile from "../Components/Profile/MyProfile";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token").split('"')[1];
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,9 +26,13 @@ const Profile = () => {
   console.log("userData",userData)
   const userId = userData?._id;
 
+  const handleEditProfile = () => {
+    navigate("/edit");
+  }
+
   return (
-    <div>
-      <MyProfile />
+    <div className="flex mx-auto mt-5">
+      <MyProfile userData={userData} handleEditProfile={handleEditProfile}/>
     </div>
   );
 };

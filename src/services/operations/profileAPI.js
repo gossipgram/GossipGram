@@ -6,8 +6,10 @@ const {
   UPDATE_PROFILE_API,
   DELETE_ACCOUNT_API,
   GET_ALL_USER_DATA_API,
+  GET_ALL_USER_DATA_BY_ID_API,
   UPDATE_DISPLAY_PICTURE_API,
 } = profileEndpoints;
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const updatedProfile = async (data, token) => {
   let result = null;
@@ -67,25 +69,49 @@ export const getAllUserData = async (token) => {
   return result;
 };
 
-export const updateDp = async (data, token) => {
-  const toastId = toast.loading("Loading...");
+export const getAllUserDataById = async (userId, token) => {
+  //check again
   let result = null;
   try {
     const response = await apiConnector(
-      "POST",
-      UPDATE_DISPLAY_PICTURE_API,
-      {
-        data,
-      },
+      "GET",
+      BASE_URL + `profile/user/${userId}`,
+      null,
       {
         Authorization: `Bearer ${token}`,
       }
     );
+    if (!response?.data?.success) {
+      throw new Error("Could Not GET all data for user");
+    }
+    result = response?.data;
+  } catch (error) {
+    console.log("GET_ALL_USER_DATA_API API ERROR............", error);
+  }
+  return result;
+};
+
+export const updateDp = async (token, formData) => {
+  const toastId = toast.loading("Loading...");
+  let result = null;
+  console.log("after declaration");
+  try {
+    console.log("before function");
+    const response = await apiConnector(
+      "POST",
+      UPDATE_DISPLAY_PICTURE_API,
+      formData,
+      {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    console.log("before function");
     console.log("UPDATE_DISPLAY_PICTURE_API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error);

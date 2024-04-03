@@ -7,8 +7,6 @@ exports.addRecentSearch = async (req, res) => {
     const userId = req.body.userId;
     const user = await User.findById(req.user.id);
     const isUserValid = await User.findById(req.body.userId);
-    console.log("userId", userId);
-    console.log("user", user.id);
 
     if (!isUserValid) {
       return res
@@ -16,16 +14,6 @@ exports.addRecentSearch = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    // Check if the userId is already in recentSearches
-    user?.recentSearches.forEach((search) => {
-      // const searchedData = await RecentSearch.findById(search);
-
-      if (search?.searchedUser === userId) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Already searched" });
-      }
-    });
     const newSearch = new RecentSearch({
       user: user,
       searchedUser: userId,
@@ -51,19 +39,18 @@ exports.addRecentSearch = async (req, res) => {
 // Controller to remove userId from recentSearches array
 exports.removeRecentSearch = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const recentSearchId = req.body.recentSearchId;
     const user = await User.findById(req.user.id);
 
-    if (!userId) {
+    if (!recentSearchId) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
 
-    const deletedSearch = await RecentSearch.findByIdAndDelete(userId);
+    const deletedSearch = await RecentSearch.findByIdAndDelete(recentSearchId);
 
     if (!deletedSearch) {
-      console.log(userId);
       return res.status(404).json({
         success: false,
         message: "Seach not found",
