@@ -17,6 +17,7 @@ import MessageBox from "./Components/Chat/MessageBox";
 import SearchPage from "./Pages/SearchPage";
 import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
+import EditProfile from "./Pages/EditProfile";
 
 function App() {
   return (
@@ -97,6 +98,15 @@ function App() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/edit"
+          element={
+            <PrivateRoute>
+              <EditProfile />
             </PrivateRoute>
           }
         ></Route>

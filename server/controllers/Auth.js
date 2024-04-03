@@ -314,7 +314,10 @@ exports.getAllUsers = async (req, res) => {
       })
       .populate({
         path: "recentSearches",
-        model: "RecentSearch",
+        populate: {
+          path: "searchedUser",
+          select: "username image firstName lastName _id",
+        },
       })
       .exec();
     return res.status(200).json({

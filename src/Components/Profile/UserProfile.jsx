@@ -17,15 +17,7 @@ import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
-const UserProfile = ({
-  userId,
-  handleSearchItemClick,
-  matchingUsers,
-  userData,
-}) => {
-  console.log("userId",userId)
-  console.log("matchingUsers",matchingUsers);
-  console.log("userData",userData)
+const UserProfile = ({ userId, matchingUsers, userData }) => {
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userId?._id;
   const navigate = useNavigate();
@@ -41,8 +33,16 @@ const UserProfile = ({
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
-
-  console.log("userId _______", userId);
+  // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
+  const [searchedUser, setSearchedUser] = useState([]);
+  useEffect(() => {
+    if (matchingUsers && matchingUsers.length > 0) {
+      const foundUser = matchingUsers.find(
+        (user) => user._id === searchedUserId
+      );
+      setSearchedUser(foundUser || null);
+    }
+  }, [matchingUsers, searchedUserId]);
 
   const steps = [
     {
@@ -99,13 +99,7 @@ const UserProfile = ({
   useEffect(() => {
     const checkFollowingStatus = async () => {
       try {
-        // console.log("User Details ID:", userData?.userDetails?._id);
-        // console.log("Followers:", followers);
-        // console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
-        // console.log("|||||||||||||||||||||||||||||||||||",userData)
-
         if (searchedUserId === userData?.userDetails?._id) {
-          console.log("if case k under");
           setItsUser(true);
         } else if (
           Array.isArray(followers) &&
@@ -113,8 +107,6 @@ const UserProfile = ({
             (follower) => follower?.follower?._id === userData?.userDetails?._id
           )
         ) {
-          // console.log("Setting isFollowing to true");
-          console.log("first else if k under");
           setIsFollowing(true);
           setItsUser(false);
         } else if (
@@ -123,13 +115,9 @@ const UserProfile = ({
             (follow) => follow?.following?._id === userData?.userDetails?._id
           )
         ) {
-          // console.log("Setting isFollowBack to true");
-          console.log("second else if k andr");
           setIsFollowBack(true);
           setItsUser(false);
         } else {
-          console.log("else case k ander");
-          // console.log("Setting both isFollowing and isFollowBack to false");
           setIsFollowing(false);
           setIsFollowBack(false);
           setItsUser(false);
@@ -140,9 +128,6 @@ const UserProfile = ({
     };
     checkFollowingStatus();
   }, [token, userId, searchedUserId, followers, following, userData]);
-
-  // console.log("FOFOFOFOFOFOFOFOFOFOFOFOOFOFOFO",isFollowing)
-  // console.log("FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF",isFollowBack);
 
   const handleFollowButtonClick = async () => {
     try {

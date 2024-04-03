@@ -8,8 +8,6 @@ const RecentSearched = ({
   matchingUsers,
   userData,
 }) => {
-  // console.log("matchingUsers={matchingUsers}",matchingUsers);
-  // console.log("++++++++++++++++++++++++++++",userData);
   const handleRemoveRecentSearch = (userId) => {
     removeRecentSearch(userId);
   };
@@ -18,34 +16,35 @@ const RecentSearched = ({
     <div className="mt-1 overflow-y-scroll scrolling">
       <h1 className="text-yellow-300 text-xl">Recent</h1>
       {userData?.userDetails?.recentSearches &&
-        userData?.userDetails?.recentSearches.map((user) => (
+        userData?.userDetails?.recentSearches.map((recentSearch) => (
           <div
-            key={user._id}
+            key={recentSearch._id}
             className="flex flex-row justify-between p-5 border-b m-2 border-yellow-500 bg-richblack-700 hover:bg-richblue-300 cursor-pointer transition-all duration-200 relative"
           >
             <div className="flex flex-row justify-between w-full items-center">
               <div
                 className="flex items-center w-11/12"
-                onClick={() => handleSearchItemClick(user)}
+                onClick={() => handleSearchItemClick(recentSearch)}
               >
                 <img
-                  src={user.image}
+                  src={recentSearch.searchedUser.image}
                   alt=""
                   className="w-10 h-10 rounded-full mr-4"
                 />
                 <div className="flex flex-col">
                   <h3 className="font-semibold text-richblack-5 text-lg">
-                    {user.username}
+                    {recentSearch.searchedUser.username}
                   </h3>
                   <p className="text-richblack-100 text-sm">
-                    {user.firstName} {user.lastName}
+                    {recentSearch.searchedUser.firstName}{" "}
+                    {recentSearch.searchedUser.lastName}
                   </p>
                 </div>
               </div>
             </div>
             <button
               className="text-white cursor-pointer w-1/12"
-              onClick={() => removeRecentSearch(user._id)}
+              onClick={() => removeRecentSearch(recentSearch._id)}
             >
               <RiCloseLine />
             </button>
