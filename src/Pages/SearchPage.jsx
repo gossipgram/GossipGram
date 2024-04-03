@@ -64,7 +64,7 @@ const SearchPage = () => {
     if (token) {
       fetchUserData();
     }
-  }, [userId, token, recentSearches]);
+  }, [userId, token]);
 
   const changeHandler = (event) => {
     setSearchUser(event.target.value);
