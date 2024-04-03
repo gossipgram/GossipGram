@@ -14,9 +14,9 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   };
 
   useEffect(() => {
-    if (searchedUser) {
+    if (searchedUser && searchedUser.posts) {
       // Filter out posts where mediaUrl includes "video" or "image"
-      const filteredPosts = searchedUser?.posts.filter(
+      const filteredPosts = searchedUser.posts.filter(
         (post) =>
           post.mediaUrl.includes("video") || post.mediaUrl.includes("image")
       );

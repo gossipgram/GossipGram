@@ -33,6 +33,16 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
+  // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
+  const [searchedUser, setSearchedUser] = useState([]);
+  useEffect(() => {
+    if (matchingUsers && matchingUsers.length > 0) {
+      const foundUser = matchingUsers.find(
+        (user) => user._id === searchedUserId
+      );
+      setSearchedUser(foundUser || null);
+    }
+  }, [matchingUsers, searchedUserId]);
 
   const steps = [
     {
