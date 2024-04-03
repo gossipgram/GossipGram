@@ -3,7 +3,10 @@ import SearchedItem from "../Components/Search/SearchedItem";
 import UserProfile from "../Components/Profile/UserProfile";
 import { getAllUsers } from "../services/operations/authAPI";
 import RecentSearched from "../Components/Search/RecentSearched";
-import { getAllUserData } from "../services/operations/profileAPI";
+import {
+  getAllUserData,
+  getAllUserDataById,
+} from "../services/operations/profileAPI";
 import {
   addSearches,
   removeSearches,
@@ -21,6 +24,7 @@ const SearchPage = () => {
   const [recentSearches, setRecentSearches] = useState([]);
   const [recentMatchingUser, setRecentMatchingUser] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [searchedUserData, setSearchedUserData] = useState(null);
 
   const handleShowUserProfile = () => {
     setShowUserProfile(true);
@@ -72,7 +76,6 @@ const SearchPage = () => {
   const changeHandler = (event) => {
     setSearchUser(event.target.value);
   };
-  // console.log("recentMatchingUser",recentMatchingUser)
   useEffect(() => {
     if (searchUser) {
       const filteredUsers = allUsers.filter((user) =>
@@ -85,16 +88,42 @@ const SearchPage = () => {
   }, [searchUser, allUsers]);
 
   const handleSearchItemClick = async (userId) => {
-    console.log("userId", userId);
-    console.log("||||||||||||||||||", userId);
-    setUserId(userId);
+    setSearchedUserData(userId);
     setRecentMatchingUser(userId);
-    // setSearchUser(userId?.username)
     handleShowUserProfile();
+    let alreadySearched;
+
+    userData?.userDetails?.recentSearches.forEach((searchUser) => {
+      if (searchUser.searchedUser._id === userId._id) {
+        alreadySearched = true;
+        console.log(alreadySearched);
+      }
+    });
+    console.log(userId);
+
+    if (!alreadySearched) {
+      addSearchedUser(userId);
+    }
+  };
+
+  const handleRecentSearchItemClick = async (userId) => {
+    const recentSearchUserId = userId.searchedUser._id;
 
     try {
+      const response = await getAllUserDataById(recentSearchUserId, token);
+      setSearchedUserData(response?.userDetails);
+      // setRecentSearches(response?.userDetails?.recentSearches);
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+    }
+
+    handleShowUserProfile();
+  };
+
+  const addSearchedUser = async (userId) => {
+    try {
       const res = await addSearches(userId?._id, token);
-      console.log("res", res);
+      setRecentSearches(userData?.userDetails?.recentSearches);
     } catch (error) {
       console.error("Error adding in recent search data:", error.message);
     }
@@ -137,7 +166,7 @@ const SearchPage = () => {
           <RecentSearched
             matchingUsers={matchingUsers}
             userData={userData}
-            handleSearchItemClick={handleSearchItemClick}
+            handleSearchItemClick={handleRecentSearchItemClick}
             removeRecentSearch={handleRemoveRecentSearch}
           />
         )}
@@ -147,9 +176,8 @@ const SearchPage = () => {
         {showUserProfile && (
           <UserProfile
             userData={userData}
-            userId={userId}
+            userId={searchedUserData}
             matchingUsers={matchingUsers}
-            handleSearchItemClick={handleSearchItemClick}
           />
         )}
       </div>

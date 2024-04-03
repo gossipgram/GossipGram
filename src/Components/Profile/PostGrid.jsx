@@ -3,9 +3,7 @@ import PostModal from "./PostModal";
 
 const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   const [allUserPost, setAllUserPost] = useState([]);
-  const searchedUser = matchingUsers.find(
-    (user) => user._id === searchedUserId
-  );
+  const searchedUser = userId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postDetails, setPostDetails] = useState(null); // Changed to null to prevent errors
   const [hoveredPost, setHoveredPost] = useState(null); // Keep track of hovered post

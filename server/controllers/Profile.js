@@ -92,7 +92,10 @@ exports.getAllUserData = async (req, res) => {
       })
       .populate({
         path: "recentSearches",
-        model: "RecentSearch",
+        populate: {
+          path: "searchedUser",
+          select: "username image firstName lastName _id",
+        },
       })
       .exec();
 
@@ -100,6 +103,41 @@ exports.getAllUserData = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "User data fetched successfully",
+      userDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+exports.getAllUserDataById = async (req, res) => {
+  try {
+    const id = req.params.userId;
+
+    // Validation and get user details
+    const userDetails = await User.findById(id)
+      .select("-password")
+      .populate("additionalDetails")
+      .populate({
+        path: "posts",
+        model: "Post",
+      })
+      .populate({
+        path: "recentSearches",
+        populate: {
+          path: "searchedUser",
+          select: "username image firstName lastName _id",
+        },
+      })
+      .exec();
+
+    // Return response
+    return res.status(200).json({
+      success: true,
+      message: "Selected user data fetched successfully",
       userDetails,
     });
   } catch (error) {
