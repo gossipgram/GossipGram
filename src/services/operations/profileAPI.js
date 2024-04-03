@@ -69,25 +69,27 @@ export const getAllUserData = async (token) => {
   return result;
 };
 
-export const updateDp = async (data, token) => {
+export const updateDp = async ( token , formData) => {
   const toastId = toast.loading("Loading...");
   let result = null;
+  console.log("after declaration")
   try {
+    console.log("before function")
     const response = await apiConnector(
       "POST",
       UPDATE_DISPLAY_PICTURE_API,
+        formData,
       {
-        data,
-      },
-      {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       }
     );
+    console.log("before function")
     console.log("UPDATE_DISPLAY_PICTURE_API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error);

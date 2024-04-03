@@ -8,8 +8,6 @@ const RecentSearched = ({
   matchingUsers,
   userData,
 }) => {
-  // console.log("matchingUsers={matchingUsers}",matchingUsers);
-  // console.log("++++++++++++++++++++++++++++",userData);
   const handleRemoveRecentSearch = (userId) => {
     removeRecentSearch(userId);
   };

@@ -59,7 +59,10 @@ const SearchPage = () => {
       try {
         const response = await getAllUserData(token);
         setUserData(response);
-        // setRecentSearches(response?.userDetails?.recentSearches);
+        // Check if userData and userData.userDetails are defined before accessing recentSearches
+        if (response && response.userDetails && response.userDetails.recentSearches) {
+          setRecentSearches(response.userDetails.recentSearches);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
@@ -68,6 +71,7 @@ const SearchPage = () => {
       fetchUserData();
     }
   }, [userId, token, recentSearches]);
+
 
   const changeHandler = (event) => {
     setSearchUser(event.target.value);
@@ -85,8 +89,6 @@ const SearchPage = () => {
   }, [searchUser, allUsers]);
 
   const handleSearchItemClick = async (userId) => {
-    console.log("userId", userId);
-    console.log("||||||||||||||||||", userId);
     setUserId(userId);
     setRecentMatchingUser(userId);
     // setSearchUser(userId?.username)
@@ -133,7 +135,7 @@ const SearchPage = () => {
             matchingUsers={matchingUsers}
             handleSearchItemClick={handleSearchItemClick}
           />
-        ) : userData?.userDetails?.recentSearches.length === 0 ? null : (
+        ) : userData?.userDetails?.recentSearches?.length === 0 ? null : (
           <RecentSearched
             matchingUsers={matchingUsers}
             userData={userData}

@@ -41,8 +41,15 @@ const UserProfile = ({
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
+  // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
+  const [searchedUser, setSearchedUser] = useState([])
+  useEffect(() => {
+    if (matchingUsers && matchingUsers.length > 0) {
+      const foundUser = matchingUsers.find(user => user._id === searchedUserId);
+      setSearchedUser(foundUser || null);
+    }
+  }, [matchingUsers, searchedUserId]);
 
-  console.log("userId _______", userId);
 
   const steps = [
     {
@@ -99,10 +106,6 @@ const UserProfile = ({
   useEffect(() => {
     const checkFollowingStatus = async () => {
       try {
-        // console.log("User Details ID:", userData?.userDetails?._id);
-        // console.log("Followers:", followers);
-        // console.log(":::::::::::::::::::::::::::::::::::",searchedUserId);
-        // console.log("|||||||||||||||||||||||||||||||||||",userData)
 
         if (searchedUserId === userData?.userDetails?._id) {
           console.log("if case k under");
@@ -141,8 +144,6 @@ const UserProfile = ({
     checkFollowingStatus();
   }, [token, userId, searchedUserId, followers, following, userData]);
 
-  // console.log("FOFOFOFOFOFOFOFOFOFOFOFOOFOFOFO",isFollowing)
-  // console.log("FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF",isFollowBack);
 
   const handleFollowButtonClick = async () => {
     try {
@@ -304,6 +305,7 @@ const UserProfile = ({
             userId={userId}
             searchedUserId={searchedUserId}
             matchingUsers={matchingUsers}
+            searchedUser={searchedUser}
           />
         ) : postSection === "Gossip" ? (
           <PostRow

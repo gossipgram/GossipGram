@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PostModal from "./PostModal";
 
-const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
+const PostGrid = ({ userId, searchedUserId, matchingUsers, searchedUser }) => {
+
   const [allUserPost, setAllUserPost] = useState([]);
-  const searchedUser = matchingUsers.find(
-    (user) => user._id === searchedUserId
-  );
+  // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postDetails, setPostDetails] = useState(null); // Changed to null to prevent errors
   const [hoveredPost, setHoveredPost] = useState(null); // Keep track of hovered post
@@ -16,15 +15,16 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   };
 
   useEffect(() => {
-    if (searchedUser) {
-      // Filter out posts where mediaUrl includes "video" or "image"
-      const filteredPosts = searchedUser?.posts.filter(
-        (post) =>
-          post.mediaUrl.includes("video") || post.mediaUrl.includes("image")
-      );
-      setAllUserPost(filteredPosts.reverse()); // Reverse the order of posts
-    }
-  }, [searchedUser, userId, matchingUsers]);
+  if (searchedUser && searchedUser.posts) {
+    // Filter out posts where mediaUrl includes "video" or "image"
+    const filteredPosts = searchedUser.posts.filter(
+      (post) =>
+        post.mediaUrl.includes("video") || post.mediaUrl.includes("image")
+    );
+    setAllUserPost(filteredPosts.reverse()); // Reverse the order of posts
+  }
+}, [searchedUser, userId, matchingUsers]);
+
 
   // Function to play/pause the video on hover
   const handleVideoHover = (post) => {

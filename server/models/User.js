@@ -48,7 +48,6 @@ const userSchema = new mongoose.Schema(
       {
         type: String,
         ref: "User",
-        unique: true,
       },
     ],
 
