@@ -8,11 +8,9 @@ import {
   addSearches,
   removeSearches,
 } from "../services/operations/recentSearch";
-import { Navigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const SearchPage = () => {
   const token = localStorage.getItem("token").split('"')[1];
-  const MAX_RECENT_SEARCHES = 10;
   const [allUsers, setAllUsers] = useState([]);
   const [matchingUsers, setMatchingUsers] = useState([]);
   const [showUserProfile, setShowUserProfile] = useState(false);
