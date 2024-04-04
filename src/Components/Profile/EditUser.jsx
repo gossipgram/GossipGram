@@ -11,7 +11,7 @@ const EditUser = ({userData}) => {
   const navigate = useNavigate()
   const token = localStorage.getItem("token").split('"')[1];
   const [bioText, setBioText] = useState(userDetails?.additionalDetails?.bio);
-  const [wordCount, setWordCount] = useState(userDetails?.additionalDetails?.bio.length);
+  // const [wordCount, setWordCount] = useState(userDetails?.additionalDetails?.bio.length);
   const [initial, setInitial] = useState("")
 
   const {
@@ -63,7 +63,7 @@ const EditUser = ({userData}) => {
                   Please enter your bio.
                 </span>
               )}
-              <span className="text-xs text-right text-richblack-5">{wordCount}/100 characters</span>
+              {/* <span className="text-xs text-right text-richblack-5">{wordCount}/100 characters</span> */}
             </div>
 
           {/* DOB and Gender */}
