@@ -21,37 +21,34 @@ const Sidebar = () => {
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [activeIcon, setActiveIcon] = useState(currPath.replace("/", ""));
 
-  const [userData, setUserData] = useState([])
-    const token = localStorage.getItem("token").split('"')[1];
+  const [userData, setUserData] = useState([]);
+  const token = localStorage.getItem("token").split('"')[1];
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await getAllUserData(token);
+        setUserData(response);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
+    if (token) {
+      fetchUserData();
+    }
+  }, [token]);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-        try {
-            const response = await getAllUserData(token);
-            setUserData(response);
-        } catch (error) {
-            console.error("Error fetching user data:", error.message);
-        }
-        };
-        if (token) {
-        fetchUserData();
-        }
-    }, [ token ]);
-
-  const handleIconClick = (iconName) => {
-    setActiveIcon(iconName);
-  };
+  useEffect(() => {
+    const iconset = currPath.split("/")[1];
+    setActiveIcon(iconset);
+  }, [currPath]);
 
   return (
     <div className="sticky top-0">
       {currPath === "/home" ? (
         <div className="flex w-[350px] transition-all duration-500 ease-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
-            <div
-              className="flex items-center justify-center cursor-pointer "
-              onClick={() => handleIconClick("home")}
-            >
+            <div className="flex items-center justify-center cursor-pointer ">
               <img
                 src={Logo}
                 width={200}
@@ -69,7 +66,6 @@ const Sidebar = () => {
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "home" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("home")}
             >
               <GoHomeFill fontSize={25} className="" />
               <p className="text-xl ">Home</p>
@@ -82,7 +78,6 @@ const Sidebar = () => {
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "search" ? "text-yellow-400 " : "text-white"
               }`}
-              onClick={() => handleIconClick("search")}
             >
               <GoSearch fontSize={25} className="" />
               <p className="text-xl ">Search</p>
@@ -96,7 +91,6 @@ const Sidebar = () => {
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "create" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("create")}
             >
               <CiCirclePlus fontSize={25} className="" />
               <p className="text-xl ">Create</p>
@@ -109,7 +103,6 @@ const Sidebar = () => {
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "chat" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("chat")}
             >
               <TbMessage fontSize={25} className="" />
               <p className="text-xl">Messages</p>
@@ -120,12 +113,15 @@ const Sidebar = () => {
 
           <Link to="/profile">
             <div
-              className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+              className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("profile")}
             >
-              <img src={userData?.userDetails?.image} fontSize={25} className="w-10 h-10 rounded-full" />
+              <img
+                src={userData?.userDetails?.image}
+                fontSize={25}
+                className="w-8 h-8 rounded-full"
+              />
               <p className="text-xl ">Profile</p>
             </div>
           </Link>
@@ -159,10 +155,7 @@ const Sidebar = () => {
       ) : (
         <div className="flex gap-10 transition-all ease-out duration-500 relative flex-col w-32 h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
-            <div
-              className="flex items-center justify-center cursor-pointer"
-              onClick={() => handleIconClick("home")}
-            >
+            <div className="flex items-center justify-center cursor-pointer">
               <img
                 src={Logo}
                 width={200}
@@ -179,7 +172,6 @@ const Sidebar = () => {
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer  ${
                 activeIcon === "home" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("home")}
             >
               <GoHomeFill fontSize={35} className="" />
             </div>
@@ -190,7 +182,6 @@ const Sidebar = () => {
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "search" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("search")}
             >
               <GoSearch fontSize={35} className=" " />
             </div>
@@ -201,7 +192,6 @@ const Sidebar = () => {
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "create" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("create")}
             >
               <CiCirclePlus fontSize={35} className="" />
             </div>
@@ -212,7 +202,6 @@ const Sidebar = () => {
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "chat" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("chat")}
             >
               <TbMessage fontSize={35} className="" />
             </div>
@@ -220,12 +209,15 @@ const Sidebar = () => {
 
           <Link to="/profile">
             <div
-              className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
+              className={`flex w-[80%] justify-center items-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
-              onClick={() => handleIconClick("profile")}
             >
-              <img src={userData?.userDetails?.image} fontSize={25} className="w-10 h-10 rounded-full" />
+              <img
+                src={userData?.userDetails?.image}
+                fontSize={25}
+                className="w-10 h-10 rounded-full"
+              />
             </div>
           </Link>
 

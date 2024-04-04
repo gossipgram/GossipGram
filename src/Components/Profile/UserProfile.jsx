@@ -161,6 +161,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
       toast.error("Failed to access chat. Please try again.");
     }
   };
+  console.log("search", searchedUserId);
 
   return (
     <div className="flex flex-col mx-auto gap-2">
@@ -295,9 +296,8 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
         ) : postSection === "Gossip" ? (
           <PostRow
             userData={userData}
-            userId={userId}
+            searchedUser={userId}
             searchedUserId={searchedUserId}
-            matchingUsers={matchingUsers}
           />
         ) : postSection === "Tagged" ? (
           <TaggedPost />

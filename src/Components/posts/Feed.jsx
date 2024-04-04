@@ -50,13 +50,13 @@ const Feed = () => {
   }, [token, refetchPost]);
 
   return (
-    <div className="flex flex-col w-full m-3">
+    <div className="flex flex-col w-full m-3 ">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner "></div>
         </div>
       ) : allPosts.length === 0 ? (
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex h-screen items-center justify-center ">
           <p className="font-bold text-2xl text-white">No Posts Found !</p>
         </div>
       ) : (
