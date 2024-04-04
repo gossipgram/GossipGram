@@ -2,6 +2,16 @@ import React from "react";
 import { RiCloseLine } from "react-icons/ri";
 
 const SearchedItem = ({ matchingUsers, handleSearchItemClick }) => {
+  const clickHandler = (user) => {
+    const data = {
+      firstName: user.firstName,
+      image: user.image,
+      lastName: user.lastName,
+      username: user.username,
+      _id: user._id,
+    };
+    handleSearchItemClick(user, data);
+  };
   return (
     <div className="mt-1">
       {matchingUsers &&
@@ -9,7 +19,7 @@ const SearchedItem = ({ matchingUsers, handleSearchItemClick }) => {
           <div
             key={user._id}
             className="flex flex-col p-5 border-b m-2 border-yellow-500 bg-richblack-700 hover:bg-richblue-300 cursor-pointer transition-all duration-200 relative"
-            onClick={() => handleSearchItemClick(user)}
+            onClick={() => clickHandler(user)}
           >
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center">

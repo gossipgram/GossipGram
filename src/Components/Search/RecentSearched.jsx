@@ -5,7 +5,7 @@ const RecentSearched = ({
   recentSearches,
   handleSearchItemClick,
   removeRecentSearch,
-  matchingUsers,
+
   userData,
 }) => {
   const handleRemoveRecentSearch = (userId) => {
@@ -15,8 +15,8 @@ const RecentSearched = ({
   return (
     <div className="mt-1 overflow-y-scroll scrolling">
       <h1 className="text-yellow-300 text-xl">Recent</h1>
-      {userData?.userDetails?.recentSearches &&
-        userData?.userDetails?.recentSearches.map((recentSearch) => (
+      {userData &&
+        userData.map((recentSearch) => (
           <div
             key={recentSearch._id}
             className="flex flex-row justify-between p-5 border-b m-2 border-yellow-500 bg-richblack-700 hover:bg-richblue-300 cursor-pointer transition-all duration-200 relative"
@@ -27,17 +27,16 @@ const RecentSearched = ({
                 onClick={() => handleSearchItemClick(recentSearch)}
               >
                 <img
-                  src={recentSearch.searchedUser.image}
+                  src={recentSearch.image}
                   alt=""
                   className="w-10 h-10 rounded-full mr-4"
                 />
                 <div className="flex flex-col">
                   <h3 className="font-semibold text-richblack-5 text-lg">
-                    {recentSearch.searchedUser.username}
+                    {recentSearch.username}
                   </h3>
                   <p className="text-richblack-100 text-sm">
-                    {recentSearch.searchedUser.firstName}{" "}
-                    {recentSearch.searchedUser.lastName}
+                    {recentSearch.firstName} {recentSearch.lastName}
                   </p>
                 </div>
               </div>

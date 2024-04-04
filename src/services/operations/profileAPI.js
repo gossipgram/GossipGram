@@ -63,6 +63,7 @@ export const getAllUserData = async (token) => {
       throw new Error("Could Not GET all data for user");
     }
     result = response?.data;
+    console.log("GET_ALL_USER_DATA_API_RESPONSE ", result);
   } catch (error) {
     console.log("GET_ALL_USER_DATA_API API ERROR............", error);
   }
@@ -85,6 +86,7 @@ export const getAllUserDataById = async (userId, token) => {
       throw new Error("Could Not GET all data for user");
     }
     result = response?.data;
+    console.log("GET_ALL_USER_DATA_BY_ID_API_RESPONSE ", result);
   } catch (error) {
     console.log("GET_ALL_USER_DATA_API API ERROR............", error);
   }

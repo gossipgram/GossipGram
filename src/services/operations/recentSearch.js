@@ -30,15 +30,18 @@ export const addSearches = async (userId, token) => {
   return result;
 };
 
-export const removeSearches = async (recentSearchId, token) => {
+export const removeSearches = async (searchedUserId, userId, token) => {
   let result = [];
   const toastId = toast.loading("Loading...");
+  console.log(searchedUserId);
+  console.log("uerid", userId);
   try {
     const response = await apiConnector(
       "DELETE",
       REMOVE_RECENT_SEARCHES_API,
       {
-        recentSearchId,
+        searchedUserId,
+        userId,
       },
       {
         Authorization: `Bearer ${token}`,
@@ -49,7 +52,7 @@ export const removeSearches = async (recentSearchId, token) => {
     //   throw new Error("Could Not Delete ACCOUNT");
     // }
     toast.success("Search Deleted");
-    result = response?.data?.data;
+    result = response?.data.deletedSearch;
   } catch (error) {
     console.log("REMOVE_RECENT_SEARCHES_API ERROR............", error);
     toast.error(error.message);

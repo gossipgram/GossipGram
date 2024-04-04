@@ -18,11 +18,11 @@ const SearchPage = () => {
   const [matchingUsers, setMatchingUsers] = useState([]);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [searchUser, setSearchUser] = useState("");
-  const [userId, setUserId] = useState("");
-  const [recentSearches, setRecentSearches] = useState([]);
-  const [recentMatchingUser, setRecentMatchingUser] = useState([]);
+  // const [userId, setUserId] = useState("");
+  // const [recentSearches, setRecentSearches] = useState([]);
   const [userData, setUserData] = useState([]);
   const [searchedUserData, setSearchedUserData] = useState(null);
+  const [searchHistory, setSearchHistory] = useState([]);
 
   const handleShowUserProfile = () => {
     setShowUserProfile(true);
@@ -40,29 +40,39 @@ const SearchPage = () => {
     if (token) {
       fetchAllUsers();
     }
-  }, [token, userId]);
+  }, [token]);
 
   useEffect(() => {
+    let allSearchedUser = [];
     const fetchUserData = async () => {
       try {
         const response = await getAllUserData(token);
         setUserData(response);
+        // setSearchHistory(response?.userDetails?.recentSearches);
+
+        response?.userDetails?.recentSearches.forEach((search) => {
+          allSearchedUser.push(search?.searchedUser);
+        });
+
+        setSearchHistory(allSearchedUser);
+
         // Check if userData and userData.userDetails are defined before accessing recentSearches
-        if (
-          response &&
-          response.userDetails &&
-          response.userDetails.recentSearches
-        ) {
-          setRecentSearches(response.userDetails.recentSearches);
-        }
+        // if (
+        //   response &&
+        //   response.userDetails &&
+        //   response.userDetails.recentSearches
+        // ) {
+        //   setRecentSearches(response.userDetails.recentSearches);
+        // }
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
     };
     if (token) {
       fetchUserData();
+      // setSearchHistory(allSeachId);
     }
-  }, [userId, token]);
+  }, [token]);
 
   const changeHandler = (event) => {
     setSearchUser(event.target.value);
@@ -78,22 +88,20 @@ const SearchPage = () => {
     }
   }, [searchUser, allUsers]);
 
-  const handleSearchItemClick = async (userId) => {
-    setSearchedUserData(userId);
-    setRecentMatchingUser(userId);
+  const handleSearchItemClick = async (user, data) => {
+    setSearchedUserData(user);
     handleShowUserProfile();
-    let alreadySearched;
+    let alreadySearched = false;
 
-    userData?.userDetails?.recentSearches.forEach((searchUser) => {
-      if (searchUser.searchedUser._id === userId._id) {
+    searchHistory.forEach((search) => {
+      if (search._id === user._id) {
         alreadySearched = true;
-        console.log(alreadySearched);
       }
     });
-    console.log(userId);
 
     if (!alreadySearched) {
-      addSearchedUser(userId);
+      setSearchHistory((searchHistory) => [...searchHistory, data]);
+      addSearchedUser(user);
     }
   };
 
@@ -114,16 +122,23 @@ const SearchPage = () => {
   const addSearchedUser = async (userId) => {
     try {
       const res = await addSearches(userId?._id, token);
-      setRecentSearches(userData?.userDetails?.recentSearches);
+
+      // setRecentSearches(userData?.userDetails?.recentSearches);
     } catch (error) {
       console.error("Error adding in recent search data:", error.message);
     }
   };
 
-  const handleRemoveRecentSearch = async (userId) => {
+  const handleRemoveRecentSearch = async (user) => {
     try {
-      const res = await removeSearches(userId, token);
-      setRecentSearches(userData?.userDetails?.recentSearches);
+      setSearchHistory(
+        searchHistory.filter((search) => {
+          return search._id !== user;
+        })
+      );
+      const res = await removeSearches(user, userData?.userDetails?._id, token);
+
+      // setRecentSearches(userData?.userDetails?.recentSearches);
     } catch (error) {
       console.error("Error adding in recent search data:", error.message);
     }
@@ -153,10 +168,9 @@ const SearchPage = () => {
             matchingUsers={matchingUsers}
             handleSearchItemClick={handleSearchItemClick}
           />
-        ) : userData?.userDetails?.recentSearches?.length === 0 ? null : (
+        ) : searchHistory.length === 0 ? null : (
           <RecentSearched
-            matchingUsers={matchingUsers}
-            userData={userData}
+            userData={searchHistory}
             handleSearchItemClick={handleRecentSearchItemClick}
             removeRecentSearch={handleRemoveRecentSearch}
           />
