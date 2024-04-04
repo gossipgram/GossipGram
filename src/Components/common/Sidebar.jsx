@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoHomeFill, GoSearch } from "react-icons/go";
 import { TbMessage } from "react-icons/tb";
 import { IoMdNotifications } from "react-icons/io";
@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { logout } from "../../services/operations/authAPI";
+import { getAllUserData } from "../../services/operations/profileAPI";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -19,6 +20,25 @@ const Sidebar = () => {
   // to keep track of confirmation modal
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [activeIcon, setActiveIcon] = useState(currPath.replace("/", ""));
+
+  const [userData, setUserData] = useState([])
+    const token = localStorage.getItem("token").split('"')[1];
+
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+        try {
+            const response = await getAllUserData(token);
+            setUserData(response);
+        } catch (error) {
+            console.error("Error fetching user data:", error.message);
+        }
+        };
+        if (token) {
+        fetchUserData();
+        }
+    }, [ token ]);
+
   const handleIconClick = (iconName) => {
     setActiveIcon(iconName);
   };
@@ -105,7 +125,7 @@ const Sidebar = () => {
               }`}
               onClick={() => handleIconClick("profile")}
             >
-              <IoMdNotifications fontSize={25} className="" />
+              <img src={userData?.userDetails?.image} fontSize={25} className="w-10 h-10 rounded-full" />
               <p className="text-xl ">Profile</p>
             </div>
           </Link>
@@ -205,7 +225,7 @@ const Sidebar = () => {
               }`}
               onClick={() => handleIconClick("profile")}
             >
-              <IoMdNotifications fontSize={35} className="" />
+              <img src={userData?.userDetails?.image} fontSize={25} className="w-10 h-10 rounded-full" />
             </div>
           </Link>
 
