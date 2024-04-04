@@ -78,8 +78,6 @@ function App() {
             </PrivateRoute>
           }
         >
-          {/* <Route path="" element={<MyProfile />} /> */}
-          {/* <Route path="" element={<Settings />} /> */}
         </Route>
 
         <Route
@@ -106,7 +104,7 @@ function App() {
           path="/edit"
           element={
             <PrivateRoute>
-              <EditProfile />
+              <EditProfile className/>
             </PrivateRoute>
           }
         ></Route>
