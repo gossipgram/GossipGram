@@ -2,11 +2,12 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { updatedProfile } from "../../services/operations/profileAPI"
 
 const genders = ["Male", "Female", "others"]
 
 const EditUser = ({userData}) => {
-
+  const [loading, setLoading] = useState(false)
   const userDetails = userData?.userDetails;
   const navigate = useNavigate()
   const token = localStorage.getItem("token").split('"')[1];
@@ -26,11 +27,15 @@ const EditUser = ({userData}) => {
   };
 
 
-  const submitProfileForm= () => {
+  const submitProfileForm= async (data) => {
     try{
-
+      setLoading(true)
+      await updatedProfile(data , token).then(() => {
+      setLoading(false)
+      navigate("/profile");
+      })
     }catch(error){
-
+    console.log("ERROR MESSAGE submitProfileForm - ", error.message)
     }
   }
 

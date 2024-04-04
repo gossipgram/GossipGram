@@ -3,6 +3,7 @@ import { accessChat } from "../../services/operations/chatAPI";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { getAllUserData } from "../../services/operations/profileAPI";
+import { FaRegEdit } from "react-icons/fa";
 import {
   followUser,
   getFollowersForUser,
@@ -239,13 +240,14 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
 
       <div className="flex flex-row w-full items-center justify-center gap-2">
         <button
-          className={`w-1/2 bg-${
+          className={`w-1/2 flex flex-row items-center justify-center gap-3 bg-${
             isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
           }-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${
             isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
           }-200`}
           onClick={handleFollowButtonClick}
         >
+          {/* {itsUser && <FaRegEdit />} */}
           {itsUser
             ? "Edit profile"
             : isFollowing

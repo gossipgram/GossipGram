@@ -6,6 +6,15 @@ const FollowerModal = ({ followerDetails, userData, followers, changeIsFollowerM
     // console.log("followerDetails   followerDetails", followerDetails);
     // console.log("userData    userData", userData);
     // console.log("followers followers followers", followers);
+    const userId = userData?.userDetails?._id
+    console.log("Id",userId)
+    console.log("followers",followers)
+    console.log("itsUser",itsUser)
+    console.log("userData",userData)
+    console.log("followerDetails",followerDetails)
+    // console.log("",)
+    // console.log("",)
+    // console.log("",)
     const token = localStorage.getItem("token").split('"')[1];
 
 
