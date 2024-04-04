@@ -106,7 +106,7 @@ const SearchPage = () => {
   };
 
   const handleRecentSearchItemClick = async (userId) => {
-    const recentSearchUserId = userId.searchedUser._id;
+    const recentSearchUserId = userId._id;
 
     try {
       const response = await getAllUserDataById(recentSearchUserId, token);
