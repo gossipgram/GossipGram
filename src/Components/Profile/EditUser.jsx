@@ -10,8 +10,9 @@ const EditUser = ({userData}) => {
   const userDetails = userData?.userDetails;
   const navigate = useNavigate()
   const token = localStorage.getItem("token").split('"')[1];
-  const [bioText, setBioText] = useState(userDetails?.additionalDetails?.bio);
-  const [wordCount, setWordCount] = useState(userDetails?.additionalDetails?.bio.length);
+  const [bioText, setBioText] = useState(userDetails?.additionalDetails?.bio || "");
+  const [wordCount, setWordCount] = useState((userDetails?.additionalDetails?.bio || "").length);
+
   const [initial, setInitial] = useState("")
 
   const {
