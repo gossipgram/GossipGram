@@ -3,6 +3,7 @@ import ChangeDp from '../Components/Profile/ChangeDp'
 import { getAllUserData } from '../services/operations/profileAPI';
 import EditUser from '../Components/Profile/EditUser';
 import DeleteUserProfile from '../Components/Profile/DeleteUserProfile';
+import ChangePassword from '../Components/Profile/ChangePassword';
 
 const EditProfile = () => {
 
@@ -31,6 +32,7 @@ const EditProfile = () => {
         </h1>
       <ChangeDp userData={userData}/>
       <EditUser userData={userData}/>
+      <ChangePassword />
       <DeleteUserProfile />
     </div>
   )
