@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FiUpload } from "react-icons/fi"
 import { updateDp, updatedProfile } from '../../services/operations/profileAPI'
-const IconBtn = require("../common/IconBtn")
+// const IconBtn = require("../common/IconBtn")
 
 
 const ChangeDp = ({ userData }) => {

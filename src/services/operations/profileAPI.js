@@ -8,6 +8,7 @@ const {
   GET_ALL_USER_DATA_API,
   GET_ALL_USER_DATA_BY_ID_API,
   UPDATE_DISPLAY_PICTURE_API,
+  CHANGE_PASSWORD_API
 } = profileEndpoints;
 const BASE_URL = "http://localhost:4000/api/v1/";
 
@@ -124,3 +125,22 @@ export const updateDp = async (token, formData) => {
   //   dispatch(setLoading(false));
   return result;
 };
+
+export async function changePassword(token, formData) {
+  const toastId = toast.loading("Loading...")
+  try {
+    const response = await apiConnector("POST", CHANGE_PASSWORD_API, formData, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("CHANGE_PASSWORD_API API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    toast.success("Password Changed Successfully")
+  } catch (error) {
+    console.log("CHANGE_PASSWORD_API API ERROR............", error)
+    toast.error(error.response.data.message)
+  }
+  toast.dismiss(toastId)
+}
