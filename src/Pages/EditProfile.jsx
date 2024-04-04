@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ChangeDp from '../Components/Profile/ChangeDp'
 import { getAllUserData } from '../services/operations/profileAPI';
+import EditUser from '../Components/Profile/EditUser';
 
 const EditProfile = () => {
 
@@ -28,6 +29,7 @@ const EditProfile = () => {
             Edit Profile
         </h1>
       <ChangeDp userData={userData}/>
+      <EditUser userData={userData}/>
     </div>
   )
 }
