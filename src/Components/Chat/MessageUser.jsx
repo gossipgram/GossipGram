@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaVideo } from "react-icons/fa";
 import { MdAddIcCall } from "react-icons/md";
 
-const MessageUser = ({ messages, userData, chatId, chatUser, chatFinal }) => {
+const MessageUser = ({ userData, chatId, chatUser }) => {
   const [currentChatId, setCurrentChatId] = useState(chatId);
 
   useEffect(() => {

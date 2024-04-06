@@ -14,6 +14,7 @@ const ChatListItem = ({
   handleSendMessageClick,
   userData,
   setChatUser,
+  messages,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,9 +46,10 @@ const ChatListItem = ({
 
   const handleChatItemClick = async () => {
     try {
-      const messages = await getAllDirectMessage(chatId, token);
+      const messagesData = await getAllDirectMessage(chatId, token);
+      console.log("hellooooooooooo", messagesData);
       setChatUser(chat);
-      setMessages(messages);
+      setMessages(messagesData);
       setChatId(chatId);
       handleSendMessageClick(chat);
       socket.emit("join chat", chatId);
@@ -57,6 +59,25 @@ const ChatListItem = ({
       toast.error("Failed to fetch messages. Please try again.");
     }
   };
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      // if (
+      //   !selectedChatCompare || // if chat is not selected or doesn't match current chat
+      //   selectedChatCompare._id !== newMessageRecieved.chat._id
+      // ) {
+      //   if (!notification.includes(newMessageRecieved)) {
+      //     setNotification([newMessageRecieved, ...notification]);
+      //     setFetchAgain(!fetchAgain);
+      //   }
+      // } else {
+      //   setMessages([...messages, newMessageRecieved]);
+      // }
+      setMessages([...messages, newMessageRecieved]);
+      console.log("messages---------", messages);
+      console.log("newMessageRecieved++++++++++++", newMessageRecieved);
+    });
+  });
 
   return (
     <div

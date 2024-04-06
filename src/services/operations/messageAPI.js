@@ -2,20 +2,21 @@ import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { directMessageEndpoints } from "../apis";
 
-const {SEND_DIRECT_MESSAGE_API , GET_ALL_DIRECT_MESSAGE_API} = directMessageEndpoints
+const { SEND_DIRECT_MESSAGE_API, GET_ALL_DIRECT_MESSAGE_API } =
+  directMessageEndpoints;
 
-export const sendDirectMessage = async (data , token) => {
+export const sendDirectMessage = async (data, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   const chatId = data?.chatId;
   const content = data?.content;
-  console.log("datadatadatadatadatadatadatadata", chatId , content);
-  try{
+  try {
     const response = await apiConnector(
       "POST",
       SEND_DIRECT_MESSAGE_API,
       {
-        chatId,content
+        chatId,
+        content,
       },
       {
         Authorization: `Bearer ${token}`,
@@ -26,7 +27,8 @@ export const sendDirectMessage = async (data , token) => {
     // if (!response.data.success) {
     //   throw new Error(response.data.message);
     // }
-    // result = response.data;
+
+    result = response.data;
   } catch (error) {
     console.log("SEND_MESSAGE_API API ERROR............", error);
     result = error.response.data;
@@ -35,16 +37,16 @@ export const sendDirectMessage = async (data , token) => {
   toast.dismiss(toastId);
   //   dispatch(setLoading(false));
   return result;
-}
+};
 
-export const getAllDirectMessage = async (chatId , token) => {
+export const getAllDirectMessage = async (chatId, token) => {
   const toastId = toast.loading("Loading...");
   let result = [];
   const BASE_URL = "http://localhost:4000/api/v1/";
   try {
     const response = await apiConnector(
       "GET",
-      BASE_URL + `message/${chatId}`, 
+      BASE_URL + `message/${chatId}`,
       {
         chatId,
       },
@@ -52,14 +54,17 @@ export const getAllDirectMessage = async (chatId , token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("GET_ALL_DIRECT_MESSAGE_API API RESPONSE............", response);
+    console.log(
+      "GET_ALL_DIRECT_MESSAGE_API API RESPONSE............",
+      response
+    );
 
     // if (!response.data.success) {
     //   throw new Error(response.data.message);
     // }
 
     result = response.data;
-    console.log("result............................",result)
+    console.log("result............................", result);
   } catch (error) {
     console.log("GET_ALL_DIRECT_MESSAGE_API API ERROR............", error);
     result = error.response.data;
@@ -68,4 +73,4 @@ export const getAllDirectMessage = async (chatId , token) => {
   toast.dismiss(toastId);
   //   dispatch(setLoading(false));
   return result;
-}
+};

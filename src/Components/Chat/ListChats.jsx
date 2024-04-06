@@ -10,6 +10,7 @@ const ListChats = ({
   userData,
   setChatUser,
   setChatFinal,
+  messages,
 }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,7 @@ const ListChats = ({
             setMessages={setMessages}
             setChatId={setChatId}
             handleSendMessageClick={handleSendMessageClick}
+            messages={messages}
             // setChatFinal={setChatFinal}
           />
         ))

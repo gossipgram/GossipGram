@@ -9,8 +9,8 @@ import io from "socket.io-client"; //____
 const ENDPOINT = "http://localhost:4000"; //____
 var socket, selectedChatCompare; //____
 
-const SendMessage = ({ chatId, userData }) => {
-  const [message, setMessage] = useState("");
+const SendMessage = ({ chatId, userData, setMessages, messages }) => {
+  const [messageText, setMessageText] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
   const [socketConnected, setSocketConnected] = useState(false); //_____
@@ -18,16 +18,15 @@ const SendMessage = ({ chatId, userData }) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
-    console.log("------------+++++++++++", userData);
     socket.on("connection", () => setSocketConnected(true));
   }, []);
 
   const handleMessageChange = (event) => {
-    setMessage(event.target.value);
+    setMessageText(event.target.value);
   };
 
   const sendMessageHandler = async () => {
-    if (!message.trim()) {
+    if (!messageText.trim()) {
       toast.error("Message cannot be empty.");
       return;
     }
@@ -35,23 +34,19 @@ const SendMessage = ({ chatId, userData }) => {
     try {
       setLoading(true);
       const data = {
-        content: message,
+        content: messageText,
         chatId: chatId,
       };
+
       const response = await sendDirectMessage(data, token);
-
-      // if (response.success) {
-      //     toast.success('Message sent successfully.');
-
-      // } else {
-      //     toast.error(response.message || 'Failed to send message.');
-      // }
+      socket.emit("new message", response);
+      setMessages([...messages, response]);
     } catch (error) {
       console.error("Error sending message:", error.message);
       toast.error("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
-      setMessage(""); // Clear the message input after sending
+      setMessageText(""); // Clear the message input after sending
     }
   };
 
@@ -67,7 +62,7 @@ const SendMessage = ({ chatId, userData }) => {
         <textarea
           className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5"
           placeholder="Write a message..."
-          value={message}
+          value={messageText}
           onChange={handleMessageChange}
         />
       </div>
