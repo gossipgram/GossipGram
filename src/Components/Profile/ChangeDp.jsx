@@ -11,6 +11,7 @@ const ChangeDp = ({ userData }) => {
     const [imageFile, setImageFile] = useState(null)
     const [previewSource, setPreviewSource] = useState(null)
     const userDetails = userData?.userDetails;
+    const [noImage, setNoImage] = useState(false)
 
     const fileInputRef = useRef(null)
 
@@ -19,22 +20,26 @@ const ChangeDp = ({ userData }) => {
     }
 
     const handleFileUpload = async () => {
-        try {
-            console.log("token",token)
-            console.log("inside handleFileUpload")
-            setLoading(true)
-            const formData = new FormData()
-            formData.append("displayPicture", imageFile)
-            console.log("formdata", formData)
-            const response = await updateDp(token , formData).then(() => {
-                setLoading(false)
-            })
-            console.log(response)
-        } catch (error) {
-            console.log("ERROR MESSAGE - ", error.message)
-        }
-    }
-
+      if (!imageFile) {
+          setNoImage(true)
+          // Optionally, inform the user that no file has been selected for upload.
+          return; // Exit the function as there's nothing to upload.
+      }
+      try {
+          console.log("token", token);
+          console.log("inside handleFileUpload");
+          setLoading(true);
+          const formData = new FormData();
+          formData.append("displayPicture", imageFile);
+          console.log("formdata", formData);
+          const response = await updateDp(token, formData).then(() => {
+              setLoading(false);
+          });
+          console.log(response);
+      } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message);
+      }
+    };
     const handleFileChange = (e) => {
         const file = e.target.files[0]
         console.log("file",file)
@@ -95,6 +100,12 @@ const ChangeDp = ({ userData }) => {
                 )}
               </button>
             </div>
+            {noImage && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  No file selected for upload.
+                </span>
+              )}
+            
           </div>
         </div>
       </div>
