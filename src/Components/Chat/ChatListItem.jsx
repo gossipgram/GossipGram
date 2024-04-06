@@ -42,7 +42,7 @@ const ChatListItem = ({
     if (currentChatId === chatId) {
       handleChatItemClick();
     }
-  }, [location.pathname]); // Listen for changes in the path
+  }, []); // Listen for changes in the path
 
   const handleChatItemClick = async () => {
     try {
@@ -75,7 +75,7 @@ const ChatListItem = ({
       // }
       setMessages([...messages, newMessageRecieved]);
       console.log("messages---------", messages);
-      console.log("newMessageRecieved++++++++++++", newMessageRecieved);
+      // console.log("newMessageRecieved++++++++++++", newMessageRecieved);
     });
   });
 

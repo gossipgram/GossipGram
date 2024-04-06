@@ -6,8 +6,8 @@ import { sendDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client"; //____
 
-const ENDPOINT = "http://localhost:4000"; //____
-var socket, selectedChatCompare; //____
+const ENDPOINT = "http://localhost:4000";
+var socket, selectedChatCompare;
 
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
   const [messageText, setMessageText] = useState("");
@@ -33,14 +33,14 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
 
     try {
       setLoading(true);
-      const data = {
+      const tempData = {
         content: messageText,
         chatId: chatId,
       };
 
-      const response = await sendDirectMessage(data, token);
-      socket.emit("new message", response);
-      setMessages([...messages, response]);
+      const data = await sendDirectMessage(tempData, token);
+      socket.emit("new message", data);
+      setMessages([...messages, data]);
     } catch (error) {
       console.error("Error sending message:", error.message);
       toast.error("Failed to send message. Please try again.");
