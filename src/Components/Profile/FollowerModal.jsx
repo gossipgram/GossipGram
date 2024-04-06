@@ -1,43 +1,46 @@
-import React from 'react';
-import { RxCross2 } from "react-icons/rx";
-import { followUser , unfollowUser } from '../../services/operations/friendAPI';
+import React, { useEffect, useState } from 'react';
+import { RxCross2 } from 'react-icons/rx'; 
+import { followUser, unfollowUser } from '../../services/operations/friendAPI';
+import { getAllUserData } from '../../services/operations/profileAPI';
 
-const FollowerModal = ({ followerDetails, userData, followers, changeIsFollowerModalOpen , isFollowing , isFollowBack , itsUser , setIsFollowing , setTotalFollower , totalFollower}) => {
-    // console.log("followerDetails   followerDetails", followerDetails);
-    // console.log("userData    userData", userData);
-    // console.log("followers followers followers", followers);
-    const userId = userData?.userDetails?._id
-    console.log("Id",userId)
-    console.log("followers",followers)
-    console.log("itsUser",itsUser)
-    console.log("userData",userData)
-    console.log("followerDetails",followerDetails)
-    // console.log("",)
-    // console.log("",)
-    // console.log("",)
+const FollowerModal = ({ followerDetails, followers, changeIsFollowerModalOpen }) => {
+
     const token = localStorage.getItem("token").split('"')[1];
+    
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await getAllUserData(token);
+                setUserData(response);
+            } catch (error) {
+                console.error("Error fetching user data:", error.message);
+            }
+        };
+
+        if (token) {
+            fetchUserData();
+            // setFetchDataTrigger(); 
+        }
+    }, [token]); 
 
 
-    const followButtonClickHandler = async (clickedUser) => {
-    try {
-        if (!isFollowing && !isFollowBack) {
-        await followUser(clickedUser, token);
-        setTotalFollower(totalFollower + 1)
-        setIsFollowing(true);
-      } else if (!isFollowing && isFollowBack) {
-        await followUser(clickedUser, token);
-        setTotalFollower(totalFollower + 1)
-        setIsFollowing(true);
-      } else if (isFollowing) {
-        await unfollowUser(clickedUser, token);
-        setTotalFollower(totalFollower - 1)
-        // setTotalFollowing()
-        setIsFollowing(false);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-  };
+    const userId = userData?.userDetails?._id
+    const allUserFollowing = userData?.userDetails?.following?.map(user => user.following._id) || [];
+
+    const followButtonHanler = async (isFollowing , clickedUserId ) => {
+        try {
+        if (isFollowing) {
+            await unfollowUser(clickedUserId, token);
+        } else {
+            await followUser(clickedUserId, token);
+        }
+        } catch (error) {
+        console.error("Error:", error.message);
+        }
+    };
+
 
     return (
         <div className="fixed inset-0 z-[1000] grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
@@ -54,23 +57,36 @@ const FollowerModal = ({ followerDetails, userData, followers, changeIsFollowerM
                             <RxCross2 />
                         </button>
                     </div>
-                    {followers.map((follower, index) => (
-                        <div key={index} className="flex items-center border-b w-full p-2 border-yellow-500 justify-between">
-                          <div className="flex items-center">
-                            <img src={follower.follower.image} alt={follower.follower.username} className="w-10 h-10 rounded-full mr-4" />
-                            <div className='flex flex-col'>
-                              <span className="font-semibold text-richblack-5 text-lg">{follower.follower.username}</span>
-                              <p className="text-richblack-100 text-sm">{follower.follower.firstName} {follower.follower.lastName}</p>
+                    {followers.map((follower, index) => {
+                        const isFollowing = allUserFollowing.includes(follower?.follower?._id);
+                        const isCurrentUser = follower?.follower?._id === userId;
+                        console.log("isFollower",isFollowing)
+                        console.log("isCurrentUser",userId , follower?.follower?._id)
+                        console.log("isCurrentUser",isCurrentUser)
+                        console.log("followers_______________",followers)
+
+                        return (
+                            <div key={index} className="flex items-center border-b w-full p-2 border-yellow-500 justify-between">
+                                <div className="flex items-center">
+                                    <img src={follower.follower.image} alt={follower.follower.username} className="w-10 h-10 rounded-full mr-4" />
+                                    <div className='flex flex-col'>
+                                        <span className="font-semibold text-richblack-5 text-lg">{follower.follower.username}</span>
+                                        <p className="text-richblack-100 text-sm">{follower.follower.firstName} {follower.follower.lastName}</p>
+                                    </div>
+                                </div>
+                                {isCurrentUser ? (
+                                    ''
+                                ) : (
+                                    <button
+                                        className={`ml-10 bg-${isFollowing ? 'yellow-100 px-4' : 'blue-100 px-6' } text-richblack-900 rounded-xl font-medium py-[8px] mt-2 hover:bg-${isFollowing ? 'yellow' : 'blue'}-200`}
+                                        onClick={() => followButtonHanler(isFollowing , follower.follower._id)}
+                                    >
+                                        {isFollowing ? "Following" : "Follow"}
+                                    </button>
+                                )}
                             </div>
-                          </div>
-                          <button
-                          className={`ml-10 bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-2 hover:bg-${isFollowing ? 'yellow' : isFollowBack ? 'blue' : 'blue'}-200`}
-                          onClick={() => { followButtonClickHandler(follower.follower._id)}}
-                          >
-                            { isFollowing ? 'Following' : isFollowBack ? 'Follow Back' : 'Follow'}
-                          </button>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>

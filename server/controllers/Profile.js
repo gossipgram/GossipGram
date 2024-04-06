@@ -54,21 +54,12 @@ exports.deleteAccount = async (req, res) => {
     // Delete Assosiated Profile with the User
     await Profile.findByIdAndDelete({ _id: user.additionalDetails });
 
-    // for (const courseId of user.courses) {
-    //   await Course.findByIdAndUpdate(
-    //     courseId,
-    //     { $pull: { studentsEnroled: id } },
-    //     { new: true }
-    //   )
-    // }
-
     // Now Delete User
     await User.findByIdAndDelete({ _id: id });
     res.status(200).json({
       success: true,
       message: "User deleted successfully",
     });
-    await CourseProgress.deleteMany({ userId: id });
   } catch (error) {
     console.log(error);
     res
@@ -96,6 +87,13 @@ exports.getAllUserData = async (req, res) => {
           path: "searchedUser",
           select: "username image firstName lastName _id",
         },
+      })
+      .populate({
+        path: "following",
+        populate: {
+          path: "following",
+          select: "username _id image"
+        }
       })
       .exec();
 
