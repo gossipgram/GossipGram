@@ -1,84 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { MdSend } from "react-icons/md";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { MdOutlineAdd } from "react-icons/md";
 import { sendDirectMessage } from "../../services/operations/messageAPI";
-import toast from 'react-hot-toast';
-import io from "socket.io-client";        //____
+import toast from "react-hot-toast";
+import io from "socket.io-client"; //____
 
-const ENDPOINT = "http://localhost:4000";    //____
-var socket , selectedChatCompare ;            //____
+const ENDPOINT = "http://localhost:4000"; //____
+var socket, selectedChatCompare; //____
 
-const SendMessage = ({ chatId , userData }) => {
-    const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem("token").split('"')[1];
-    // console.log("_______________________", chatId)
-      const [socketConnected, setSocketConnected] = useState(false);     //_____
+const SendMessage = ({ chatId, userData }) => {
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token").split('"')[1];
+  const [socketConnected, setSocketConnected] = useState(false); //_____
 
-    useEffect(()=> {
-        socket = io(ENDPOINT);
-        socket.emit("setup", userData);
-        socket.on("connection",() => setSocketConnected(true));
-    }, []);
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", userData);
+    console.log("------------+++++++++++", userData);
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
 
-    const handleMessageChange = (event) => {
-        setMessage(event.target.value);
-    };
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
 
-    const sendMessageHandler = async () => {
-        if (!message.trim()) {
-            toast.error('Message cannot be empty.');
-            return;
-        }
+  const sendMessageHandler = async () => {
+    if (!message.trim()) {
+      toast.error("Message cannot be empty.");
+      return;
+    }
 
-        try {
-            setLoading(true);
-            const data = {
-                content: message,
-                chatId: chatId, 
-            };
-            console.log("chatId ChatId chatId chatId ", chatId);
-            console.log("message message message message message ", message)
-            const response = await sendDirectMessage(data, token);
+    try {
+      setLoading(true);
+      const data = {
+        content: message,
+        chatId: chatId,
+      };
+      const response = await sendDirectMessage(data, token);
 
-            // if (response.success) {
-            //     toast.success('Message sent successfully.');
-            
-            // } else {
-            //     toast.error(response.message || 'Failed to send message.');
-            // }
-            
-        } catch (error) {
-            console.error('Error sending message:', error.message);
-            toast.error('Failed to send message. Please try again.');
-        } finally {
-            setLoading(false);
-            setMessage(''); // Clear the message input after sending
-        }
-    };
+      // if (response.success) {
+      //     toast.success('Message sent successfully.');
 
-    return (
-        <div className='flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg'>
-            <div className='p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200'>
-                <MdOutlineEmojiEmotions className='w-10 h-10 text-white'/>
-            </div>
-            <div className='p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200'>
-                <MdOutlineAdd className='w-10 h-auto text-white'/>
-            </div>
-            <div className="flex-grow">
-                <textarea
-                    className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5"
-                    placeholder="Write a message..."
-                    value={message}
-                    onChange={handleMessageChange}
-                />
-            </div>
-            <div className='p-2 hover:bg-richblue-300 rounded-xl cursor-pointer transition-all duration-200'>
-                <MdSend className='w-10 h-10 text-white hover:text-richblue-700 cursor-pointer transition-all duration-200' onClick={sendMessageHandler}/>
-            </div>
-        </div>
-    );
+      // } else {
+      //     toast.error(response.message || 'Failed to send message.');
+      // }
+    } catch (error) {
+      console.error("Error sending message:", error.message);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+      setMessage(""); // Clear the message input after sending
+    }
+  };
+
+  return (
+    <div className="flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg">
+      <div className="p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200">
+        <MdOutlineEmojiEmotions className="w-10 h-10 text-white" />
+      </div>
+      <div className="p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200">
+        <MdOutlineAdd className="w-10 h-auto text-white" />
+      </div>
+      <div className="flex-grow">
+        <textarea
+          className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5"
+          placeholder="Write a message..."
+          value={message}
+          onChange={handleMessageChange}
+        />
+      </div>
+      <div className="p-2 hover:bg-richblue-300 rounded-xl cursor-pointer transition-all duration-200">
+        <MdSend
+          className="w-10 h-10 text-white hover:text-richblue-700 cursor-pointer transition-all duration-200"
+          onClick={sendMessageHandler}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default SendMessage;

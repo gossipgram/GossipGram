@@ -97,7 +97,7 @@ const PostCard = ({ post, userId, postUserId }) => {
       }
     };
     checkPostUser();
-  }, []);
+  }, [token]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

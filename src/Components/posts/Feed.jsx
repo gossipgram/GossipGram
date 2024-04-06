@@ -7,25 +7,8 @@ import { getAllUserData } from "../../services/operations/profileAPI";
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
-  const [refetchPost, setRefetchPost] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await getAllUserData(token);
-        setUserData(response);
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
-      }
-    };
-    if (token) {
-      fetchUserData();
-    }
-  }, [token]);
-
-  const userId = userData?.userDetails?._id;
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     let fetchedPosts = [];
@@ -44,10 +27,20 @@ const Feed = () => {
         setLoading(false);
       }
     };
+
+    const fetchUserData = async () => {
+      try {
+        const response = await getAllUserData(token);
+        setUserId(response?.userDetails?._id);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      }
+    };
     if (token) {
       fetchPosts();
+      fetchUserData();
     }
-  }, [token, refetchPost]);
+  }, [token]);
 
   return (
     <div className="flex flex-col w-full m-3 ">

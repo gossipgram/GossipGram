@@ -77,8 +77,7 @@ function App() {
               <Home />
             </PrivateRoute>
           }
-        >
-        </Route>
+        ></Route>
 
         <Route
           path="/search"
@@ -104,7 +103,7 @@ function App() {
           path="/edit"
           element={
             <PrivateRoute>
-              <EditProfile className/>
+              <EditProfile className />
             </PrivateRoute>
           }
         ></Route>

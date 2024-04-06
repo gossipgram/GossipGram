@@ -80,7 +80,6 @@ io.on("connection", (socket) => {
 
   socket.on("setup", (userData) => {
     socket.join(userData?.userDetails?._id);
-    // console.log(userData?.userDetails?._id);
     socket.emit("connected");
   });
 
