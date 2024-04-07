@@ -24,9 +24,42 @@ const allMessages = async (req, res) => {
   }
 };
 
+// const allMessages = async (req, res) => {
+//   const { chatId } = req.params;
+//   const page = parseInt(req.query.page) || 1; // Default to first page
+//   const limit = parseInt(req.query.limit) || 20; // Default limit to 20 messages
+//   const skip = (page - 1) * limit;
+
+//   try {
+//     const messages = await Message.find({ chat: chatId })
+//       .populate("sender", "username image email")
+//       .populate("chat")
+//       .populate({
+//         path: "chat",
+//         populate: {
+//           path: "users",
+//           select: "username image email",
+//         },
+//       })
+//       .sort({ createdAt: -1 }) // Ensure latest messages first
+//       .skip(skip)
+//       .limit(limit);
+
+//     const totalCount = await Message.countDocuments({ chat: chatId });
+//     const totalPages = Math.ceil(totalCount / limit);
+
+//     res.json({ messages, totalPages, currentPage: page });
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
+
 //@description     Create New Message
 //@route           POST /api/Message/
 //@access          Protected
+
+
 const sendMessage = async (req, res) => {
   const { content, chatId } = req.body;
 
