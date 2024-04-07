@@ -11,12 +11,29 @@ const Feed = () => {
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    let fetchedPosts = [];
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        const response = await getAllUserData(token);
+        setUserId(response?.userDetails?._id);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchUserData();
+    }
+  }, [token]);
+
+  useEffect(() => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        fetchedPosts = await getAllPosts(token);
-        const sortedFetchedPosts = fetchedPosts
+        const response = await getAllPosts(token);
+        const sortedFetchedPosts = response
           .slice()
           .sort((a, b) => b.createdAt - a.createdAt);
 
@@ -28,22 +45,11 @@ const Feed = () => {
       }
     };
 
-    const fetchUserData = async () => {
-      try {
-        const response = await getAllUserData(token);
-        setUserId(response?.userDetails?._id);
-      } catch (error) {
-        console.error("Error fetching user data:", error.message);
-      }
-    };
-    if (token) {
-      fetchPosts();
-      fetchUserData();
-    }
-  }, [token]);
+    fetchPosts();
+  }, [userId]);
 
   return (
-    <div className="flex flex-col w-full m-3 ">
+    <div className="flex flex-col w-full m-3">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner "></div>

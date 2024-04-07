@@ -21,7 +21,7 @@ import EditProfile from "./Pages/EditProfile";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen bg-richblack-800 flex  font-inter">
+    <div className="w-full min-h-screen bg-richblack-800 flex  font-inter">
       <SideBarLayout />
       <Routes>
         <Route

@@ -36,6 +36,9 @@ const PostCard = ({ post, userId, postUserId }) => {
   const [postUser, setPostUser] = useState(false);
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [captionText, setCaptionText] = useState(post.caption);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const videoRef = useRef(null);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -99,6 +102,36 @@ const PostCard = ({ post, userId, postUserId }) => {
     checkPostUser();
   }, [token]);
 
+  // all function for video post
+
+  // function to toggle play and pause of the video
+  const togglePlayer = () => {
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // function to update progress bar
+  const updateProgressBar = () => {
+    const video = videoRef.current;
+    const progress = (video.currentTime * 100) / video.duration;
+    setVideoProgress(progress);
+  };
+
+  // function to change the video time based on progressbar change
+  const updateVideoTime = (event) => {
+    const video = videoRef.current;
+    const clickedPosition = event.target.value / event.target.clientWidth;
+
+    video.currentTime = clickedPosition * video.duration;
+    updateProgressBar();
+  };
+
+  // all fucntion for three dot menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -158,7 +191,7 @@ const PostCard = ({ post, userId, postUserId }) => {
   const handleCopyLink = () => {};
 
   return (
-    <div className="flex flex-col  max-w-lg pb-3 max-h-[700px] bg-richblack-800">
+    <div className="flex flex-col  max-w-lg pb-3 max-h-[750px] bg-richblack-800">
       {isDeletedPost ? (
         <div className="w-full h-[200px] flex items-center justify-center border-[1px] border-pure-greys-500 rounded-lg">
           <h1 className="text-xl text-richblack-50 ">
@@ -222,14 +255,29 @@ const PostCard = ({ post, userId, postUserId }) => {
           </div>
           <div className="w-full flex items-center overflow-hidden border-[1px] border-pure-greys-500 rounded-lg">
             {post.mediaUrl.includes("video") ? (
-              <video
-                src={post.mediaUrl}
-                controls
-                className="w-full h-full object-cover bg-black"
-              />
+              <div className="relative">
+                <video
+                  ref={videoRef}
+                  src={post.mediaUrl}
+                  onTimeUpdate={updateProgressBar}
+                  onClick={togglePlayer}
+                  className="w-full h-full object-cover bg-black"
+                ></video>
+
+                <div className="absolute  bottom-3 w-full mx-5">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={videoProgress}
+                    onChange={updateVideoTime}
+                    className="w-full  flex items-center justify-center "
+                  />
+                </div>
+              </div>
             ) : post.mediaUrl.includes("image") ? (
               <img
-                className=" w-full h-full object-cover bg-black"
+                className=" w-full max-h-[512px] object-cover bg-black"
                 src={post.mediaUrl}
               ></img>
             ) : (

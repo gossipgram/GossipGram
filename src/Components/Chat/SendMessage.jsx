@@ -60,7 +60,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       </div>
       <div className="flex-grow">
         <textarea
-          className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5"
+          className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5 resize-none overflow-auto appearance-none"
           placeholder="Write a message..."
           value={messageText}
           onChange={handleMessageChange}

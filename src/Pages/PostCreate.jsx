@@ -9,7 +9,7 @@ const PostCreate = () => {
         <h1 className="text-richblack-5 text-5xl">Create Post</h1>
       </div>
 
-      <div className="flex  justify-center w-full h-full ">
+      <div className="flex justify-center w-full h-full ">
         <Create />
       </div>
     </div>

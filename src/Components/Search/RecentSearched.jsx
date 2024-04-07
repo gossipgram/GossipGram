@@ -13,7 +13,7 @@ const RecentSearched = ({
   };
 
   return (
-    <div className="mt-1 overflow-y-scroll scrolling">
+    <div className="mt-1 overflow-y-scroll z-1 scrolling">
       <h1 className="text-yellow-300 text-xl">Recent</h1>
       {userData &&
         userData.map((recentSearch) => (
