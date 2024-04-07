@@ -19,7 +19,7 @@ const MessageBox = ({ messages, userData }) => {
 
   return (
     <div
-      ref={messageBoxRef}
+      // ref={messageBoxRef}
       className="bg-richblack-600 p-5 rounded-xl min-h-[700px] max-h-[700px] overflow-scroll overflow-x-hidden scroll-smooth scrolling"
     >
       {messages.map((message, index) => {

@@ -11,6 +11,7 @@ import {
   addSearches,
   removeSearches,
 } from "../services/operations/recentSearch";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const SearchPage = () => {
   const token = localStorage.getItem("token").split('"')[1];
@@ -22,6 +23,7 @@ const SearchPage = () => {
   // const [recentSearches, setRecentSearches] = useState([]);
   const [userData, setUserData] = useState([]);
   const [searchedUserData, setSearchedUserData] = useState(null);
+  const navigate = useNavigate();
   const [searchHistory, setSearchHistory] = useState([]);
 
   const handleShowUserProfile = () => {
@@ -89,6 +91,12 @@ const SearchPage = () => {
   }, [searchUser, allUsers]);
 
   const handleSearchItemClick = async (user, data) => {
+    console.log("userData.userDetails.username",userData.userDetails.username);
+    console.log("data.username",data.username);
+    
+    if(userData.userDetails.username === data.username){
+      navigate("/profile");
+    }else{
     setSearchedUserData(user);
     handleShowUserProfile();
     let alreadySearched = false;
@@ -103,6 +111,7 @@ const SearchPage = () => {
       setSearchHistory((searchHistory) => [...searchHistory, data]);
       addSearchedUser(user);
     }
+  }
   };
 
   const handleRecentSearchItemClick = async (userId) => {
@@ -110,7 +119,11 @@ const SearchPage = () => {
 
     try {
       const response = await getAllUserDataById(recentSearchUserId, token);
+      if(userData.userDetails.username === response.userDetails.username){
+      navigate("/profile");
+    }else{
       setSearchedUserData(response?.userDetails);
+    }
       // setRecentSearches(response?.userDetails?.recentSearches);
     } catch (error) {
       console.error("Error fetching user data:", error.message);
