@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const mailSender = require("../utils/mailSender");
 const { passwordUpdated } = require("../mail/template/passwordUpdate");
+const { emailVerificationTemplate } = require("../mail/template/emailVerificationTemplate");
 const Profile = require("../models/Profile");
 require("dotenv").config();
 
@@ -12,7 +13,7 @@ require("dotenv").config();
 exports.sendotp = async (req, res) => {
   try {
     //fetch email from req
-    const { email } = req.body;
+    const { email , username } = req.body;
 
     //check if user already exist
     const checkUserPresent = await User.findOne({ email });
@@ -20,9 +21,20 @@ exports.sendotp = async (req, res) => {
     if (checkUserPresent) {
       return res.status(401).json({
         success: false,
-        message: "User already registered",
+        message: "User already registered with this email",
       });
     }
+
+    // check for already exist username
+    const existingUsername = await User.findOne({ username });
+
+    if (existingUsername) {
+      return res.status(401).json({
+        success: false,
+        message: "Username is already taken. try different",
+      });
+    }
+
     //generate OTP
     var otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,

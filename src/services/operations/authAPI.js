@@ -14,13 +14,14 @@ const {
   GET_ALL_USERS_API,
 } = endpoints;
 
-export function sendOtp(email, navigate) {
+export function sendOtp(email, username , navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", SENDOTP_API, {
         email,
+        username ,
         checkUserPresent: true,
       });
       console.log("SENDOTP API RESPONSE............", response);
@@ -35,7 +36,7 @@ export function sendOtp(email, navigate) {
       navigate("/verify-email");
     } catch (error) {
       console.log("SENDOTP API ERROR............", error);
-      toast.error("Could Not Send OTP");
+      toast.error(error.response.data.message);
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);

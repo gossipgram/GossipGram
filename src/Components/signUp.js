@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setSignupData } from "../slices/authSlice";
 import { sendOtp } from "../services/operations/authAPI";
@@ -11,63 +11,30 @@ import { sendOtp } from "../services/operations/authAPI";
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { firstName, lastName, username, email, password, confirmPassword } =
-    formData;
 
-  function changeHandler(event) {
-    setFormData((prevData) => ({
-      ...prevData,
-      [event.target.name]: event.target.value,
-    }));
-  }
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
+  const onSubmit = (formData) => {
+    const { firstName, lastName, username, email, password, confirmPassword } = formData;
     if (password !== confirmPassword) {
       toast.error("Passwords Do Not Match");
       return;
     }
-    const signupData = {
-      ...formData,
-    };
 
-    // Setting signup data to state
-    // To be used after otp verification
-    dispatch(setSignupData(signupData));
+    dispatch(setSignupData(formData));
+
     // Send OTP to user for verification
+    dispatch(sendOtp(email , username , navigate));
 
-    dispatch(sendOtp(formData.email, navigate));
-
-    // Reset
-    setFormData({
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
   };
 
   return (
     <div>
       <div>
         <form
-          onSubmit={submitHandler}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full gap-y-3 mt-2"
         >
           <div className="flex gap-x-4 mt-[10px]">
@@ -77,14 +44,16 @@ const SignUp = () => {
               </p>
 
               <input
-                required
+                {...register("firstName", { required: "First Name is required" })}
                 type="text"
-                name="firstName"
-                onChange={changeHandler}
                 placeholder="Enter First Name"
-                value={formData.firstName}
                 className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
+              {errors.firstName && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  {errors.firstName.message}
+                </span>
+              )}
             </label>
             <label className="w-full relative text-[0.875rem] text-pure-greys-5  mb-1 leading-[1.375rem]">
               <p className="font-bold">
@@ -92,14 +61,16 @@ const SignUp = () => {
               </p>
 
               <input
-                required
+                {...register("lastName", { required: "Last Name is required" })}
                 type="text"
-                name="lastName"
-                onChange={changeHandler}
                 placeholder="Enter Last Name"
-                value={formData.lastName}
                 className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
+              {errors.lastName && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  {errors.lastName.message}
+                </span>
+              )}
             </label>
           </div>
 
@@ -110,14 +81,16 @@ const SignUp = () => {
               </p>
 
               <input
-                required
+                {...register("username", { required: "Username is required" })}
                 type="text"
-                name="username"
-                onChange={changeHandler}
                 placeholder="Enter Username"
-                value={formData.username}
                 className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
+              {errors.username && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  {errors.username.message}
+                </span>
+              )}
             </label>
           </div>
 
@@ -127,14 +100,16 @@ const SignUp = () => {
             </p>
 
             <input
-              required
+              {...register("email", { required: "Email is required" })}
               type="email"
-              name="email"
-              onChange={changeHandler}
               placeholder="Enter email address"
-              value={formData.email}
               className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
             />
+            {errors.email && (
+              <span className="-mt-1 text-[12px] text-yellow-100">
+                {errors.email.message}
+              </span>
+            )}
           </label>
 
           <div className="flex gap-x-4 mt-[10px]">
@@ -144,15 +119,16 @@ const SignUp = () => {
               </p>
 
               <input
-                required
+                {...register("password", { required: "Password is required" })}
                 type={showPassword ? "text" : "password"}
-                name="password"
-                onChange={changeHandler}
                 placeholder="Enter Password"
-                value={formData.password}
                 className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
-
+              {errors.password && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  {errors.password.message}
+                </span>
+              )}
               <span
                 className="absolute right-3 top-[38px] cursor-pointer"
                 onClick={() => setShowPassword((prev) => !prev)}
@@ -171,15 +147,16 @@ const SignUp = () => {
               </p>
 
               <input
-                required
+                {...register("confirmPassword", { required: "Confirm Password is required" })}
                 type={showConfirmPassword ? "text" : "password"}
-                name="confirmPassword"
-                onChange={changeHandler}
                 placeholder="Confirm Password"
-                value={formData.confirmPassword}
                 className="bg-richblack-700 rounded-[0.5rem] text-richblack-5 w-full p-[12px]"
               />
-
+              {errors.confirmPassword && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  {errors.confirmPassword.message}
+                </span>
+              )}
               <span
                 className="absolute right-3 top-[38px] cursor-pointer"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}

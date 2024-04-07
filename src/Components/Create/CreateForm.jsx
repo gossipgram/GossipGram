@@ -4,6 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import { getAllUsers } from "../../services/operations/authAPI";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { createPost } from "../../services/operations/mediaAPI";
+import { useForm } from "react-hook-form";
 
 const CreateForm = ({ postType, setpostType }) => {
   const [image, setImage] = useState(null);
@@ -14,6 +15,8 @@ const CreateForm = ({ postType, setpostType }) => {
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
   const [textContent, setTextContent] = useState("");
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [notImage, setNotImage] = useState(false)
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -92,12 +95,13 @@ const CreateForm = ({ postType, setpostType }) => {
     }
   }, [token]);
 
-  const handleSubmitPost = (event) => {
-    event.preventDefault();
+  const onSubmit = (event) => {
+    // event.preventDefault();
     let data = new FormData();
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
+        setNotImage(true);
         return;
       }
       data.append("caption", captionText);
@@ -131,8 +135,14 @@ const CreateForm = ({ postType, setpostType }) => {
               placeholder="Enter gossip title here..."
               onChange={handleTitleChange}
               value={titleText}
+              {...register("title", { required: "Title is required" })}
               className="bg-richblack-500 py-3 text-lg text-richblack-25 rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
             />
+            {errors.title && (
+              <span className="-mt-1 text-[12px] text-yellow-100">
+                {errors.title.message}
+              </span>
+            )}
             <label className="text-richblack-25 text-2xl" htmlFor="caption">
               Gossip
             </label>
@@ -141,9 +151,15 @@ const CreateForm = ({ postType, setpostType }) => {
               id="caption"
               onChange={handleGossipChange}
               value={textContent}
+              {...register("textContent", { required: "Gossip content is required" })}
               placeholder="Enter gossip here..."
               className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
             />
+            {errors.textContent && (
+              <span className="-mt-1 text-[12px] text-yellow-100">
+                {errors.textContent.message}
+              </span>
+            )}
           </div>
 
           <div className="flex gap-3 w-1/3 flex-col mr-20">
@@ -255,6 +271,11 @@ const CreateForm = ({ postType, setpostType }) => {
                   onChange={handleImageChange}
                   className="hidden"
                 />
+                {notImage && (
+                <span className="mt-10 text-[30px] text-yellow-100">
+                  ! No file selected for upload.
+                </span>
+              )}
               </div>
             )}
           </div>
@@ -271,6 +292,7 @@ const CreateForm = ({ postType, setpostType }) => {
                 placeholder="Enter your caption here..."
                 className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden "
               />
+              
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
                 Tag User
@@ -337,7 +359,7 @@ const CreateForm = ({ postType, setpostType }) => {
         </div>
       )}
       <button
-        onClick={handleSubmitPost}
+        onClick={handleSubmit(onSubmit)}
         className="text-richblack-5 bg-yellow-400 hover:bg-yellow-500 px-7 py-2 rounded-xl absolute bottom-12 transition-all duration-200 right-12"
       >
         Post
