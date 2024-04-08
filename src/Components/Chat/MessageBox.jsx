@@ -1,8 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import LeftChat from "./LeftChat";
 import RightChat from "./RightChat";
+import io from "socket.io-client";
 
-const MessageBox = ({ messages, userData }) => {
+const ENDPOINT = "http://localhost:4000";
+var socket;
+
+const MessageBox = ({ messages, setMessages, userData }) => {
   const messageBoxRef = useRef(null);
 
   useEffect(() => {
@@ -16,6 +20,31 @@ const MessageBox = ({ messages, userData }) => {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
     }
   }, []);
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", userData);
+    socket.on("connection", () => console.log("Socket connected"));
+  }, []);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      // if (
+      //   !selectedChatCompare || // if chat is not selected or doesn't match current chat
+      //   selectedChatCompare._id !== newMessageRecieved.chat._id
+      // ) {
+      //   if (!notification.includes(newMessageRecieved)) {
+      //     setNotification([newMessageRecieved, ...notification]);
+      //     setFetchAgain(!fetchAgain);
+      //   }
+      // } else {
+      //   setMessages([...messages, newMessageRecieved]);
+      // }
+      setMessages([...messages, newMessageRecieved]);
+      console.log("messages---------", messages);
+      // console.log("newMessageRecieved++++++++++++", newMessageRecieved);
+    });
+  });
 
   return (
     <div

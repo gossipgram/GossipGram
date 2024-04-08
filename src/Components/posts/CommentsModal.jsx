@@ -41,6 +41,7 @@ const CommentsModal = ({
     try {
       createComment(commentText, postId, token);
       updateCommentNumber(numberOfComment + 1);
+      setCommentText("");
       fetchAllCommnets();
     } catch (error) {
       console.log("error while creating comment");
@@ -97,6 +98,7 @@ const CommentsModal = ({
             placeholder="Write a comment here"
             spellCheck="false"
             onChange={commentChangeHandler}
+            value={commentText}
             className="bg-richblack-500 rounded-lg text-richblack-5 py-3 px-5 text-lg pr-32 block w-full border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200"
           />
           <button

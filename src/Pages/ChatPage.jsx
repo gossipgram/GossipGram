@@ -60,7 +60,11 @@ const ChatPage = () => {
         ) : null}
 
         {showSendMessage ? (
-          <MessageBox messages={messages} userData={userData} />
+          <MessageBox
+            messages={messages}
+            setMessages={setMessages}
+            userData={userData}
+          />
         ) : null}
 
         {showSendMessage ? (

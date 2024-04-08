@@ -60,25 +60,6 @@ const ChatListItem = ({
     }
   };
 
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      // if (
-      //   !selectedChatCompare || // if chat is not selected or doesn't match current chat
-      //   selectedChatCompare._id !== newMessageRecieved.chat._id
-      // ) {
-      //   if (!notification.includes(newMessageRecieved)) {
-      //     setNotification([newMessageRecieved, ...notification]);
-      //     setFetchAgain(!fetchAgain);
-      //   }
-      // } else {
-      //   setMessages([...messages, newMessageRecieved]);
-      // }
-      setMessages([...messages, newMessageRecieved]);
-      console.log("messages---------", messages);
-      // console.log("newMessageRecieved++++++++++++", newMessageRecieved);
-    });
-  });
-
   return (
     <div
       className="flex items-center p-4 border-b border-yellow-500 bg-richblack-700 hover:bg-richblack-600 cursor-pointer transition-all duration-200"
