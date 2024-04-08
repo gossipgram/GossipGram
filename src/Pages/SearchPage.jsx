@@ -91,13 +91,13 @@ const SearchPage = () => {
   }, [searchUser, allUsers]);
 
   const handleSearchItemClick = async (user, data) => {
-    console.log("userData.userDetails.username",userData.userDetails.username);
-    console.log("data.username",data.username);
     
     if(userData.userDetails.username === data.username){
-      navigate("/profile");
+      navigate("/profile/");
     }else{
     setSearchedUserData(user);
+    navigate(`/search/${data.username}`)
+
     handleShowUserProfile();
     let alreadySearched = false;
 
@@ -123,6 +123,8 @@ const SearchPage = () => {
       navigate("/profile");
     }else{
       setSearchedUserData(response?.userDetails);
+      
+      navigate(`/search/${response?.userDetails?.username}`)
     }
       // setRecentSearches(response?.userDetails?.recentSearches);
     } catch (error) {
