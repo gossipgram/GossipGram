@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useId, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaRegCommentAlt,
   FaRegHeart,
@@ -22,6 +23,7 @@ import { MdOutlineEdit, MdDeleteOutline, MdLink } from "react-icons/md";
 
 const PostCard = ({ post, userId, postUserId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
+  const navigate = useNavigate();
 
   const postId = post?._id;
   const token = localStorage.getItem("token").split('"')[1];
@@ -190,6 +192,10 @@ const PostCard = ({ post, userId, postUserId }) => {
 
   const handleCopyLink = () => {};
 
+  const clickHandler = (username) => {
+    navigate(`/search/${username}`)
+  }
+
   return (
     <div className="flex flex-col  max-w-lg pb-3 max-h-[750px] bg-richblack-800">
       {isDeletedPost ? (
@@ -201,7 +207,7 @@ const PostCard = ({ post, userId, postUserId }) => {
       ) : (
         <div>
           <div className="flex justify-between items-center mr-5">
-            <div className="py-5 flex items-center">
+            <div className="py-5 flex items-center cursor-pointer" onClick={() => clickHandler(post.user.username)}>
               <img
                 src={post.user.image}
                 width={35}
