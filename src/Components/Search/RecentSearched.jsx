@@ -19,7 +19,7 @@ const RecentSearched = ({
         userData.map((recentSearch) => (
           <div
             key={recentSearch._id}
-            className="flex flex-row justify-between p-5 border-b m-2 border-yellow-500 bg-richblack-700 hover:bg-richblue-300 cursor-pointer transition-all duration-200 relative"
+            className="flex flex-row justify-between p-5 border-b m-2 border-yellow-500 bg-richblack-700 hover:bg-richblue-300 cursor-pointer transition-all duration-200 "
           >
             <div className="flex flex-row justify-between w-full items-center">
               <div

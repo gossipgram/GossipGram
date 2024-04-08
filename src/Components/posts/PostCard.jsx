@@ -170,7 +170,7 @@ const PostCard = ({ post, userId, postUserId }) => {
     setEditedCaption(event.target.value);
   };
 
-  const editSubmit = (event) => {
+  const editSubmit = (event) => { 
     event.preventDefault();
     try {
       const data = {};

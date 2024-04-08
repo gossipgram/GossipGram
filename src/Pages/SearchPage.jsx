@@ -93,7 +93,7 @@ const SearchPage = () => {
   const handleSearchItemClick = async (user, data) => {
     
     if(userData.userDetails.username === data.username){
-      navigate("/profile/");
+      navigate("/profile");
     }else{
     setSearchedUserData(user);
     navigate(`/search/${data.username}`)
