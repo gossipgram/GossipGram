@@ -15,8 +15,12 @@ const CreateForm = ({ postType, setpostType }) => {
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
   const [textContent, setTextContent] = useState("");
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [notImage, setNotImage] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [notImage, setNotImage] = useState(false);
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -122,7 +126,7 @@ const CreateForm = ({ postType, setpostType }) => {
   };
 
   return (
-    <div className="bg-richblack-700 relative w-11/12 flex gap-5  h-full transition-all duration-200  rounded-3xl">
+    <div className="bg-richblack-700 w-11/12 flex h-full transition-all duration-200  rounded-3xl">
       {postType === "text" ? (
         <div className="flex gap-3 w-full ml-20  mt-14 justify-between max-h-full ">
           <div className="flex flex-col w-3/6 gap-3 ">
@@ -151,7 +155,9 @@ const CreateForm = ({ postType, setpostType }) => {
               id="caption"
               onChange={handleGossipChange}
               value={textContent}
-              {...register("textContent", { required: "Gossip content is required" })}
+              {...register("textContent", {
+                required: "Gossip content is required",
+              })}
               placeholder="Enter gossip here..."
               className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
             />
@@ -222,7 +228,7 @@ const CreateForm = ({ postType, setpostType }) => {
           </div>
         </div>
       ) : (
-        <div className="w-full h-full mx-7 flex gap-32  p-5">
+        <div className="w-full h-full ml-7 flex gap-32  p-5">
           <div
             className="w-1/3 flex my-auto  items-center justify-center h-5/6  rounded-3xl border-4 border-dashed border-richblack-400"
             onDragOver={handleDragOver}
@@ -272,10 +278,10 @@ const CreateForm = ({ postType, setpostType }) => {
                   className="hidden"
                 />
                 {notImage && (
-                <span className="mt-10 text-[30px] text-yellow-100">
-                  ! No file selected for upload.
-                </span>
-              )}
+                  <span className="mt-10 text-[30px] text-yellow-100">
+                    ! No file selected for upload.
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -292,7 +298,6 @@ const CreateForm = ({ postType, setpostType }) => {
                 placeholder="Enter your caption here..."
                 className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden "
               />
-              
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
                 Tag User
@@ -358,12 +363,14 @@ const CreateForm = ({ postType, setpostType }) => {
           </div>
         </div>
       )}
-      <button
-        onClick={handleSubmit(onSubmit)}
-        className="text-richblack-5 bg-yellow-400 hover:bg-yellow-500 px-7 py-2 rounded-xl absolute bottom-12 transition-all duration-200 right-12"
-      >
-        Post
-      </button>
+      <div className="flex items-end mb-6 mr-6 ">
+        <button
+          onClick={handleSubmit(onSubmit)}
+          className="text-richblack-5 bg-yellow-400 hover:bg-yellow-500 px-7 py-2 rounded-xl h-fit flex   bottom-12 transition-all duration-200 right-12"
+        >
+          Post
+        </button>
+      </div>
     </div>
   );
 };

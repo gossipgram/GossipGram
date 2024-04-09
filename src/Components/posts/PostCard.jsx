@@ -127,9 +127,9 @@ const PostCard = ({ post, userId, postUserId }) => {
   // function to change the video time based on progressbar change
   const updateVideoTime = (event) => {
     const video = videoRef.current;
-    const clickedPosition = event.target.value / event.target.clientWidth;
-
-    video.currentTime = clickedPosition * video.duration;
+    const clickedPosition = event.target.value;
+    // video.currentTime = clickedPosition * video.duration;
+    console.log(video.duration);
     updateProgressBar();
   };
 
@@ -193,8 +193,8 @@ const PostCard = ({ post, userId, postUserId }) => {
   const handleCopyLink = () => {};
 
   const clickHandler = (username) => {
-    navigate(`/search/${username}`)
-  }
+    navigate(`/search/${username}`);
+  };
 
   return (
     <div className="flex flex-col  max-w-lg pb-3 max-h-[750px] bg-richblack-800">
@@ -207,7 +207,10 @@ const PostCard = ({ post, userId, postUserId }) => {
       ) : (
         <div>
           <div className="flex justify-between items-center mr-5">
-            <div className="py-5 flex items-center cursor-pointer" onClick={() => clickHandler(post.user.username)}>
+            <div
+              className="py-5 flex items-center cursor-pointer"
+              onClick={() => clickHandler(post.user.username)}
+            >
               <img
                 src={post.user.image}
                 width={35}
@@ -261,16 +264,15 @@ const PostCard = ({ post, userId, postUserId }) => {
           </div>
           <div className="w-full flex items-center overflow-hidden border-[1px] border-pure-greys-500 rounded-lg">
             {post.mediaUrl.includes("video") ? (
-              <div className="relative">
+              <div className="">
                 <video
                   ref={videoRef}
                   src={post.mediaUrl}
                   onTimeUpdate={updateProgressBar}
                   onClick={togglePlayer}
-                  className="w-full h-full object-cover bg-black"
+                  className="w-full h-full object-cover -z-10 bg-black"
                 ></video>
-
-                <div className="absolute  bottom-3 w-full mx-5">
+                <div className=" z-20  w-full">
                   <input
                     type="range"
                     min="0"
