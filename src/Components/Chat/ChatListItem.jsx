@@ -47,7 +47,6 @@ const ChatListItem = ({
   const handleChatItemClick = async () => {
     try {
       const messagesData = await getAllDirectMessage(chatId, token);
-      console.log("hellooooooooooo", messagesData);
       setChatUser(chat);
       setMessages(messagesData);
       setChatId(chatId);

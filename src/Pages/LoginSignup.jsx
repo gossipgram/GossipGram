@@ -20,7 +20,7 @@ const LoginSignupPage = () => {
       </div>
 
       <div className="border-none rounded-xl p-5 pl-10 pr-10 mt-5 ">
-        <div className="flex justify-between border-none rounded-xl p-5 pl-10 pr-10">
+        <div className="flex justify-between border-none rounded-xl gap-10 p-5 pl-10 pr-10">
           <button
             onClick={() => setUserType("login")}
             className={`${

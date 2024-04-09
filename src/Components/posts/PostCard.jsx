@@ -127,9 +127,8 @@ const PostCard = ({ post, userId, postUserId }) => {
   // function to change the video time based on progressbar change
   const updateVideoTime = (event) => {
     const video = videoRef.current;
-    const clickedPosition = event.target.value;
-    // video.currentTime = clickedPosition * video.duration;
-    console.log(video.duration);
+    const clickedPosition = event.target.value / 100;
+    video.currentTime = clickedPosition * video.duration;
     updateProgressBar();
   };
 
@@ -270,6 +269,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   src={post.mediaUrl}
                   onTimeUpdate={updateProgressBar}
                   onClick={togglePlayer}
+                  autoPlay
                   className="w-full h-full object-cover -z-10 bg-black"
                 ></video>
                 <div className=" z-20  w-full">
@@ -279,7 +279,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                     max="100"
                     value={videoProgress}
                     onChange={updateVideoTime}
-                    className="w-full  flex items-center justify-center "
+                    className="w-full video-progress-bar  flex items-center justify-center "
                   />
                 </div>
               </div>

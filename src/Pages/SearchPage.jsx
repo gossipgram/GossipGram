@@ -3,6 +3,7 @@ import SearchedItem from "../Components/Search/SearchedItem";
 import UserProfile from "../Components/Profile/UserProfile";
 import { getAllUsers } from "../services/operations/authAPI";
 import RecentSearched from "../Components/Search/RecentSearched";
+import { useLocation } from "react-router-dom";
 import {
   getAllUserData,
   getAllUserDataById,
@@ -25,7 +26,9 @@ const SearchPage = () => {
   const [searchedUserData, setSearchedUserData] = useState(null);
   const navigate = useNavigate();
   const [searchHistory, setSearchHistory] = useState([]);
-
+  const location = useLocation();
+  const currentPath = location.pathname;
+  
   const handleShowUserProfile = () => {
     setShowUserProfile(true);
   };
@@ -91,9 +94,14 @@ const SearchPage = () => {
   }, [searchUser, allUsers]);
 
   const handleSearchItemClick = async (user, data) => {
-    
+
+    if (currentPath === `/search/${data.username}`) {
+      setSearchedUserData(user);
+      handleShowUserProfile();
+    }
+
     if(userData.userDetails.username === data.username){
-      navigate("/profile/");
+      navigate("/profile");
     }else{
     setSearchedUserData(user);
     navigate(`/search/${data.username}`)

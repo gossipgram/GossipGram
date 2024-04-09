@@ -42,7 +42,7 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
           {allUserPost.map((post) => (
             <div
               key={post._id}
-              className="w-52 h-52 relative"
+              className="w-52 h-52 "
               onMouseEnter={() => handleVideoHover(post)}
               onMouseLeave={() => setHoveredPost(null)}
             >
