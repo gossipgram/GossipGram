@@ -40,6 +40,13 @@ const userSchema = new mongoose.Schema(
       required: true,
       ref: "Profile",
     },
+    
+    kundali: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Kundali",
+    },
+
     image: {
       type: String,
       required: true,

@@ -162,6 +162,20 @@ exports.signup = async (req, res) => {
       contactNumber: null,
     });
 
+    //entry crete for Kundali
+    const kundaliDetails = await Kundali.create({
+      state: null,
+      city: null,
+      age: null,
+      hobbies: null,
+      languages: null,
+      religion: null,
+      occupation: null,
+      movies: null,
+      food: null,
+      songs: null
+    })
+
     const user = await User.create({
       firstName,
       lastName,
@@ -169,6 +183,7 @@ exports.signup = async (req, res) => {
       username,
       password: hashedPassword,
       additionalDetails: profileDetails._id,
+      kundali: kundaliDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`, // last check
     });
     //return res
