@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import { logout } from "../../services/operations/authAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
+import { BsArrowThroughHeart } from "react-icons/bs";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -111,6 +112,21 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
+          <Link to="/gossip-partner">
+            <div
+              className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "gossip-partner"
+                  ? "text-yellow-400"
+                  : "text-white"
+              }`}
+            >
+              <BsArrowThroughHeart fontSize={25} />
+              <p className="text-xl ">Gossip Partenr</p>
+            </div>
+          </Link>
+
+          <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+
           <Link to="/profile">
             <div
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
@@ -204,6 +220,18 @@ const Sidebar = () => {
               }`}
             >
               <TbMessage fontSize={35} className="" />
+            </div>
+          </Link>
+
+          <Link to="/gossip-partner">
+            <div
+              className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+                activeIcon === "gossip-partner"
+                  ? "text-yellow-400"
+                  : "text-white"
+              }`}
+            >
+              <BsArrowThroughHeart fontSize={35} />
             </div>
           </Link>
 

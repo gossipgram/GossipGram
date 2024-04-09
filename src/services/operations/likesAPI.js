@@ -74,7 +74,7 @@ export const getLikesForPost = async (postId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("GET_LIKES_FOR_POST API RESPONSE............", response);
+
     result = response?.data;
   } catch (error) {
     console.log("GET_LIKES_FOR_POST API ERROR............", error);

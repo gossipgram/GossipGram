@@ -18,6 +18,7 @@ import SearchPage from "./Pages/SearchPage";
 import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/EditProfile";
+import GossipPatner from "./Pages/GossipPatner";
 
 function App() {
   return (
@@ -118,6 +119,15 @@ function App() {
         ></Route>
         <Route path="*" element={<Navigate to="/404" />}></Route>
         <Route path="/404" element={<NotFound />}></Route>
+
+        <Route
+          path="/gossip-partner"
+          element={
+            <PrivateRoute>
+              <GossipPatner />
+            </PrivateRoute>
+          }
+        ></Route>
       </Routes>
     </div>
   );
