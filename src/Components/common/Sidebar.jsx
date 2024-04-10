@@ -121,7 +121,7 @@ const Sidebar = () => {
               }`}
             >
               <BsArrowThroughHeart fontSize={25} />
-              <p className="text-xl ">Gossip Partenr</p>
+              <p className="text-xl ">Gossip Partner</p>
             </div>
           </Link>
 

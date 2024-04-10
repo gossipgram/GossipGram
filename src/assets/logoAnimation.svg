@@ -1,0 +1,46 @@
+ 
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .g-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      animation: moveContainer1 3s infinite alternate, moveContainer2 3s infinite alternate;
+    }
+
+    .g {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 48px;
+      animation: move1 3s infinite alternate, move2 3s infinite alternate;
+    }
+
+    @keyframes move1 {
+      from { left: 0; }
+      to { left: 200px; }
+    }
+
+    @keyframes move2 {
+      from { left: 200px; }
+      to { left: 0; }
+    }
+
+    @keyframes moveContainer1 {
+      from { top: 0; }
+      to { top: 200px; }
+    }
+
+    @keyframes moveContainer2 {
+      from { top: 200px; }
+      to { top: 0; }
+    }
+  </style>
+
+  <g class="g-container" transform="translate(100, 100)">
+    <text class="g" x="0" y="0">G</text>
+  </g>
+  <g class="g-container" transform="translate(200, 200)">
+    <text class="g" x="0" y="0">G</text>
+  </g>
+</svg>

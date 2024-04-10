@@ -326,7 +326,9 @@ const PostCard = ({ post, userId, postUserId }) => {
               </div>
             ) : (
               <p className="text-white">
-                <span className="font-semibold">{post.user.username}</span>{" "}
+                {!(post.textContent === "") ? null : (
+                  <span className="font-semibold">{post.user.username}</span>
+                )}{" "}
                 {!post.textContent ? captionText : null}
               </p>
             )}

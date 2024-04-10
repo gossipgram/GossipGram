@@ -120,6 +120,9 @@ const CreateForm = ({ postType, setpostType }) => {
     }
     try {
       createPost(data, token);
+      setImage(null);
+      setTitleText("");
+      setCaptionText("");
     } catch (error) {
       console.log("Creating post error", error);
     }
@@ -139,7 +142,7 @@ const CreateForm = ({ postType, setpostType }) => {
               placeholder="Enter gossip title here..."
               onChange={handleTitleChange}
               value={titleText}
-              {...register("title", { required: "Title is required" })}
+              // {...register("title", { required: "Title is required" })}
               className="bg-richblack-500 py-3 text-lg text-richblack-25 rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
             />
             {errors.title && (
@@ -155,9 +158,9 @@ const CreateForm = ({ postType, setpostType }) => {
               id="caption"
               onChange={handleGossipChange}
               value={textContent}
-              {...register("textContent", {
-                required: "Gossip content is required",
-              })}
+              // {...register("textContent", {
+              //   required: "Gossip content is required",
+              // })}
               placeholder="Enter gossip here..."
               className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
             />

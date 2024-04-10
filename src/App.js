@@ -18,7 +18,7 @@ import SearchPage from "./Pages/SearchPage";
 import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/EditProfile";
-import GossipPatner from "./Pages/GossipPatner";
+import PartnerHome from "./Pages/PartnerHome";
 
 function App() {
   return (
@@ -124,7 +124,7 @@ function App() {
           path="/gossip-partner"
           element={
             <PrivateRoute>
-              <GossipPatner />
+              <PartnerHome />
             </PrivateRoute>
           }
         ></Route>

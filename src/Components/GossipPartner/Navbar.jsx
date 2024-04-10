@@ -1,19 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { GoChevronLeft } from "react-icons/go";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
+  const location = useLocation();
+  const currPath = location.pathname;
+  const [activeIcon, setActiveIcon] = useState(currPath.split("/")[2]);
+
+  useEffect(() => {
+    const iconset = currPath.split("/")[2];
+    setActiveIcon(iconset);
+  }, [currPath]);
+
   return (
-    <nav className=" w-2/3 flex  h-14 items-center rounded-full  bg-richblack-700  text-white  mt-3">
+    <nav className=" w-2/3 flex  h-14 items-center justify-evenly rounded-full  bg-richblack-700  text-white  mt-3">
+      <div className="ml-5">
+        <Link
+          to="/home"
+          className=" hover:text-yellow-400 transition-all duration-200 text-3xl hover:scale-105"
+        >
+          <GoChevronLeft />
+        </Link>
+      </div>
       <div className="flex gap-10 items-center justify-center h-full mx-auto ">
         <Link
-          to="/home"
-          className="text-lg hover:text-yellow-400 transition-all duration-200 hover:scale-105"
-        >
-          Home
-        </Link>
-
-        <Link
-          to="/home"
+          to="/"
           className="text-lg hover:text-yellow-400 transition-all duration-200 hover:scale-105"
         >
           Gossip

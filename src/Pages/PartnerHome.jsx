@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Components/GossipPartner/Navbar";
 
-const GossipPatner = () => {
+const PartnerHome = () => {
   return (
     <div className="w-full">
       <div className="flex justify-center">
@@ -11,4 +11,4 @@ const GossipPatner = () => {
   );
 };
 
-export default GossipPatner;
+export default PartnerHome;
