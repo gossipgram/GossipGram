@@ -6,7 +6,8 @@ const {
     getPostById,
     getAllPosts,
     updatePostById,
-    deletePostById
+    deletePostById,
+    getAllPostsByHashtag
 } = require("../controllers/PostController");
 const { auth } = require("../middlewares/auth");
 
@@ -24,5 +25,8 @@ router.put('/posts/:postId', auth , updatePostById);
 
 // delete post
 router.delete('/posts/:postId', auth , deletePostById);
+
+// get all post by hashtag
+router.get('/posts/:hashtag', getAllPostsByHashtag);
 
 module.exports = router;
