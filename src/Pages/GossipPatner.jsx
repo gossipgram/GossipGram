@@ -1,9 +1,12 @@
 import React from "react";
+import Navbar from "../Components/GossipPartner/Navbar";
 
 const GossipPatner = () => {
   return (
-    <div>
-      <h1 className="text-white text-3xl">Gossip Partner</h1>
+    <div className="w-full">
+      <div className="flex justify-center">
+        <Navbar />
+      </div>
     </div>
   );
 };
