@@ -7,6 +7,7 @@ const mailSender = require("../utils/mailSender");
 const { passwordUpdated } = require("../mail/template/passwordUpdate");
 const { emailVerificationTemplate } = require("../mail/template/emailVerificationTemplate");
 const Profile = require("../models/Profile");
+const Kundali = require("../models/Kundali")
 require("dotenv").config();
 
 // send otp
@@ -161,6 +162,22 @@ exports.signup = async (req, res) => {
       bio: null,
       contactNumber: null,
     });
+    console.log("before kundali")
+
+    //entry crete for Kundali
+    const kundaliDetails = await Kundali.create({
+      state: null,
+      city: null,
+      age: 0,
+      hobbies: null,
+      languages: null,
+      religion: null,
+      occupation: null,
+      movies: null,
+      food: null,
+      songs: null,
+      additionalDetails: profileDetails._id,
+    })
 
     const user = await User.create({
       firstName,
@@ -169,6 +186,7 @@ exports.signup = async (req, res) => {
       username,
       password: hashedPassword,
       additionalDetails: profileDetails._id,
+      kundali: kundaliDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`, // last check
     });
     //return res

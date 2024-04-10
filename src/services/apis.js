@@ -80,3 +80,9 @@ export const recentSearchEndpoints = {
   ADD_RECENT_SEARCHES_API: BASE_URL + "recents/addsearches", //post
   REMOVE_RECENT_SEARCHES_API: BASE_URL + "recents/removesearches", //delete
 };
+
+export const kundaliEndpoints = {
+  UPDATE_KUNDALI_BY_ID_API: BASE_URL + "kundali/update-kundali"    ,
+  GET_ALL_KUNDALI_API: BASE_URL + "kundali/get-all-kudali"      ,
+  GET_KUNDALI_BY_ID_API: BASE_URL + "kundali//:kundaliId"
+}
