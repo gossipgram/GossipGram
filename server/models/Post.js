@@ -7,6 +7,14 @@ const postSchema = new mongoose.Schema(
             type: String,
             default: "", 
         },
+
+        // new feature
+        hashtag: [
+            {
+                type: String,
+                default: ""
+            }
+        ],
         
         mediaUrl: {
             type: String,

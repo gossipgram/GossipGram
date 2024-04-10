@@ -135,3 +135,27 @@ export const deletePostById = async (postId, token) => {
   toast.dismiss(toastId);
   return result;
 };
+
+export const getAllPostsByHashtag = async (hashtag , token) => {
+  let result = [];
+  const toastId = toast.loading("Loading...");
+  try{
+    const response = await apiConnector(
+      "GET",
+      BASE_URL + `media/posts/${hashtag}`,
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    console.log("get all posts by hashtag API RESPONSE............", response);
+    if (!response?.data?.success) {
+      throw new Error("Could Not Get posts");
+    }
+    toast.success("POST Deleted");
+    result = response?.data?.data;
+  } catch (error) {
+    console.log("DELETE POST BY ID API ERROR............", error);
+    toast.error(error.message);
+  }
+}
