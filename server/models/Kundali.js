@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const KundaliSchema = new mongoose.Schema({
    
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
-
     // token: {
     //   type: String,
     // },
@@ -25,25 +20,25 @@ const KundaliSchema = new mongoose.Schema({
 
     state: {
         type: String,
-        required: true,
+        // required: true,
         trim: true,
     },
 
     city: {
         type: String,
-        required: true,
+        // required: true,
         trim: true,
     },
 
     age: {
         type: Number,
-        required: true,
+        // required: true,
         min: 0
     },
 
     hobbies:[ {
         type: String,
-        required: true,
+        // required: true,
         trim: true,
     } ],
 
@@ -55,12 +50,12 @@ const KundaliSchema = new mongoose.Schema({
 
     religion: {
         type:String,
-        required: true
+        // required: true
     },
 
     occupation: {
         type:String,
-        required: true
+        // required: true
     },
 
     movies:[ {
