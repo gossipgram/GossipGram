@@ -11,7 +11,7 @@ const SideBarLayout = ({ children }) => {
       pathname === "/404" ||
       pathname === "/forgot-password" ||
       pathname === "/update-password" ||
-      pathname === "/gossip-partner"
+      pathname.includes("/gossip-partner")
     ); //ADD MORE CONDITION HERE WHERE WE SHOULD NOT RENDER SIDEBAR
   };
   return (

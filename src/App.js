@@ -19,6 +19,10 @@ import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/EditProfile";
 import PartnerHome from "./Pages/PartnerHome";
+import PartnerLandingPage from "./Pages/PartnerLandingPage";
+import PartnerFind from "./Pages/PartnerFind";
+import PartnerCredits from "./Pages/PartnerCredits";
+import PartnerProfile from "./Pages/PartnerProfile";
 
 function App() {
   return (
@@ -127,7 +131,21 @@ function App() {
               <PartnerHome />
             </PrivateRoute>
           }
-        ></Route>
+        >
+          <Route
+            path="/gossip-partner/about"
+            element={<PartnerLandingPage />}
+          ></Route>
+          <Route path="/gossip-partner/find" element={<PartnerFind />}></Route>
+          <Route
+            path="/gossip-partner/credits"
+            element={<PartnerCredits />}
+          ></Route>
+          <Route
+            path="/gossip-partner/profile"
+            element={<PartnerProfile />}
+          ></Route>
+        </Route>
       </Routes>
     </div>
   );

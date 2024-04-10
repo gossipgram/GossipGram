@@ -15,12 +15,14 @@ const CreateForm = ({ postType, setpostType }) => {
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
   const [textContent, setTextContent] = useState("");
+  const [notImage, setNotImage] = useState(false);
+  const [hashtags, setHashtags] = useState([]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [notImage, setNotImage] = useState(false);
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -59,7 +61,7 @@ const CreateForm = ({ postType, setpostType }) => {
   };
 
   const captionChangeHandler = (event) => {
-    setCaptionText(event.target.value);
+    setCaptionText(event.target.innerText);
   };
 
   const handleSearchUserInput = (event) => {
@@ -127,6 +129,27 @@ const CreateForm = ({ postType, setpostType }) => {
       console.log("Creating post error", error);
     }
   };
+
+  // const renderHilightedHashtags = () => {
+  //   if (!captionText) {
+  //     return null;
+  //   }
+  //   const words = captionText.split(/\s+/);
+  //   console.log(hashtags);
+
+  //   return words.map((word, index) => {
+  //     if (word.startsWith("#")) {
+  //       setHashtags([...hashtags, word]);
+  //       return (
+  //         <span key={index} className="text-yellow-300">
+  //           {word}&nbsp;
+  //         </span>
+  //       );
+  //     } else {
+  //       return <span key={index}>{word}&nbsp;</span>;
+  //     }
+  //   });
+  // };
 
   return (
     <div className="bg-richblack-700 w-11/12 flex h-full transition-all duration-200  rounded-3xl">
@@ -293,14 +316,23 @@ const CreateForm = ({ postType, setpostType }) => {
               <label className="text-richblack-25 text-2xl" htmlFor="caption">
                 Caption
               </label>
-              <textarea
+              {/* <textarea
                 type="text"
                 id="caption"
                 onChange={captionChangeHandler}
                 value={captionText}
                 placeholder="Enter your caption here..."
                 className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden "
-              />
+              /> */}
+              <div
+                className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
+                id="inputContainer"
+                contentEditable
+                onInput={captionChangeHandler}
+                placeholder="Enter your caption here..."
+              >
+                {/* {renderHilightedHashtags()} */}
+              </div>
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
                 Tag User
