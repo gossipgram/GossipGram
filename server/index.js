@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
   })
 );
@@ -55,7 +55,7 @@ app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/friends", followRoutes);
 app.use("/api/v1/profile", profileRoute);
 app.use("/api/v1/recents", recentSearchRoute);
-app.use("/api/v1/kundali", kundaliRoutes)
+app.use("/api/v1/kundali", kundaliRoutes);
 
 //def route
 app.get("/", (req, res) => {
