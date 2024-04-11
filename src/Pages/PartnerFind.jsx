@@ -2,7 +2,7 @@ import React from "react";
 
 const PartnerFind = () => {
   return (
-    <div className="bg-white">
+    <div className="w-full h-full  flex items-center justify-center">
       <h1>Find partner page</h1>
     </div>
   );

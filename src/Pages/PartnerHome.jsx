@@ -5,7 +5,7 @@ const PartnerHome = () => {
   return (
     <div className="w-full">
       <div className="flex justify-center">
-        <Navbar />
+        <h1>Hello</h1>
       </div>
     </div>
   );

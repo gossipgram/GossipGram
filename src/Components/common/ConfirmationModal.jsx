@@ -1,8 +1,20 @@
+import { useEffect } from "react";
 import IconBtn from "./IconBtn";
 
-export default function ConfirmationModal({ modalData }) {
+export default function ConfirmationModal({ modalData, closeModal }) {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (event.target.classList.contains("modal-overlay")) {
+        closeModal();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeModal]);
   return (
-    <div className="fixed inset-0 z-50  grid place-items-center justify-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm ">
+    <div className="fixed inset-0 z-50  grid place-items-center justify-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm modal-overlay">
       <div className=" max-w-[550px] rounded-lg border border-richblack-400 bg-richblack-800 p-10">
         <p className="text-2xl font-semibold text-richblack-5 ml-12">
           {modalData?.text1}

@@ -6,7 +6,6 @@ import ChatPage from "./Pages/ChatPage";
 import Home from "./Pages/Home";
 import VerifyEmail from "./Pages/VerifyEmail";
 import PrivateRoute from "./Components/PrivateRoute";
-import Notification from "./Pages/Notification";
 import PostCreate from "./Pages/PostCreate";
 import OpenRoute from "./Components/OpenRoute";
 import SideBarLayout from "./Components/common/SideBarLayout";
@@ -23,6 +22,7 @@ import PartnerLandingPage from "./Pages/PartnerLandingPage";
 import PartnerFind from "./Pages/PartnerFind";
 import PartnerCredits from "./Pages/PartnerCredits";
 import PartnerProfile from "./Pages/PartnerProfile";
+import PartnerDefault from "./Pages/PartnerDefault";
 
 function App() {
   return (
@@ -128,10 +128,11 @@ function App() {
           path="/gossip-partner"
           element={
             <PrivateRoute>
-              <PartnerHome />
+              <PartnerDefault />
             </PrivateRoute>
           }
         >
+          <Route path="/gossip-partner/home" element={<PartnerHome />}></Route>
           <Route
             path="/gossip-partner/about"
             element={<PartnerLandingPage />}

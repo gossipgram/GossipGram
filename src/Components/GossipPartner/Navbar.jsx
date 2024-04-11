@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { GoChevronLeft } from "react-icons/go";
 import { useState, useEffect } from "react";
@@ -8,36 +8,16 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../services/operations/authAPI";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
-const Navbar = () => {
+const Navbar = ({ pagesList }) => {
   const location = useLocation();
   const currPath = location.pathname;
   const [activeIcon, setActiveIcon] = useState(currPath.split("/")[2]);
   const dispatch = useDispatch();
   const [confirmationModal, setConfirmationModal] = useState(null);
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState("");
-  const pagesList = [
-    {
-      id: 1,
-      title: "Home",
-    },
-    {
-      id: 2,
-      title: "Find",
-    },
-    {
-      id: 3,
-      title: "Profile",
-    },
-    {
-      id: 4,
-      title: "About",
-    },
-  ];
 
   useEffect(() => {
-    const iconset = currPath.split("/")[2];
-    setActiveIcon(iconset);
+    setActiveIcon(currPath);
   }, [currPath]);
 
   return (
@@ -51,26 +31,30 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex gap-10 items-center justify-center h-full mx-auto ">
+      <div className="flex gap-16 items-center justify-center h-full mx-auto ">
         {pagesList.map((item) => (
-          <div className="flex flex-col items-center">
-            <button
-              onClick={() => setActiveSection(item.title)}
-              className="text-lg hover:text-yellow-400 transition-all duration-200 hover:scale-105"
+          <div key={item.id} className="flex flex-col items-center">
+            <NavLink
+              to={item.pathname}
+              className={`text-xl ${
+                activeIcon === item.pathname
+                  ? "text-yellow-300"
+                  : "text-richblack-25"
+              } hover:text-yellow-400  transition-all duration-200 hover:scale-105`}
             >
               {item.title}
-            </button>
+            </NavLink>
           </div>
         ))}
       </div>
 
       <div className="flex items-center gap-5 mr-5">
-        <button
-          onClick={() => setActiveSection("Credits")}
+        <NavLink
+          to={"/gossip-partner/credits"}
           className="bg-yellow-500 px-4 py-1 rounded-full hover:bg-yellow-400 transition-all duration-200 hover:scale-105"
         >
           0 Credits
-        </button>
+        </NavLink>
         <button
           onClick={() =>
             setConfirmationModal({
@@ -87,7 +71,10 @@ const Navbar = () => {
           Logout
         </button>
         {confirmationModal && (
-          <ConfirmationModal modalData={confirmationModal} />
+          <ConfirmationModal
+            modalData={confirmationModal}
+            closeModal={() => setConfirmationModal(false)}
+          />
         )}
       </div>
     </nav>

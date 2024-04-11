@@ -47,6 +47,18 @@ const PostCard = ({ post, userId, postUserId }) => {
   };
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (event.target.classList.contains("modal-overlay")) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     const fetchLikeUser = async () => {
       try {
         const response = await getLikesForPost(postId, token);
@@ -227,7 +239,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                 <BsThreeDotsVertical />
               </button>
               {isMenuOpen && (
-                <div className="absolute right-0 top-6 bg-richblack-700  rounded-xl w-[200px]">
+                <div className="absolute right-0 top-6 bg-richblack-700  rounded-xl w-[200px] modal-overlay">
                   <div className="flex flex-col gap-3 m-5">
                     {postUser && (
                       <div className="flex flex-col gap-3">
@@ -257,7 +269,10 @@ const PostCard = ({ post, userId, postUserId }) => {
                 </div>
               )}
               {deleteConfirmation && (
-                <ConfirmationModal modalData={deleteConfirmation} />
+                <ConfirmationModal
+                  modalData={deleteConfirmation}
+                  closeModal={() => setDeleteConfirmation(false)}
+                />
               )}
             </div>
           </div>
@@ -364,6 +379,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   numberOfComment={totalComments}
                   userId={userId}
                   postUserId={postUserId}
+                  closeModal={() => setIsModalOpen(false)}
                   changeIsModalOpen={() => {
                     setIsModalOpen(false);
                   }}

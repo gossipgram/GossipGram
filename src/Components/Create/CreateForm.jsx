@@ -125,6 +125,7 @@ const CreateForm = ({ postType, setpostType }) => {
       setImage(null);
       setTitleText("");
       setCaptionText("");
+      setSelecteduser([]);
     } catch (error) {
       console.log("Creating post error", error);
     }

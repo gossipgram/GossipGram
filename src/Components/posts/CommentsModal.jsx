@@ -14,10 +14,23 @@ const CommentsModal = ({
   numberOfComment,
   userId,
   postUserId,
+  closeModal,
 }) => {
   const [commentText, setCommentText] = useState("");
   const [allComments, setAllComments] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (event.target.classList.contains("modal-overlay")) {
+        closeModal();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeModal]);
 
   const fetchAllCommnets = async () => {
     try {
@@ -38,6 +51,9 @@ const CommentsModal = ({
   };
   const commentSubmitHandler = (event) => {
     event.preventDefault();
+    if (commentText === "") {
+      return;
+    }
     try {
       createComment(commentText, postId, token);
       updateCommentNumber(numberOfComment + 1);
@@ -49,7 +65,7 @@ const CommentsModal = ({
     }
   };
   return (
-    <div className="fixed inset-0 z-[1000]   grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[1000]   grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm modal-overlay">
       <div className=" w-2/6  max-h-2/3 h-4/5 relative rounded-lg border border-richblack-400 bg-richblack-800 p-6">
         <div className="flex  justify-between items-center ">
           <p className="text-2xl font-semibold  text-richblack-5">Comments</p>

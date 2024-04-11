@@ -163,7 +163,10 @@ const Sidebar = () => {
             </div>
           </button>
           {confirmationModal && (
-            <ConfirmationModal modalData={confirmationModal} />
+            <ConfirmationModal
+              modalData={confirmationModal}
+              closeModal={() => setConfirmationModal(false)}
+            />
           )}
 
           {/* <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" /> */}
@@ -267,7 +270,10 @@ const Sidebar = () => {
             </div>
           </button>
           {confirmationModal && (
-            <ConfirmationModal modalData={confirmationModal} />
+            <ConfirmationModal
+              modalData={confirmationModal}
+              closeModal={() => setConfirmationModal(false)}
+            />
           )}
         </div>
       )}
