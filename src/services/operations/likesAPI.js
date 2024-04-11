@@ -3,7 +3,7 @@ import { apiConnector } from "../apiConnector";
 
 // const { LIKE_POST_API, UNLIKE_POST_API } = likesEndpoints;
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
 
 export const likePost = async (postId, token) => {
   let result = null;

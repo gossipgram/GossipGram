@@ -1,16 +1,17 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
 
 export const followUser = async (followingId, token) => {
   const toastId = toast.loading("Loading...");
   let result = null;
   try {
-    console.log("followingId",followingId);
+    console.log("followingId", followingId);
     const response = await apiConnector(
       "POST",
-      BASE_URL + `friends/follow/${followingId}`,{
+      BASE_URL + `friends/follow/${followingId}`,
+      {
         followingId,
       },
       {
@@ -39,7 +40,8 @@ export const unfollowUser = async (followingId, token) => {
   try {
     const response = await apiConnector(
       "DELETE",
-      BASE_URL + `friends/unfollow/${followingId}`, {
+      BASE_URL + `friends/unfollow/${followingId}`,
+      {
         followingId,
       },
       {
@@ -68,7 +70,7 @@ export const getFollowersForUser = async (userId, token) => {
       "GET",
       BASE_URL + `friends/followers/${userId}`,
       {
-        userId
+        userId,
       },
       {
         Authorization: `Bearer ${token}`,
@@ -93,7 +95,7 @@ export const getFollowingForUser = async (userId, token) => {
   try {
     const response = await apiConnector(
       "GET",
-      BASE_URL + `friends/following/${userId}` ,
+      BASE_URL + `friends/following/${userId}`,
       {
         userId,
       },

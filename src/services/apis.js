@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -72,7 +72,7 @@ export const profileEndpoints = {
   GET_ALL_USER_DATA_API: BASE_URL + "profile/get-all-user-data", //get
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + "profile/update-display-picture", //post
   GET_ALL_USER_DATA_BY_ID_API: BASE_URL + "profile/user/:userId", //get
-  CHANGE_PASSWORD_API: BASE_URL + "auth/changepassword",    //put
+  CHANGE_PASSWORD_API: BASE_URL + "auth/changepassword", //put
 };
 
 // recentSearch ENDPOINTS
@@ -82,7 +82,7 @@ export const recentSearchEndpoints = {
 };
 
 export const kundaliEndpoints = {
-  UPDATE_KUNDALI_BY_ID_API: BASE_URL + "kundali/update-kundali"    ,
-  GET_ALL_KUNDALI_API: BASE_URL + "kundali/get-all-kudali"      ,
-  GET_KUNDALI_BY_ID_API: BASE_URL + "kundali//:kundaliId"
-}
+  UPDATE_KUNDALI_BY_ID_API: BASE_URL + "kundali/update-kundali",
+  GET_ALL_KUNDALI_API: BASE_URL + "kundali/get-all-kudali",
+  GET_KUNDALI_BY_ID_API: BASE_URL + "kundali//:kundaliId",
+};

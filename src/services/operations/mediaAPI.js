@@ -10,7 +10,7 @@ const {
   DELETE_POST_BY_ID_API,
 } = mediaEndpoints;
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
 
 export const getPostById = async (token, postId) => {
   const toastId = toast.loading("Loading...");
@@ -136,10 +136,10 @@ export const deletePostById = async (postId, token) => {
   return result;
 };
 
-export const getAllPostsByHashtag = async (hashtag , token) => {
+export const getAllPostsByHashtag = async (hashtag, token) => {
   let result = [];
   const toastId = toast.loading("Loading...");
-  try{
+  try {
     const response = await apiConnector(
       "GET",
       BASE_URL + `media/posts/${hashtag}`,
@@ -158,4 +158,4 @@ export const getAllPostsByHashtag = async (hashtag , token) => {
     console.log("DELETE POST BY ID API ERROR............", error);
     toast.error(error.message);
   }
-}
+};
