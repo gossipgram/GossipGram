@@ -42,7 +42,7 @@ export const sendDirectMessage = async (data, token) => {
 export const getAllDirectMessage = async (chatId, token) => {
   const toastId = toast.loading("Loading...");
   let result = [];
-  const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
+  const BASE_URL = "http://localhost:4000/api/v1/";
   try {
     const response = await apiConnector(
       "GET",

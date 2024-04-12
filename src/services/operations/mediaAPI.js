@@ -10,7 +10,7 @@ const {
   DELETE_POST_BY_ID_API,
 } = mediaEndpoints;
 
-const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const getPostById = async (token, postId) => {
   const toastId = toast.loading("Loading...");

@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 
-const BASE_URL = "https://gossip-gram.vercel.app/api/v1/";
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const followUser = async (followingId, token) => {
   const toastId = toast.loading("Loading...");

@@ -4,7 +4,7 @@ import { getAllDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const ENDPOINT = "https://gossip-gram.vercel.app";
+const ENDPOINT = "http://localhost:4000";
 var socket;
 
 const ChatListItem = ({

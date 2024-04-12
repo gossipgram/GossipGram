@@ -6,7 +6,7 @@ import { sendDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client"; //____
 
-const ENDPOINT = "https://gossip-gram.vercel.app";
+const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
