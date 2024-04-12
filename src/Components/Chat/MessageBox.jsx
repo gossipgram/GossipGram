@@ -3,7 +3,7 @@ import LeftChat from "./LeftChat";
 import RightChat from "./RightChat";
 import io from "socket.io-client";
 
-const ENDPOINT = "https://gossipgram.onrender.com";
+const ENDPOINT = "http://localhost:4000";
 var socket;
 
 const MessageBox = ({ messages, setMessages, userData }) => {

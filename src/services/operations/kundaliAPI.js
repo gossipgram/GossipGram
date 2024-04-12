@@ -4,7 +4,7 @@ import { kundaliEndpoints, profileEndpoints } from "../apis";
 
 const { UPDATE_KUNDALI_BY_ID_API, GET_ALL_KUNDALI_API, GET_KUNDALI_BY_ID_API } =
   profileEndpoints;
-const BASE_URL = "https://gossipgram.onrender.com/api/v1/";
+const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const updatedKundali = async (data, token) => {
   let result = null;
