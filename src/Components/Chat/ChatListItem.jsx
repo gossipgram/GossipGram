@@ -4,7 +4,7 @@ import { getAllDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "https://gossipgram.onrender.com";
 var socket;
 
 const ChatListItem = ({
