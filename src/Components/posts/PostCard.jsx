@@ -15,6 +15,7 @@ import {
 import { FcLike } from "react-icons/fc";
 import CommentsModal from "./CommentsModal";
 import ConfirmationModal from "../common/ConfirmationModal";
+import ExpandableText from "../common/ExpandableText";
 import {
   deletePostById,
   updatePostById,
@@ -214,6 +215,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                 src={post.user.image}
                 width={35}
                 className="rounded-full mr-2"
+                loading="lazy"
               ></img>
               <div className="text-white font-semibold">
                 {post.user.username}
@@ -296,7 +298,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   {captionText}
                 </h2>
                 <p className="text-richblack-50 text-xl ml-5">
-                  {post.textContent}
+                   <ExpandableText text={post.textContent} maxLength={500} />
                 </p>
               </div>
             )}
@@ -325,9 +327,9 @@ const PostCard = ({ post, userId, postUserId }) => {
                 </button>
               </div>
             ) : (
-              <p className="text-white">
-                <span className="font-semibold">{post.user.username}</span>{" "}
-                {!post.textContent ? captionText : null}
+              <p className=" text-white">
+                
+                {!post.textContent ? <div><span className="font-semibold inline-flex">{post.user.username}</span>{" "}<ExpandableText className={"inline-flex"} text={captionText} maxLength={100} />  </div>: null}
               </p>
             )}
           </div>

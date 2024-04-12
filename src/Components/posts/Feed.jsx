@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import { getAllPosts } from "../../services/operations/mediaAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
@@ -9,6 +8,8 @@ const Feed = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
   const [userId, setUserId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -32,12 +33,19 @@ const Feed = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const response = await getAllPosts(token);
-        const sortedFetchedPosts = response
+        console.log("currentPage________", currentPage)
+        const response = await getAllPosts(token, currentPage);
+        const fetchedPosts = response?.posts
           .slice()
-          .sort((a, b) => b.createdAt - a.createdAt);
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-        setAllPosts(sortedFetchedPosts.reverse());
+        if (currentPage === 1) {
+          setAllPosts(fetchedPosts);
+        } else {
+          setAllPosts(prevPosts => [...prevPosts, ...fetchedPosts]);
+        }
+
+        setTotalPages(response.totalPages);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       } finally {
@@ -46,17 +54,44 @@ const Feed = () => {
     };
 
     fetchPosts();
-  }, [userId]);
+  }, [userId, currentPage, token]);
+
+  const bottomOfPageRef = useRef();
+
+  // Debounce function
+  const debounce = (func, delay) => {
+    let inDebounce;
+    return function() {
+      const context = this;
+      const args = arguments;
+      clearTimeout(inDebounce);
+      inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      if (!loading && bottomOfPageRef.current &&
+        window.innerHeight + window.scrollY >= bottomOfPageRef.current.offsetTop) {
+        if (currentPage < totalPages) {
+          setCurrentPage(prevPage => prevPage + 1);
+        }
+      }
+    }, 100); 
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [currentPage, totalPages, loading]); 
 
   return (
     <div className="flex flex-col w-full m-3">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
-          <div className="spinner "></div>
+          <div className="spinner"></div>
         </div>
       ) : allPosts.length === 0 ? (
-        <div className="flex h-screen items-center justify-center ">
-          <p className="font-bold text-2xl text-white">No Posts Found !</p>
+        <div className="flex h-screen items-center justify-center">
+          <p className="font-bold text-2xl text-white">No Posts Found!</p>
         </div>
       ) : (
         allPosts.map((post) => (
@@ -68,8 +103,11 @@ const Feed = () => {
           />
         ))
       )}
+      <div className="spinner mx-auto"></div>
+      <div ref={bottomOfPageRef}></div>
     </div>
   );
 };
 
 export default Feed;
+

@@ -88,14 +88,35 @@ exports.getPostById = async (req, res) => {
 };
 
 // Get a list of all posts
+
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("user", "-password").exec();
+    // console.log("req.body",req.body)
+    // const { currentPage } = req.query;
+
+    const page = parseInt(req.query.currentPage) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    console.log("currentPage",page)
+
+
+    const count = await Post.countDocuments();
+    const totalPages = Math.ceil(count / limit);
+    const skip = (page - 1) * limit;
+
+    const posts = await Post.find()
+      .populate("user", "-password")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
 
     return res.status(200).json({
       success: true,
-      message: "All posts fetched successfully",
+      message: "Posts fetched successfully",
       posts,
+      totalPages,
+      currentPage: page,
     });
   } catch (error) {
     console.error(error);
@@ -105,6 +126,28 @@ exports.getAllPosts = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+// exports.getAllPosts = async (req, res) => {
+//   try {
+//     const posts = await Post.find().populate("user", "-password").exec();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "All posts fetched successfully",
+//       posts,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       error: "Internal Server Error",
+//     });
+//   }
+// };
 
 
 exports.updatePostById = async (req, res) => {
