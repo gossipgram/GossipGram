@@ -93,6 +93,19 @@ const SearchPage = () => {
     }
   }, [searchUser, allUsers]);
 
+
+
+//   useEffect(() => {
+//   const currentUsername = location.pathname.split("/").pop();
+//   if (currentUsername) {
+//     navigate(`/search/${currentUsername}`);
+//     handleShowUserProfile();
+//   }
+// }, [location.pathname]); 
+
+
+
+
   const handleSearchItemClick = async (user, data) => {
 
     if (currentPath === `/search/${data.username}`) {

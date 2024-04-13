@@ -13,7 +13,7 @@ const ExpandableText = ({ text, maxLength }) => {
         {isExpanded ? text : `${text.substring(0, maxLength)}... `}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-blue-500 hover:underline"
+          className="text-yellow-500 hover:underline"
         >
           {isExpanded ? 'Read Less' : 'Read More'}
         </button>

@@ -19,6 +19,7 @@ import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/EditProfile";
 import GossipPatner from "./Pages/GossipPatner";
+import UsersProfile from "./Pages/UsersProfile";
 
 function App() {
   return (
@@ -78,7 +79,18 @@ function App() {
               <Home />
             </PrivateRoute>
           }
-        ></Route>
+        >
+        </Route>
+
+        <Route
+          path="/user/:id"
+          element={
+            <PrivateRoute>
+              <UsersProfile />
+            </PrivateRoute>
+          }
+        >
+        </Route>
 
         <Route
           path="/search"

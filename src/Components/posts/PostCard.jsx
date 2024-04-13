@@ -192,8 +192,13 @@ const PostCard = ({ post, userId, postUserId }) => {
 
   const handleCopyLink = () => {};
 
-  const clickHandler = (username) => {
-    navigate(`/search/${username}`);
+  const clickHandler = (id) => {
+    if(id === userId){
+      navigate("/profile");
+    }
+    else{
+    navigate(`/user/${id}`);
+    };
   };
 
   return (
@@ -209,7 +214,7 @@ const PostCard = ({ post, userId, postUserId }) => {
           <div className="flex justify-between items-center mr-5">
             <div
               className="py-5 flex items-center cursor-pointer"
-              onClick={() => clickHandler(post.user.username)}
+              onClick={() => clickHandler(post.user._id)}
             >
               <img
                 src={post.user.image}

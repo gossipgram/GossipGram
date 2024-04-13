@@ -81,7 +81,7 @@ export const getFollowersForUser = async (userId, token) => {
     result = response?.data;
   } catch (error) {
     console.log("GET_FOLLOWERS_FOR_USER_API ERROR............", error);
-    toast.error(error.message);
+    // toast.error(error.message);
   }
   toast.dismiss(toastId);
   return result;
@@ -108,7 +108,7 @@ export const getFollowingForUser = async (userId, token) => {
     result = response?.data;
   } catch (error) {
     console.log("GET_FOLLOWING_FOR_USER_API ERROR............", error);
-    toast.error(error.message);
+    // toast.error(error.message);
   }
   toast.dismiss(toastId);
   return result;
