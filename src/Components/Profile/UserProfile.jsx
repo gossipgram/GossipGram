@@ -19,6 +19,9 @@ import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
+  console.log("userId",userId);
+  console.log("matchingUsers",matchingUsers);
+  console.log("userData",userData);
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userId?._id;
   const navigate = useNavigate();
@@ -185,7 +188,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
           </div>
           <div className="flex flex-row gap-4">
             <p className="text-richblack-25 cursor-pointer">
-              {userId?.posts.length > 0 ? userId.posts.length : 0}
+              {userId?.posts?.length > 0 ? userId.posts.length : 0}
               <span className="text-richblack-100"> Posts</span>
             </p>
 

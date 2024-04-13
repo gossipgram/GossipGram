@@ -15,6 +15,7 @@ import {
 import { FcLike } from "react-icons/fc";
 import CommentsModal from "./CommentsModal";
 import ConfirmationModal from "../common/ConfirmationModal";
+import ExpandableText from "../common/ExpandableText";
 import {
   deletePostById,
   updatePostById,
@@ -203,8 +204,12 @@ const PostCard = ({ post, userId, postUserId }) => {
 
   const handleCopyLink = () => {};
 
-  const clickHandler = (username) => {
-    navigate(`/search/${username}`);
+  const clickHandler = (id) => {
+    if (id === userId) {
+      navigate("/profile");
+    } else {
+      navigate(`/user/${id}`);
+    }
   };
 
   return (
@@ -220,12 +225,13 @@ const PostCard = ({ post, userId, postUserId }) => {
           <div className="flex justify-between items-center mr-5">
             <div
               className="py-5 flex items-center cursor-pointer"
-              onClick={() => clickHandler(post.user.username)}
+              onClick={() => clickHandler(post.user._id)}
             >
               <img
                 src={post.user.image}
                 width={35}
                 className="rounded-full mr-2"
+                loading="lazy"
               ></img>
               <div className="text-white font-semibold">
                 {post.user.username}
@@ -311,7 +317,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   {captionText}
                 </h2>
                 <p className="text-richblack-50 text-xl ml-5">
-                  {post.textContent}
+                  <ExpandableText text={post.textContent} maxLength={500} />
                 </p>
               </div>
             )}
@@ -340,11 +346,19 @@ const PostCard = ({ post, userId, postUserId }) => {
                 </button>
               </div>
             ) : (
-              <p className="text-white">
-                {!(post.textContent === "") ? null : (
-                  <span className="font-semibold">{post.user.username}</span>
-                )}{" "}
-                {!post.textContent ? captionText : null}
+              <p className=" text-white">
+                {!post.textContent ? (
+                  <div>
+                    <span className="font-semibold inline-flex">
+                      {post.user.username}
+                    </span>{" "}
+                    <ExpandableText
+                      className={"inline-flex"}
+                      text={captionText}
+                      maxLength={100}
+                    />{" "}
+                  </div>
+                ) : null}
               </p>
             )}
           </div>

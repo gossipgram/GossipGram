@@ -17,7 +17,6 @@ const CreateForm = ({ postType, setpostType }) => {
   const token = localStorage.getItem("token").split('"')[1];
   const [textContent, setTextContent] = useState("");
   const [notImage, setNotImage] = useState(false);
-  const [hashtags, setHashtags] = useState([]);
 
   const {
     register,
@@ -103,6 +102,7 @@ const CreateForm = ({ postType, setpostType }) => {
   }, [token]);
 
   const onSubmit = (event) => {
+    console.log("caption____________", captionText);
     // event.preventDefault();
     let data = new FormData();
 
@@ -110,6 +110,8 @@ const CreateForm = ({ postType, setpostType }) => {
       setTaggedUser([...taggedUser, user._id]);
     });
 
+    let hashtags = captionText.match(/#[^\s#]*/g);
+    console.log("hashtags", hashtags);
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
@@ -117,6 +119,7 @@ const CreateForm = ({ postType, setpostType }) => {
         return;
       }
       data.append("caption", captionText);
+      data.append("hashtags", hashtags);
       data.append("mediaUrl", image);
     } else {
       if (!textContent) {

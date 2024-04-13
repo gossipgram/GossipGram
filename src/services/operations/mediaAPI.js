@@ -40,23 +40,45 @@ export const getPostById = async (token, postId) => {
   return result;
 };
 
-export const getAllPosts = async (token) => {
+// export const getAllPosts = async (token) => {
+//   let result = [];
+//   try {
+//     const response = await apiConnector("GET", GET_ALL_POSTS_API, null, {
+//       Authorization: `Bearer ${token}`,
+//     });
+
+//     console.log("GETT ALL POSTS API RESPONSE............", response);
+//     if (!response?.data?.success) {
+//       throw new Error("Could Not Fetch ALL POSTS");
+//     }
+//     result = response?.data;
+//   } catch (error) {
+//     console.log("GET ALL POSTS API ERROR............", error);
+//   }
+//   return result;
+// };
+
+export const getAllPosts = async (token, currentPage) => {
+  console.log("currentPage",currentPage)
   let result = [];
   try {
-    const response = await apiConnector("GET", GET_ALL_POSTS_API, null, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector("GET", `${GET_ALL_POSTS_API}?currentPage=${currentPage}` , null , {
+  Authorization: `Bearer ${token}`,
+},);
+
 
     console.log("GETT ALL POSTS API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch ALL POSTS");
     }
-    result = response?.data?.posts;
+    result = response?.data;
   } catch (error) {
     console.log("GET ALL POSTS API ERROR............", error);
   }
   return result;
 };
+
+
 
 export const createPost = async (data, token) => {
   let result = null;
