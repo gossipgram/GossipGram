@@ -23,7 +23,6 @@ import PartnerFind from "./Pages/PartnerFind";
 import PartnerCredits from "./Pages/PartnerCredits";
 import PartnerProfile from "./Pages/PartnerProfile";
 import PartnerDefault from "./Pages/PartnerDefault";
-import GossipPatner from "./Pages/GossipPatner";
 import UsersProfile from "./Pages/UsersProfile";
 
 function App() {
