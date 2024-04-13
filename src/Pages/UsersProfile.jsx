@@ -14,14 +14,14 @@ const UsersProfile = () => {
         const fetchUserData = async () => {
             try {
                 const response = await getAllUserData(token);
-                setUserData(response?.userDetails);
+                setUserData(response);
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
             }
         };
-        if (token) {
+
             fetchUserData();
-        }
+        
     }, [token]);
 
     useEffect(() => {
@@ -38,11 +38,11 @@ const UsersProfile = () => {
             }
         };
         fetchUserDataById();
-    }, [id, token, userData, navigate]);
+    }, [id, token]);
 
 
     return (
-        <div className='mx-auto'>
+        <div className='mx-auto mt-4'>
             <UserProfile
                 userData={userData}
                 userId={clickedUser}

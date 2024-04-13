@@ -4,21 +4,19 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { MdOutlineAdd } from "react-icons/md";
 import { sendDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
-import io from "socket.io-client"; //____
+import io from "socket.io-client";
 
 const ENDPOINT = "http://localhost:4000";
-var socket, selectedChatCompare;
+let socket;
 
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
   const [messageText, setMessageText] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
-  const [socketConnected, setSocketConnected] = useState(false); //_____
 
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
-    socket.on("connection", () => setSocketConnected(true));
   }, []);
 
   const handleMessageChange = (event) => {
@@ -50,6 +48,13 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessageHandler();
+    }
+  };
+
   return (
     <div className="flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg">
       <div className="p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200">
@@ -64,6 +69,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
           placeholder="Write a message..."
           value={messageText}
           onChange={handleMessageChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
       <div className="p-2 hover:bg-richblue-300 rounded-xl cursor-pointer transition-all duration-200">

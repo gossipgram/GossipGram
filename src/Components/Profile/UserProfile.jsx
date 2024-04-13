@@ -19,8 +19,8 @@ import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  console.log("userId",userId);
-  console.log("matchingUsers",matchingUsers);
+  // console.log("userId",userId);
+  // console.log("matchingUsers",matchingUsers);
   console.log("userData",userData);
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userId?._id;
@@ -102,8 +102,13 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
+      console.log("inside checkFollowingStatus")
+      console.log("followers",followers)
+      console.log("following",following)
+      console.log("userData?.userDetails?._id",userData?.userDetails?._id)
       try {
         if (searchedUserId === userData?.userDetails?._id) {
+          console.log("inside if ")
           setItsUser(true);
         } else if (
           Array.isArray(followers) &&
@@ -111,6 +116,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
             (follower) => follower?.follower?._id === userData?.userDetails?._id
           )
         ) {
+          console.log("inside 1 elseif")
           setIsFollowing(true);
           setItsUser(false);
         } else if (
@@ -119,9 +125,11 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
             (follow) => follow?.following?._id === userData?.userDetails?._id
           )
         ) {
+          console.log("inside 2 elseif")
           setIsFollowBack(true);
           setItsUser(false);
         } else {
+          console.log("inside else")
           setIsFollowing(false);
           setIsFollowBack(false);
           setItsUser(false);
