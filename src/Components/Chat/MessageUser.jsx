@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaVideo } from "react-icons/fa";
 import { MdAddIcCall } from "react-icons/md";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const MessageUser = ({ userData, chatId, chatUser }) => {
+
   const [currentChatId, setCurrentChatId] = useState(chatId);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentChatId(chatId);
@@ -12,16 +15,20 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
   // const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
   const userUsername = userData?.userDetails?.username;
 
-  const { username: userName, image: userImage } =
+  const { username: userName, image: userImage , _id: id} =
     chatUser?.users?.find((user) => user.username !== userUsername) || {};
 
   if (!chatUser) {
     return null;
   }
 
+  const clickHandle = (id) => {
+    navigate(`/user/${id}`);
+  };
+
   return (
     <div className="flex items-center justify-between p-4 bg-richblack-700">
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer" onClick={clickHandle}>
         <img
           src={userImage}
           loading="lazy"
@@ -36,14 +43,14 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-10">
+      {/* <div className="flex items-center gap-10">
         <div className="p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200">
           <FaVideo className="w-10 h-10 text-white" />
         </div>
         <div className="p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200">
           <MdAddIcCall className="w-10 h-10 text-white" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
