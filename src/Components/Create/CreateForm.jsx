@@ -12,6 +12,7 @@ const CreateForm = ({ postType, setpostType }) => {
   const [captionText, setCaptionText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selecteduser, setSelecteduser] = useState([]);
+  const [taggedUser, setTaggedUser] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
   const [textContent, setTextContent] = useState("");
@@ -104,6 +105,11 @@ const CreateForm = ({ postType, setpostType }) => {
   const onSubmit = (event) => {
     // event.preventDefault();
     let data = new FormData();
+
+    selecteduser.map((user) => {
+      setTaggedUser([...taggedUser, user._id]);
+    });
+
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
@@ -120,12 +126,15 @@ const CreateForm = ({ postType, setpostType }) => {
       data.append("textContent", textContent);
       data.append("caption", titleText);
     }
+    data.append("taggedUsers", taggedUser);
+
     try {
       createPost(data, token);
       setImage(null);
       setTitleText("");
       setCaptionText("");
       setSelecteduser([]);
+      setTaggedUser([]);
     } catch (error) {
       console.log("Creating post error", error);
     }

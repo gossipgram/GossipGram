@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       ref: "Profile",
     },
-    
+
     kundali: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -61,6 +61,13 @@ const userSchema = new mongoose.Schema(
 
     // Relationship with Posts
     posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+
+    taggedPosts: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",

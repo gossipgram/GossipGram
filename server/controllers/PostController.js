@@ -5,7 +5,8 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 // Create a new post
 exports.createPost = async (req, res) => {
   try {
-    const { caption, textContent, hashtags } = req.body;
+    const { caption, textContent, hashtags, taggedUsers } = req.body;
+    console.log("taggedUsers-------", taggedUsers);
     let mediaUrl = null;
     if (!textContent) {
       mediaUrl = req.files.mediaUrl;
@@ -37,11 +38,22 @@ exports.createPost = async (req, res) => {
       textContent: textContent || "",
       user: userId,
       hashtag: hashtags || [],
+      taggedUsers: taggedUsers || [],
     });
 
     const savedPost = await newPost.save();
 
     await User.findByIdAndUpdate(userId, { $push: { posts: savedPost._id } });
+
+    const updateUserTagPost = async (taggedUser) => {
+      await User.findByIdAndUpdate(taggedUser, {
+        $push: { taggedPosts: savedPost._id },
+      });
+    };
+
+    taggedUsers.map((taggedUser) => {
+      updateUserTagPost(taggedUser);
+    });
 
     return res.status(201).json({
       success: true,
@@ -56,8 +68,6 @@ exports.createPost = async (req, res) => {
     });
   }
 };
-
-
 
 // Get post details by ID
 
@@ -106,7 +116,6 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
-
 exports.updatePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -141,7 +150,6 @@ exports.updatePostById = async (req, res) => {
     });
   }
 };
-
 
 // Delete post by ID
 
@@ -185,8 +193,8 @@ exports.getAllPostsByHashtag = async (req, res) => {
 
     // Find all posts that contain the given hashtag
     const posts = await Post.find({ hashtag }).populate({
-      path: 'user',
-      select: 'username image _id',
+      path: "user",
+      select: "username image _id",
     });
 
     return res.status(200).json({

@@ -1,57 +1,61 @@
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
-    {
-
-        caption: {
-            type: String,
-            default: "", 
-        },
-
-        // new feature
-        hashtag: [
-            {
-                type: String,
-                default: ""
-            }
-        ],
-        
-        mediaUrl: {
-            type: String,
-            default: "", 
-        },
-        
-        textContent: {
-            type: String,
-            default: "", 
-        },
-        
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
-        },
-
-        comments: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comment',
-        }],
-
-        likes: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        }],
-
+  {
+    caption: {
+      type: String,
+      default: "",
     },
-    { timestamps: true }
+
+    // new feature
+    hashtag: [
+      {
+        type: String,
+        default: "",
+      },
+    ],
+    // new feature tagges uder
+    taggedUsers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
+    mediaUrl: {
+      type: String,
+      default: "",
+    },
+
+    textContent: {
+      type: String,
+      default: "",
+    },
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('Post', postSchema);
-
-
-
-
-
+module.exports = mongoose.model("Post", postSchema);
 
 // const mongoose = require("mongoose");
 
@@ -62,13 +66,13 @@ module.exports = mongoose.model('Post', postSchema);
 //             type: String,
 //             required: true,
 //         },
-        
+
 //         // Image or video URL for the post
 //         mediaUrl: {
 //             type: String,
 //             required: true,
 //         },
-        
+
 //         // User who posted this
 //         user: {
 //             type: mongoose.Schema.Types.ObjectId,

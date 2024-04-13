@@ -60,7 +60,6 @@ export const getAllPosts = async (token) => {
 
 export const createPost = async (data, token) => {
   let result = null;
-
   const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector("POST", CREATE_POST_API, data, {
