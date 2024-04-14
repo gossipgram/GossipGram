@@ -4,6 +4,8 @@ import MessageUser from "../Components/Chat/MessageUser";
 import MessageBox from "../Components/Chat/MessageBox";
 import SendMessage from "../Components/Chat/SendMessage";
 import { getAllUserData } from "../services/operations/profileAPI";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import SideDrawer from "../Components/Chat/SideDrawer";
 
 const ChatPage = () => {
   const token = localStorage.getItem("token").split('"')[1];
@@ -14,6 +16,7 @@ const ChatPage = () => {
   const [chatId, setChatId] = useState(""); //__
   const [chatUser, setChatUser] = useState([]); //__
   const [chatFinal, setChatFinal] = useState([]);
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -35,10 +38,20 @@ const ChatPage = () => {
     // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
   };
   // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<",showSendMessage)
+
+  const handleToggleSideDrawer = () => {
+    setShowSideDrawer(!showSideDrawer); 
+  };
+
   return (
     <div className="w-full overflow-x-hidden overflow-y-hidden flex flex-row mt-10 mx-auto">
       <div className=" w-4/12 h-full flex flex-col bg-richblack-700 rounded-md mx-10 gap-5">
-        <h1 className="text-white text-4xl mx-auto mt-5">INBOX</h1>
+        <div className="flex flex-row items-center justify-between px-5">
+          <h1 className="text-white text-4xl  mt-5">INBOX</h1>
+          
+          <AiOutlineUsergroupAdd className="w-10 h-10 text-white mt-4 cursor-pointer" onClick={handleToggleSideDrawer}/>
+        </div>
+        
         <ListChats
           setChatFinal={setChatFinal}
           setMessages={setMessages}
@@ -76,6 +89,7 @@ const ChatPage = () => {
           />
         ) : null}
       </div>
+      {showSideDrawer && <SideDrawer handleToggleSideDrawer={handleToggleSideDrawer}/>} 
     </div>
   );
 };
