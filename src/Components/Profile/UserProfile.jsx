@@ -284,8 +284,8 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
             <button
               className={`grid cursor-pointer aspect-rectangle w-[70px] h-[40px] place-items-center rounded-xl border-[1px] mt-3 p-5${
                 postSection === item.title
-                  ? "border-yellow-50 bg-yellow-900 text-yellow-50 transition-all duration-700"
-                  : "border-richblack-700 bg-richblack-800 text-richblack-300 hover:text-yellow-400 transition-all duration-700"
+                  ? "border-yellow-50 bg-yellow-900 text-yellow-50 transition-all duration-200"
+                  : "border-richblack-700 bg-richblack-800 text-richblack-300 hover:text-yellow-400 transition-all duration-200"
               } ${step > item.id && "bg-yellow-50 text-yellow-50"}`}
               onClick={() => setPostSection(item.title)}
             >

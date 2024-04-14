@@ -2,8 +2,8 @@ import React from 'react'
 
 const TaggedPost = () => {
   return (
-    <div className='w-52 h-52'>
-      Tagged
+    <div className="text-center text-3xl mt-40 text-richblack-5 transition-all duration-700">
+      No Tagged Post
     </div>
   )
 }
