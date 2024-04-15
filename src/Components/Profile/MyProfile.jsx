@@ -17,27 +17,25 @@ import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
+const MyProfile = ({ userData, handleEditProfile }) => {
+  console.log("UserData111", userData);
+  const userId = userData?.userDetails;
+  const { step } = useSelector((state) => state.userProfile);
+  const searchedUserId = userData?.userDetails?._id;
+  const navigate = useNavigate();
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [totalFollower, setTotalFollower] = useState(userId?.followers?.length);
+  const [isFollowBack, setIsFollowBack] = useState(false);
+  const token = localStorage.getItem("token").split('"')[1];
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [itsUser, setItsUser] = useState(false);
+  const [postSection, setPostSection] = useState("Posts");
+  const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
+  const [followerDetails, setFollowerDetails] = useState([]);
 
-const MyProfile = ({ userData , handleEditProfile}) => {
-    console.log("UserData111",userData)
-    const userId = userData?.userDetails
-    const { step } = useSelector((state) => state.userProfile);
-    const searchedUserId = userData?.userDetails?._id;
-    const navigate = useNavigate();
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [totalFollower, setTotalFollower] = useState(userId?.followers?.length);
-    const [isFollowBack, setIsFollowBack] = useState(false);
-    const token = localStorage.getItem("token").split('"')[1];
-    const [followers, setFollowers] = useState([]);
-    const [following, setFollowing] = useState([]);
-    const [itsUser, setItsUser] = useState(false);
-    const [postSection, setPostSection] = useState("Posts");
-    const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
-    const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
-    const [followerDetails, setFollowerDetails] = useState([]);
-
-
-    const steps = [
+  const steps = [
     {
       id: 1,
       title: "Posts",
@@ -64,39 +62,39 @@ const MyProfile = ({ userData , handleEditProfile}) => {
 
   useEffect(() => {
     const fetchAllFollowers = async () => {
-        try {
-            console.log("searchedUserId", searchedUserId);
-            const response = await getFollowersForUser(searchedUserId, token);
-            setFollowers(response.followers); // Extract followers array from the response
-        } catch (error) {
-            console.error("Error in fetching followers of user:", error.message);
-        }
+      try {
+        console.log("searchedUserId", searchedUserId);
+        const response = await getFollowersForUser(searchedUserId, token);
+        setFollowers(response.followers); // Extract followers array from the response
+      } catch (error) {
+        console.error("Error in fetching followers of user:", error.message);
+      }
     };
-    if (token && searchedUserId) { // Check if both token and searchedUserId are truthy
-        fetchAllFollowers();
+    if (token && searchedUserId) {
+      // Check if both token and searchedUserId are truthy
+      fetchAllFollowers();
     }
-}, [token, searchedUserId]); // Pass searchedUserId as a dependency
+  }, [token, searchedUserId]); // Pass searchedUserId as a dependency
 
-useEffect(() => {
+  useEffect(() => {
     const fetchAllFollowing = async () => {
-        try {
-            const response = await getFollowingForUser(searchedUserId, token);
-            setFollowing(response.following);
-        } catch (error) {
-            console.error("Error in fetching following for user", error.message);
-        }
+      try {
+        const response = await getFollowingForUser(searchedUserId, token);
+        setFollowing(response.following);
+      } catch (error) {
+        console.error("Error in fetching following for user", error.message);
+      }
     };
 
-    if (token && searchedUserId) { // Check if both token and searchedUserId are truthy
-        fetchAllFollowing();
+    if (token && searchedUserId) {
+      // Check if both token and searchedUserId are truthy
+      fetchAllFollowing();
     }
-}, [token, searchedUserId]); // Pass searchedUserId as a dependency
-
+  }, [token, searchedUserId]); // Pass searchedUserId as a dependency
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
       try {
-
         if (searchedUserId === userData?.userDetails?._id) {
           console.log("if case k under");
           setItsUser(true);
@@ -165,7 +163,6 @@ useEffect(() => {
       toast.error("Failed to access chat. Please try again.");
     }
   };
-
 
   return (
     <div className="flex flex-col mx-auto gap-2">
@@ -248,11 +245,9 @@ useEffect(() => {
           className={`w-1/2 bg-yellow-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-yellow-200`}
           onClick={handleEditProfile}
         >
-            Edit profile
+          Edit profile
         </button>
-        <button
-          className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
-        >
+        <button className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200">
           Liked Posts
         </button>
       </div>
@@ -295,13 +290,13 @@ useEffect(() => {
             searchedUser={userId}
           />
         ) : postSection === "Tagged" ? (
-          <TaggedPost />
+          <TaggedPost userId={userId} matchingUsers={userId} />
         ) : (
           <PostGrid />
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MyProfile
+export default MyProfile;

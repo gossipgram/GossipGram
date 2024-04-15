@@ -249,7 +249,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   <div className="flex flex-col gap-3 m-5">
                     {postUser && (
                       <div className="flex flex-col gap-3">
-                        {!post.textContent && (
+                        {!post.titleText && (
                           <button
                             onClick={handleEditPost}
                             className=" px-4 py-2 text-richblack-50 flex items-center gap-3 bg-richblack-600 cursor-pointer rounded-xl hover:bg-richblack-500 hover:text-yellow-200 transition-all duration-200"
@@ -314,10 +314,10 @@ const PostCard = ({ post, userId, postUserId }) => {
             ) : (
               <div className="p-5 flex flex-col gap-3">
                 <h2 className="text-richblack-25 text-2xl font-bold">
-                  {captionText}
+                  {post.titleText}
                 </h2>
                 <p className="text-richblack-50 text-xl ml-5">
-                  <ExpandableText text={post.textContent} maxLength={500} />
+                  <ExpandableText text={captionText} maxLength={500} />
                 </p>
               </div>
             )}
@@ -347,7 +347,7 @@ const PostCard = ({ post, userId, postUserId }) => {
               </div>
             ) : (
               <p className=" text-white">
-                {!post.textContent ? (
+                {!post.titleText ? (
                   <div>
                     <span className="font-semibold inline-flex">
                       {post.user.username}

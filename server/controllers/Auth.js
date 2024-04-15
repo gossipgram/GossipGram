@@ -5,16 +5,18 @@ const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const mailSender = require("../utils/mailSender");
 const { passwordUpdated } = require("../mail/template/passwordUpdate");
-const { emailVerificationTemplate } = require("../mail/template/emailVerificationTemplate");
+const {
+  emailVerificationTemplate,
+} = require("../mail/template/emailVerificationTemplate");
 const Profile = require("../models/Profile");
-const Kundali = require("../models/Kundali")
+const Kundali = require("../models/Kundali");
 require("dotenv").config();
 
 // send otp
 exports.sendotp = async (req, res) => {
   try {
     //fetch email from req
-    const { email , username } = req.body;
+    const { email, username } = req.body;
 
     //check if user already exist
     const checkUserPresent = await User.findOne({ email });
@@ -162,7 +164,7 @@ exports.signup = async (req, res) => {
       bio: null,
       contactNumber: null,
     });
-    console.log("before kundali")
+    console.log("before kundali");
 
     //entry crete for Kundali
     const kundaliDetails = await Kundali.create({
@@ -177,7 +179,7 @@ exports.signup = async (req, res) => {
       food: null,
       songs: null,
       additionalDetails: profileDetails._id,
-    })
+    });
 
     const user = await User.create({
       firstName,
@@ -336,6 +338,14 @@ exports.getAllUsers = async (req, res) => {
       .populate("additionalDetails")
       .populate({
         path: "posts",
+        model: "Post",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "taggedPosts",
         model: "Post",
         populate: {
           path: "user",

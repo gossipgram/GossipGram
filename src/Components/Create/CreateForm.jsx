@@ -12,14 +12,12 @@ const CreateForm = ({ postType, setpostType }) => {
   const [captionText, setCaptionText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selecteduser, setSelecteduser] = useState([]);
-  const [taggedUser, setTaggedUser] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
-  const [textContent, setTextContent] = useState("");
   const [notImage, setNotImage] = useState(false);
 
   const {
-    register,
+    // register,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -61,7 +59,7 @@ const CreateForm = ({ postType, setpostType }) => {
   };
 
   const captionChangeHandler = (event) => {
-    setCaptionText(event.target.innerText);
+    setCaptionText(event.target.value);
   };
 
   const handleSearchUserInput = (event) => {
@@ -83,10 +81,6 @@ const CreateForm = ({ postType, setpostType }) => {
     setSelecteduser(selecteduser.filter((user) => user._id !== userId));
   };
 
-  const handleGossipChange = (event) => {
-    setTextContent(event.target.value);
-  };
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -106,9 +100,11 @@ const CreateForm = ({ postType, setpostType }) => {
     // event.preventDefault();
     let data = new FormData();
 
-    selecteduser.map((user) => {
-      setTaggedUser([...taggedUser, user._id]);
+    let taggedUser = [];
+    selecteduser.forEach((user) => {
+      taggedUser.push(user._id);
     });
+    console.log("taggesuer ", taggedUser);
 
     let hashtags = captionText.match(/#[^\s#]*/g);
     console.log("hashtags", hashtags);
@@ -118,26 +114,31 @@ const CreateForm = ({ postType, setpostType }) => {
         setNotImage(true);
         return;
       }
-      data.append("caption", captionText);
-      data.append("hashtags", hashtags);
+
       data.append("mediaUrl", image);
     } else {
-      if (!textContent) {
-        alert("Text is required");
+      if (!captionText) {
+        alert("Gossip is required");
         return;
       }
-      data.append("textContent", textContent);
-      data.append("caption", titleText);
+      data.append("titleText", titleText);
     }
-    data.append("taggedUsers", taggedUser);
+    data.append("caption", captionText);
+
+    taggedUser.forEach((user) => {
+      data.append("taggedUsers", user);
+    });
+
+    hashtags.forEach((tag) => {
+      data.append("hashtags", tag);
+    });
 
     try {
       createPost(data, token);
-      setImage(null);
-      setTitleText("");
-      setCaptionText("");
-      setSelecteduser([]);
-      setTaggedUser([]);
+      // setImage(null);
+      // setTitleText("");
+      // setCaptionText("");
+      // setSelecteduser([]);
     } catch (error) {
       console.log("Creating post error", error);
     }
@@ -192,8 +193,8 @@ const CreateForm = ({ postType, setpostType }) => {
             <textarea
               type="text"
               id="caption"
-              onChange={handleGossipChange}
-              value={textContent}
+              onChange={captionChangeHandler}
+              value={captionText}
               // {...register("textContent", {
               //   required: "Gossip content is required",
               // })}
@@ -236,6 +237,7 @@ const CreateForm = ({ postType, setpostType }) => {
                     >
                       <img
                         src={user.image}
+                        alt="User display pic"
                         width={50}
                         height={50}
                         className="rounded-full"
@@ -252,6 +254,7 @@ const CreateForm = ({ postType, setpostType }) => {
                   >
                     <img
                       src={selecteduser.image}
+                      alt="tagged user pic"
                       width={50}
                       height={50}
                       className="rounded-full"
@@ -329,23 +332,23 @@ const CreateForm = ({ postType, setpostType }) => {
               <label className="text-richblack-25 text-2xl" htmlFor="caption">
                 Caption
               </label>
-              {/* <textarea
+              <textarea
                 type="text"
                 id="caption"
                 onChange={captionChangeHandler}
                 value={captionText}
                 placeholder="Enter your caption here..."
                 className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden "
-              /> */}
-              <div
+              />
+              {/* <div
                 className="bg-richblack-500 scrolling text-richblack-25 py-3 text-lg rounded-xl px-4 border border-gray-300 focus:outline-none focus:ring focus:border-yellow-200 resize-none scroll h-28 transition-all duration-300 scrollbar-hidden"
                 id="inputContainer"
                 contentEditable
                 onInput={captionChangeHandler}
                 placeholder="Enter your caption here..."
               >
-                {/* {renderHilightedHashtags()} */}
-              </div>
+                {renderHilightedHashtags()}
+              </div> */}
 
               <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
                 Tag User
@@ -374,6 +377,7 @@ const CreateForm = ({ postType, setpostType }) => {
                         onClick={() => handleUserClick(user)}
                       >
                         <img
+                          alt="user pic"
                           src={user.image}
                           width={50}
                           height={50}
@@ -392,6 +396,7 @@ const CreateForm = ({ postType, setpostType }) => {
                       className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
                     >
                       <img
+                        alt="tagged user "
                         src={selecteduser.image}
                         width={50}
                         height={50}

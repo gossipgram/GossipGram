@@ -82,6 +82,10 @@ exports.getAllUserData = async (req, res) => {
         model: "Post",
       })
       .populate({
+        path: "taggedPosts",
+        model: "Post",
+      })
+      .populate({
         path: "recentSearches",
         populate: {
           path: "searchedUser",
@@ -121,6 +125,10 @@ exports.getAllUserDataById = async (req, res) => {
       .populate("additionalDetails")
       .populate({
         path: "posts",
+        model: "Post",
+      })
+      .populate({
+        path: "taggedPosts",
         model: "Post",
       })
       .populate({

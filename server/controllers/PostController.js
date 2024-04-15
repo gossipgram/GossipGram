@@ -5,15 +5,16 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 // Create a new post
 exports.createPost = async (req, res) => {
   try {
-    const { caption, textContent, hashtags, taggedUsers } = req.body;
-    console.log("taggedUsers-------", taggedUsers);
+    const { caption, titleText, hashtags, taggedUsers } = req.body;
+    console.log("hashtags", hashtags);
+    console.log("caption", caption);
     let mediaUrl = null;
-    if (!textContent) {
+    if (!titleText) {
       mediaUrl = req.files.mediaUrl;
     }
 
     // Validation
-    if (!(caption || mediaUrl || textContent) && !(mediaUrl || textContent)) {
+    if (!(caption || mediaUrl || titleText) && !(mediaUrl || titleText)) {
       return res.status(400).json({
         success: false,
         message:
@@ -35,10 +36,8 @@ exports.createPost = async (req, res) => {
     const newPost = new Post({
       caption,
       mediaUrl: mediaUrlImage.secure_url || "",
-      textContent: textContent || "",
+      titleText: titleText || "",
       user: userId,
-      hashtag: hashtags || [],
-      taggedUsers: taggedUsers || [],
     });
 
     const savedPost = await newPost.save();
@@ -49,11 +48,28 @@ exports.createPost = async (req, res) => {
       await User.findByIdAndUpdate(taggedUser, {
         $push: { taggedPosts: savedPost._id },
       });
+      await Post.findByIdAndUpdate(savedPost._id, {
+        $push: { taggedUsers: taggedUser },
+      });
     };
 
-    taggedUsers.map((taggedUser) => {
-      updateUserTagPost(taggedUser);
-    });
+    const updateHashtags = async (hashtag) => {
+      await Post.findByIdAndUpdate(savedPost._id, {
+        $push: { hashtag: hashtag },
+      });
+    };
+
+    if (hashtags) {
+      hashtags.forEach((hashtag) => {
+        updateHashtags(hashtag);
+      });
+    }
+
+    if (taggedUsers) {
+      taggedUsers.forEach((taggedUser) => {
+        updateUserTagPost(taggedUser);
+      });
+    }
 
     return res.status(201).json({
       success: true,

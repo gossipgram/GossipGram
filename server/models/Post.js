@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema(
       default: "",
     },
 
-    textContent: {
+    titleText: {
       type: String,
       default: "",
     },
