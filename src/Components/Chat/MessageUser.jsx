@@ -28,7 +28,7 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
 
   return (
     <div className="flex items-center justify-between p-4 bg-richblack-700">
-      <div className="flex items-center cursor-pointer" onClick={clickHandle}>
+      <div className="flex items-center cursor-pointer" onClick={() => clickHandle(id)}>
         <img
           src={userImage}
           loading="lazy"
