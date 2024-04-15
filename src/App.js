@@ -24,6 +24,7 @@ import PartnerCredits from "./Pages/PartnerCredits";
 import PartnerProfile from "./Pages/PartnerProfile";
 import PartnerDefault from "./Pages/PartnerDefault";
 import UsersProfile from "./Pages/UsersProfile";
+import ShowPosts from "./Pages/ShowPosts";
 
 function App() {
   return (
@@ -131,6 +132,16 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
+
+        <Route
+          path="/posts/:query"
+          element={
+            <PrivateRoute>
+              <ShowPosts />
+            </PrivateRoute>
+          }
+        ></Route>
+
         <Route path="*" element={<Navigate to="/404" />}></Route>
         <Route path="/404" element={<NotFound />}></Route>
 

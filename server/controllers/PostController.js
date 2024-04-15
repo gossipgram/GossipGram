@@ -155,12 +155,11 @@ exports.getAllPosts = async (req, res) => {
 exports.updatePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const { caption, mediaUrl, textContent } = req.body.data;
-
+    const { caption } = req.body.data;
+    let hashtags = caption.match(/#[^\s#]*/g);
     const updatedFields = {};
     if (caption) updatedFields.caption = caption;
-    if (mediaUrl) updatedFields.mediaUrl = mediaUrl;
-    if (textContent) updatedFields.textContent = textContent;
+    if (hashtags) updatedFields.hashtag = hashtags;
 
     const updatedPost = await Post.findByIdAndUpdate(postId, updatedFields, {
       new: true,
