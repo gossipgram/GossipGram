@@ -203,6 +203,7 @@ const MessageBox = ({ messages, setMessages, userData }) => {
           {formatDate(date)}
         </div>
         {groupedMessages.map((message, index) => {
+          console.log("message_____________",message)
           const isSenderCurrentUser = message?.sender?.username === userData?.userDetails?.username;
           const messageStyle = {
             display: "flex",
@@ -220,9 +221,9 @@ const MessageBox = ({ messages, setMessages, userData }) => {
           return (
             <div key={index} style={messageStyle}>
               {isSenderCurrentUser ? (
-                <RightChat message={message?.content} time={time} />
+                <RightChat message={message.content} time={time} />
               ) : (
-                <LeftChat message={message?.content} time={time} />
+                <LeftChat message={message} time={time} />
               )}
             </div>
           );

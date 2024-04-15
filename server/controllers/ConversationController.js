@@ -73,38 +73,43 @@ const fetchChats = async (req, res) => {
 //@route           POST /api/chat/group
 //@access          Protected
 const createGroupChat = async (req, res) => {
-  if (!req.body.users || !req.body.name) {
-    return res.status(400).send({ message: "Please Fill all the feilds" });
-  }
+    console.log("req.body.users", req.body.users);
+    console.log("req.body.name", req.body.name);
 
-  var users = JSON.parse(req.body.users);
+    if (!req.body.users || !req.body.name) {
+        return res.status(400).send({ message: "Please Fill all the fields" });
+    }
 
-  if (users.length < 2) {
-    return res
-      .status(400)
-      .send("More than 2 users are required to form a group chat");
-  }
+    // Splitting the string by commas to get an array of user IDs
+    var users = req.body.users.split(',');
 
-  users.push(req.user);
+    if (users.length < 2) {
+        return res
+            .status(400)
+            .send("More than 2 users are required to form a group chat");
+    }
 
-  try {
-    const groupChat = await Chat.create({
-      chatName: req.body.name,
-      users: users,
-      isGroupChat: true,
-      groupAdmin: req.user,
-    });
+    users.push(req.user);
 
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
-      .populate("users", "-password")
-      .populate("groupAdmin", "-password");
+    try {
+        const groupChat = await Chat.create({
+            chatName: req.body.name,
+            users: users,
+            isGroupChat: true,
+            groupAdmin: req.user,
+            groupImage: "https://res.cloudinary.com/dmnbbtccl/image/upload/v1713170505/MajorProject/esrtxhlym4qmyabqwqeg.jpg"
+        });
 
-    res.status(200).json(fullGroupChat);
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
+        const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password");
+
+        res.status(200).json(fullGroupChat);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 };
+
 
 // @desc    Rename Group
 // @route   PUT /api/chat/rename

@@ -16,19 +16,28 @@ const ChatListItem = ({
   setChatUser,
   messages,
 }) => {
+  console.log("chat_____________", chat);
   const navigate = useNavigate();
   const location = useLocation();
   const userUsername = userData?.userDetails?.username;
-  const [user1, user2] = chat.users;
-  const chatId = chat._id;
+  const { _id: chatId, isGroupChat, chatName, groupImage, users } = chat;
+  
+  let userName, userImage;
+  if (isGroupChat) {
+    userName = chatName;
+    userImage = groupImage;
+  } else {
+    const { username, image } = users.find((user) => user.username !== userUsername) || {};
+    userName = username;
+    userImage = image;
+  }
+
   const token = localStorage.getItem("token").split('"')[1];
   const content = chat.latestMessage
     ? `${chat.latestMessage.content.substring(0, 25)}${
         chat.latestMessage.content.length > 25 ? "..." : ""
       }`
     : "";
-  const { username: userName, image: userImage } =
-    chat.users.find((user) => user.username !== userUsername) || {};
 
   useEffect(() => {
     socket = io(ENDPOINT);
