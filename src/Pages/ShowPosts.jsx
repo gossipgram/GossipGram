@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getAllPostsByHashtag } from "../services/operations/mediaAPI";
 
 const ShowPosts = () => {
+  const token = localStorage.getItem("token").split('"')[1];
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const hashtag = currentPath.split("/")[2];
+  const [allPosts, setAllPosts] = useState([]);
+
+  useEffect(() => {
+    try {
+      getAllPostsByHashtag(hashtag, token);
+    } catch (error) {}
+  }, [hashtag]);
+
   return (
     <div>
-      <h1>show posts page</h1>
+      <div>Hashtag</div>
+      <div></div>
     </div>
   );
 };

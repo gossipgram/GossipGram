@@ -225,13 +225,13 @@ exports.deletePostById = async (req, res) => {
 exports.getAllPostsByHashtag = async (req, res) => {
   try {
     const { hashtag } = req.params;
+    // console.log("Hashtag", hashtag);
 
     // Find all posts that contain the given hashtag
-    const posts = await Post.find({ hashtag }).populate({
+    const posts = await Post.find({ hashtag: { $in: [hashtag] } }).populate({
       path: "user",
       select: "username image _id",
     });
-
     return res.status(200).json({
       success: true,
       message: `Posts with hashtag '${hashtag}' retrieved successfully`,

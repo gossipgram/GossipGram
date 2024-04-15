@@ -161,7 +161,6 @@ export const deletePostById = async (postId, token) => {
 
 export const getAllPostsByHashtag = async (hashtag, token) => {
   let result = [];
-  const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector(
       "GET",
@@ -175,10 +174,9 @@ export const getAllPostsByHashtag = async (hashtag, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Get posts");
     }
-    toast.success("POST Deleted");
+
     result = response?.data?.data;
   } catch (error) {
-    console.log("DELETE POST BY ID API ERROR............", error);
-    toast.error(error.message);
+    console.log("get POST BY hashtag API ERROR............", error);
   }
 };
