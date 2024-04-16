@@ -11,6 +11,7 @@ const ListChats = ({
   setChatUser,
   setChatFinal,
   messages,
+  setShowInfo
 }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,6 +50,7 @@ const ListChats = ({
       ) : (
         chats.map((chat) => (
           <ChatListItem
+            setShowInfo={setShowInfo}
             setChatUser={setChatUser}
             chat={chat}
             chatId={chat._id}

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaVideo } from "react-icons/fa";
 import { MdAddIcCall } from "react-icons/md";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import { BsFillInfoCircleFill } from "react-icons/bs";
 
-const MessageUser = ({ userData, chatId, chatUser }) => {
+const MessageUser = ({ userData, chatId, chatUser , handleShowInfo}) => {
+  console.log("chatUsers",chatUser)
   const [currentChatId, setCurrentChatId] = useState(chatId);
   const navigate = useNavigate();
 
@@ -32,8 +34,11 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
   }
 
   const clickHandle = (id) => {
-    navigate(`/user/${id}`);
+    if (!chatUser.isGroupChat && id) {
+      navigate(`/user/${id}`);
+    }
   };
+
 
   return (
     <div className="flex items-center justify-between p-4 bg-richblack-700">
@@ -52,14 +57,14 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
         </div>
       </div>
 
-      {/* <div className="flex items-center gap-10">
+      <div className="flex items-center gap-10">
         <div className="p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200">
-          <FaVideo className="w-10 h-10 text-white" />
+          <BsFillInfoCircleFill className="w-10 h-10 text-white" onClick={handleShowInfo}/>
         </div>
-        <div className="p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200">
+        {/* <div className="p-2 hover:bg-richblack-600 rounded-2xl cursor-pointer transition-all duration-200">
           <MdAddIcCall className="w-10 h-10 text-white" />
-        </div>
-      </div> */}
+        </div> */}
+      </div>
     </div>
   );
 };

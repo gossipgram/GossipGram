@@ -76,6 +76,7 @@ function App() {
           }
         >
           <Route path="/chat/:chatId" element={<MessageBox />}></Route>
+          {/* <Route path="/chat/:chatId/info" element={<InfoChatUser />}></Route> */}
         </Route>
 
         <Route
