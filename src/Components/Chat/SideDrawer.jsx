@@ -77,6 +77,7 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
                     type="text"
                     name="bio"
                     id="bio"
+                    maxLength={25}
                     placeholder="Enter Group Name"
                     className="rounded-xl bg-richblack-400 p-3 text-[16px] leading-[24px] text-richblack-5  placeholder:text-richblack-600 focus:outline-none"
                     onChange={e => setGroupName(e.target.value)}
@@ -103,12 +104,14 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
                         key={selecteduser._id}
                         className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
                     >
-                        <img
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <img
                             src={selecteduser.image}
                             width={50}
                             height={50}
-                            className="rounded-full"
-                        />
+                            className="w-full h-full object-cover"
+                            />
+                        </div>
                         <span>{selecteduser.username}</span>
                         <button onClick={() => handleRemoveUser(selecteduser._id)}>
                             <RxCross2 />

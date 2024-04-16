@@ -24,6 +24,7 @@ import PartnerCredits from "./Pages/PartnerCredits";
 import PartnerProfile from "./Pages/PartnerProfile";
 import PartnerDefault from "./Pages/PartnerDefault";
 import UsersProfile from "./Pages/UsersProfile";
+import InfoChatUser from "./Components/Chat/InfoChatUser";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
           }
         >
           <Route path="/chat/:chatId" element={<MessageBox />}></Route>
+          {/* <Route path="/chat/:chatId/info" element={<InfoChatUser />}></Route> */}
         </Route>
 
         <Route

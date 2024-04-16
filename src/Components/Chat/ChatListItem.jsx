@@ -15,6 +15,7 @@ const ChatListItem = ({
   userData,
   setChatUser,
   messages,
+  setShowInfo
 }) => {
   console.log("chat_____________", chat);
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const ChatListItem = ({
       const messagesData = await getAllDirectMessage(chatId, token);
       setChatUser(chat);
       setMessages(messagesData);
+      setShowInfo(false);
       setChatId(chatId);
       handleSendMessageClick(chat);
       socket.emit("join chat", chatId);
