@@ -45,7 +45,6 @@ const accessChat = async (req, res) => {
   }
 };
 
-
 //@description     Fetch all chats for a user
 //@route           GET /api/chat/
 //@access          Protected
@@ -74,10 +73,11 @@ const fetchChats = async (req, res) => {
 //@access          Protected
 const createGroupChat = async (req, res) => {
   if (!req.body.users || !req.body.name) {
-    return res.status(400).send({ message: "Please Fill all the feilds" });
+    return res.status(400).send({ message: "Please Fill all the fields" });
   }
 
-  var users = JSON.parse(req.body.users);
+  // Splitting the string by commas to get an array of user IDs
+  var users = req.body.users.split(",");
 
   if (users.length < 2) {
     return res
@@ -93,6 +93,8 @@ const createGroupChat = async (req, res) => {
       users: users,
       isGroupChat: true,
       groupAdmin: req.user,
+      groupImage:
+        "https://res.cloudinary.com/dmnbbtccl/image/upload/v1713170505/MajorProject/esrtxhlym4qmyabqwqeg.jpg",
     });
 
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
@@ -101,8 +103,7 @@ const createGroupChat = async (req, res) => {
 
     res.status(200).json(fullGroupChat);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
@@ -196,12 +197,6 @@ module.exports = {
   addToGroup,
   removeFromGroup,
 };
-
-
-
-
-
-
 
 // const Conversation = require("../models/Conversation");
 // const Message = require("../models/Message");

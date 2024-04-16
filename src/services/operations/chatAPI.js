@@ -66,22 +66,25 @@ export const fetchChats = async (token) => {
   return result;
 };
 
-export const createGroupChat = async (data, token) => {
+export const createGroupChat = async (token , data) => {
+  console.log("data",data)
   const toastId = toast.loading("Loading...");
   let result = [];
   try {
-    const response = await apiConnector("POST", data, CREATE_GROUP_CHAT_API, {
+    console.log("inside the response function of API")
+    const response = await apiConnector("POST", CREATE_GROUP_CHAT_API, data , {
       Authorization: `Bearer ${token}`,
     });
     console.log("CREATE_GROUP_CHAT_API API RESPONSE............", response);
 
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
+    // if (!response.data.success) {
+    //   throw new Error(response.data.message);
+    // }
     result = response.data;
   } catch (error) {
     console.log("CREATE_GROUP_CHAT_API API ERROR............", error);
     result = error.response.data;
+    
     // toast.error(error.response.data.message);
   }
   toast.dismiss(toastId);

@@ -44,7 +44,6 @@ exports.sendotp = async (req, res) => {
       lowerCaseAlphabets: false,
       specialChars: false,
     });
-    console.log("OTP generated :", otp);
 
     //check is otp is unique or not
     let result = await OTP.findOne({ otp: otp });
@@ -62,7 +61,6 @@ exports.sendotp = async (req, res) => {
 
     //create an entry for OTP
     const otpBody = await OTP.create(otpPayload);
-    console.log(otp.Body);
 
     //return response successfull
     res.status(200).json({
@@ -139,7 +137,7 @@ exports.signup = async (req, res) => {
     const recentOtp = await OTP.find({ email })
       .sort({ createdAt: -1 })
       .limit(1);
-    console.log(recentOtp);
+
     //validate OTP
     if (recentOtp.length === 0) {
       //OTP not found
@@ -164,7 +162,6 @@ exports.signup = async (req, res) => {
       bio: null,
       contactNumber: null,
     });
-    console.log("before kundali");
 
     //entry crete for Kundali
     const kundaliDetails = await Kundali.create({
@@ -304,7 +301,6 @@ exports.changePassword = async (req, res) => {
           `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
         )
       );
-      console.log("Email sent successfully:", emailResponse.response);
     } catch (error) {
       // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
       console.error("Error occurred while sending email:", error);

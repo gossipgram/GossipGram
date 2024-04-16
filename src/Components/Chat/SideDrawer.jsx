@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { getAllUsers } from "../../services/operations/authAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
+import { createGroupChat } from "../../services/operations/chatAPI";
 
 const SideDrawer = ({ handleToggleSideDrawer }) => {
     const [allUsers, setAllUsers] = useState([]);
     const token = localStorage.getItem("token").split('"')[1];
     const [searchQuery, setSearchQuery] = useState("");
     const [selecteduser, setSelecteduser] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState([]);
+    const [groupName, setGroupName] = useState('');
 
     const handleSearchUserInput = (event) => {
         setSearchQuery(event.target.value);
@@ -16,9 +19,12 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
     const handleUserClick = (user, event) => {
         if (!selecteduser.some((selecteduser) => selecteduser._id === user._id)) {
             setSelecteduser([...selecteduser, user]);
+            setSelectedUserId([...selectedUserId , user._id])
         }
         setSearchQuery("");
     };
+    console.log("selecteduser",selecteduser)
+    console.log("selectedUserId",selectedUserId)
 
     const handleRemoveUser = (userId) => {
         setSelecteduser(selecteduser.filter((user) => user._id !== userId));
@@ -43,7 +49,18 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
             fetchUserData();
         }
     }, [token]);
-    console.log("allUsers",allUsers)
+
+    let data = new FormData();
+    const createHandler = async () => {
+        try{
+            data.append("name", groupName);
+            data.append("users",selectedUserId );
+            const response = await createGroupChat(token , data)
+            console.log(response)
+        } catch (error) {
+            console.error("Error fetching user data:", error.message);
+        }
+    }
 
     return (
         <div className="flex flex-col fixed top-10 left-40 w-[26rem] h-[95%] bg-gray-800 text-white p-4 bg-richblack-500 gap-8">
@@ -62,6 +79,7 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
                     id="bio"
                     placeholder="Enter Group Name"
                     className="rounded-xl bg-richblack-400 p-3 text-[16px] leading-[24px] text-richblack-5  placeholder:text-richblack-600 focus:outline-none"
+                    onChange={e => setGroupName(e.target.value)}
                 />
                 {/* <span className="text-xs text-right text-richblack-5">{wordCount}/100 characters</span> */}
             </div>
@@ -126,7 +144,7 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
                 className={`flex items-center justify-center
                 border border-yellow-50 bg-yellow-200
                 cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300 mt-auto`} // Added mt-auto to move button to the bottom
-                // onClick={}
+                onClick={createHandler}
             >
                 Create
             </button>

@@ -6,8 +6,7 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 exports.createPost = async (req, res) => {
   try {
     const { caption, titleText, hashtags, taggedUsers } = req.body;
-    console.log("hashtags", hashtags);
-    console.log("caption", caption);
+
     let mediaUrl = null;
     if (!titleText) {
       mediaUrl = req.files.mediaUrl;
@@ -30,7 +29,6 @@ exports.createPost = async (req, res) => {
         mediaUrl,
         process.env.FOLDER_NAME
       );
-      console.log(mediaUrlImage.secure_url);
     }
 
     const newPost = new Post({
@@ -122,8 +120,6 @@ exports.getAllPosts = async (req, res) => {
 
     const page = parseInt(req.query.currentPage) || 1;
     const limit = parseInt(req.query.limit) || 10;
-
-    console.log("currentPage", page);
 
     const count = await Post.countDocuments();
     const totalPages = Math.ceil(count / limit);
@@ -225,7 +221,7 @@ exports.deletePostById = async (req, res) => {
 exports.getAllPostsByHashtag = async (req, res) => {
   try {
     const { hashtag } = req.params;
-    // console.log("Hashtag", hashtag);
+    console.log("Hashtag", hashtag);
 
     // Find all posts that contain the given hashtag
     const posts = await Post.find({ hashtag: { $in: [hashtag] } }).populate({

@@ -346,7 +346,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                 </button>
               </div>
             ) : (
-              <p className=" text-white">
+              <div className=" text-white">
                 {!post.titleText ? (
                   <div>
                     <span className="font-semibold inline-flex">
@@ -359,7 +359,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                     />{" "}
                   </div>
                 ) : null}
-              </p>
+              </div>
             )}
           </div>
           <div className="flex gap-x-5 mt-[2px] items-center">

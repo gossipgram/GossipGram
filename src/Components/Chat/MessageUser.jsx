@@ -4,7 +4,6 @@ import { MdAddIcCall } from "react-icons/md";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const MessageUser = ({ userData, chatId, chatUser }) => {
-
   const [currentChatId, setCurrentChatId] = useState(chatId);
   const navigate = useNavigate();
 
@@ -15,8 +14,18 @@ const MessageUser = ({ userData, chatId, chatUser }) => {
   // const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
   const userUsername = userData?.userDetails?.username;
 
-  const { username: userName, image: userImage , _id: id} =
-    chatUser?.users?.find((user) => user.username !== userUsername) || {};
+    let userName, userImage, id;
+
+    if (chatUser.isGroupChat) {
+      userName = chatUser.chatName;
+      userImage = chatUser.groupImage;
+      id = chatUser._id; // Or use another suitable identifier for the group
+    } else {
+      const currentUser = chatUser.users.find((user) => user.username !== userUsername);
+      userName = currentUser.username;
+      userImage = currentUser.image;
+      id = currentUser._id;
+    }
 
   if (!chatUser) {
     return null;

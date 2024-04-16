@@ -24,7 +24,8 @@ import PartnerCredits from "./Pages/PartnerCredits";
 import PartnerProfile from "./Pages/PartnerProfile";
 import PartnerDefault from "./Pages/PartnerDefault";
 import UsersProfile from "./Pages/UsersProfile";
-import ShowPosts from "./Pages/ShowPosts";
+import ExplorePage from "./Pages/ExplorePage";
+import HashtagPosts from "./Components/Explore/HashtagPosts";
 
 function App() {
   return (
@@ -134,13 +135,18 @@ function App() {
         ></Route>
 
         <Route
-          path="/posts/:query"
+          path="/explore"
           element={
             <PrivateRoute>
-              <ShowPosts />
+              <ExplorePage />
             </PrivateRoute>
           }
-        ></Route>
+        >
+          <Route
+            path="/explore/tag/:hashtag"
+            element={<HashtagPosts />}
+          ></Route>
+        </Route>
 
         <Route path="*" element={<Navigate to="/404" />}></Route>
         <Route path="/404" element={<NotFound />}></Route>

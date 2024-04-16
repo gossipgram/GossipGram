@@ -6,8 +6,7 @@ const ExpandableText = ({ text, maxLength }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleHashtagClick = (hashtag) => {
-    console.log(hashtag);
-    navigate(`/posts/${hashtag}`);
+    navigate(`/explore/tag/${hashtag}`);
   };
 
   const renderCaptionWithHashtag = () => {
@@ -29,12 +28,12 @@ const ExpandableText = ({ text, maxLength }) => {
   };
 
   if (text.length <= maxLength) {
-    return <p>{renderCaptionWithHashtag()}</p>;
+    return <span>{renderCaptionWithHashtag()}</span>;
   }
 
   return (
     <div>
-      <p>
+      <span>
         {isExpanded
           ? renderCaptionWithHashtag()
           : `${text.substring(0, maxLength)}... `}
@@ -44,7 +43,7 @@ const ExpandableText = ({ text, maxLength }) => {
         >
           {isExpanded ? "Read Less" : "Read More"}
         </button>
-      </p>
+      </span>
     </div>
   );
 };
