@@ -3,7 +3,10 @@ import { RxCross2 } from 'react-icons/rx';
 import GroupUsers from './GroupUsers';
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineDone } from "react-icons/md";
-import { renameGroup } from '../../services/operations/chatAPI';
+import { addToGroup, renameGroup } from '../../services/operations/chatAPI';
+import { FaCamera } from "react-icons/fa";
+import { IoMdPersonAdd } from "react-icons/io";
+import { getAllUserData } from "../../services/operations/profileAPI";
 
 const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName}) => {
   
@@ -28,6 +31,11 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
 
   const [isRenameGroup, setIsRenameGroup] = useState(false)
   const [editedGroupName, setEditedGroupName] = useState(userName)
+  const [addUser, setAddUser] = useState(false)
+  const [allUsers, setAllUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selecteduser, setSelecteduser] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState([]);
 
   const handleChangeGroupName = () => {
     setIsRenameGroup(true);
@@ -40,6 +48,12 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
 
   const GroupNameChangeHandler = (event) => {
     setEditedGroupName(event.target.value);
+  }
+  const handleAddUser = () => {
+    setAddUser(true);
+  }
+  const handleHideAddUser = () => {
+    setAddUser(false)
   }
 
   const editSubmit = async (event) => {
@@ -60,7 +74,66 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
       setIsRenameGroup(false);
     }
   }
-  console.log("updatedGroupName",updatedGroupName)
+
+  const handleSearchUserInput = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleUserClick = (user, event) => {
+        if (!selecteduser.some((selecteduser) => selecteduser._id === user._id)) {
+            setSelecteduser([...selecteduser, user]);
+            setSelectedUserId([...selectedUserId , user._id])
+        }
+        setSearchQuery("");
+    };
+    console.log("selecteduser",selecteduser)
+    console.log("selectedUserId",selectedUserId)
+
+    const handleRemoveUser = (userId) => {
+        setSelecteduser(selecteduser.filter((user) => user._id !== userId));
+        setSelectedUserId(selectedUserId.filter((id) => id !== userId));
+    };
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await getAllUserData(token);
+                const followingData = response.userDetails.following.map(follow => ({
+                    _id: follow.following._id,
+                    username: follow.following.username,
+                    image: follow.following.image
+                    // Add more properties if needed
+                }));
+                setAllUsers(followingData);
+            } catch (error) {
+                console.error("Error fetching user data:", error.message);
+            }
+        };
+        if (token) {
+            fetchUserData();
+        }
+    }, [token]);
+
+    const filteredUsers = allUsers.filter(user => !chatUser.users.some(chatUser => chatUser._id === user._id));
+
+    const addNewUser = async () => {
+    try {
+      const data = {};
+      data.userId = selectedUserId;
+      data.chatId = chatUser._id;
+
+      const response = await addToGroup(data , token);
+      console.log("response",response)
+      // setUpdatedGroupName(response.chatName)
+      
+    } catch (error) {
+      alert("error while rename group");
+      console.log(error);
+    } finally {
+      setAddUser(false);
+    }
+  }
+
 
   return (
     <div className={`flex flex-col fixed top-0 right-0 h-full w-[27%] bg-richblack-700 text-white p-4 m-10 transition-transform duration-300 transform ${showInfo ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -123,17 +196,104 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
         }
         
       </div>
-      {
-        isGroup &&
-        <div className='flex flex-col w-full m-1 mt-10 border gap-3 border-yellow-500 p-3'>
-          <p className="text-richblack-200 text-lg"><span className='text-yellow-400'>{chatUser.users.length}</span> members</p>
 
-          {chatUser.users.map((user) => (
-            <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username}/>
-          ))}
-
+      {addUser ? (
+        
+        <div className='flex flex-col w-full h-full m-1 mt-10 border gap-3 border-yellow-500 p-3 scrolling'>
+            <div className="flex flex-row items-center justify-between">
+              <h1 className="text-yellow-300 text-2xl mt-5">Add Users</h1>
+              <RxCross2
+                className="w-10 h-10 text-white mt-4 cursor-pointer"
+                onClick={handleHideAddUser}
+              />
+            </div>
+            
+            <div className="flex flex-row items-center gap-2 ">
+                <label htmlFor="tagUser" className="text-richblack-25 text-2xl">
+                    Users<sup className="text-pink-200">*</sup>
+                </label>
+                <input
+                    type="text"
+                    id="tagUser"
+                    placeholder="Search user...."
+                    onChange={handleSearchUserInput}
+                    value={searchQuery}
+                    className="bg-richblack-500 py-1 text-lg text-richblack-25 rounded-xl px-4 border focus:outline-none focus:ring focus:border-yellow-200 transition-all duration-300"
+                />
+                <button
+                className={`flex items-center justify-center
+                border border-yellow-50 bg-yellow-200
+                cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300 mt-auto`} // Added mt-auto to move button to the bottom
+                onClick={addNewUser}
+                >
+                    Add
+                </button>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2 max-h-40">
+                {selecteduser.map((selecteduser) => (
+                    <div
+                        key={selecteduser._id}
+                        className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
+                    >
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <img
+                            src={selecteduser.image}
+                            width={50}
+                            height={50}
+                            className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <span>{selecteduser.username}</span>
+                        <button onClick={() => handleRemoveUser(selecteduser._id)}>
+                            <RxCross2 />
+                        </button>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="flex flex-col overflow-y-auto max-h-96 gap-2">
+                {
+                    filteredUsers
+                        ?.filter((user) =>
+                            user?.username
+                                .toLowerCase()
+                                .includes(searchQuery.toLowerCase())
+                        )
+                        .map((user) => (
+                            <button
+                                className="flex gap-3 items-center  bg-richblack-600 w-full px-5 py-2 rounded-xl hover:bg-richblack-500 transition-all duration-200"
+                                key={user._id}
+                                onClick={() => handleUserClick(user)}
+                            >
+                                <img
+                                    src={user.image}
+                                    width={50}
+                                    height={50}
+                                    className="rounded-full"
+                                />
+                                <span className="text-richblack-25">{user.username}</span>
+                            </button>
+                        ))}
+            </div>
         </div>
-      }
+
+      ) : (
+        isGroup && (
+          <div className='flex flex-col w-full m-1 mt-10 border gap-3 border-yellow-500 p-3'>
+            <div className='flex justify-between px-4'>
+              <p className="text-richblack-200 text-lg">
+                <span className='text-yellow-400'>{chatUser.users.length}</span> members
+              </p>
+              <IoMdPersonAdd className='w-6 h-6 text-white cursor-pointer' onClick={handleAddUser}/>
+            </div>
+            
+            {chatUser.users.map((user) => (
+              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatId={chatUser._id}/>
+            ))}
+          </div>
+        )
+      )}
+
       
     </div>
 

@@ -182,12 +182,12 @@ const addToGroup = async (req, res) => {
     .populate("users", "-password")
     .populate("groupAdmin", "-password");
 
-  if (!added) {
-    res.status(404);
-    throw new Error("Chat Not Found");
-  } else {
+  // if (!added) {
+  //   res.status(404);
+  //   throw new Error("Chat Not Found");
+  // } else {
     res.json(added);
-  }
+  // }
 };
 
 module.exports = {

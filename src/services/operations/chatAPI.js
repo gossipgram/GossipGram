@@ -119,11 +119,11 @@ export const removeFromGroup = async (data, token) => {
       Authorization: `Bearer ${token}`,
     });
     console.log("REMOVE_FROM_GROUP_API API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not Remove");
-    }
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not Remove");
+    // }
     toast.success("Removed from Group");
-    result = response?.data?.data;
+    // result = response?.data?.data;
   } catch (error) {
     console.log("REMOVE_FROM_GROUP_API API ERROR............", error);
     toast.error(error.message);
@@ -140,9 +140,9 @@ export const addToGroup = async (data, token) => {
       Authorization: `Bearer ${token}`,
     });
     console.log("ADD_TO_GROUP_API API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not add to Group");
-    }
+    // if (!response?.data?.success) {
+    //   throw new Error("Could Not add to Group");
+    // }
     toast.success("Added to Group Successfully");
     result = response?.data?.data;
   } catch (error) {
