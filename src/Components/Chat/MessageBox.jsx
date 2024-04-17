@@ -199,7 +199,7 @@ const MessageBox = ({ messages, setMessages, userData }) => {
   >
     {Object.entries(messageGroups).map(([date, groupedMessages]) => (
       <div key={date}>
-        <div className="flex justify-center items-center text-richblack-900 rounded-xl px-6 bg-richblack-400 w-fit mx-auto">
+        <div className="flex justify-center items-center text-richblack-900 rounded-xl px-6 bg-richblack-400 w-fit mx-auto mb-3">
           {formatDate(date)}
         </div>
         {groupedMessages.map((message, index) => {

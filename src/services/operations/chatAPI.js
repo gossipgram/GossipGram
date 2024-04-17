@@ -100,11 +100,9 @@ export const renameGroup = async (data, token) => {
       Authorization: `Bearer ${token}`,
     });
     console.log("RENAME_GROUP_API API RESPONSE............", response);
-    if (!response?.data?.success) {
-      throw new Error("Could Not Update COMMENT");
-    }
+    
     toast.success("Group name Updated");
-    result = response?.data?.data;
+    result = response?.data;
   } catch (error) {
     console.log("RENAME_GROUP_API API ERROR............", error);
     toast.error(error.message);

@@ -111,6 +111,7 @@ const createGroupChat = async (req, res) => {
 // @route   PUT /api/chat/rename
 // @access  Protected
 const renameGroup = async (req, res) => {
+
   const { chatId, chatName } = req.body;
 
   const updatedChat = await Chat.findByIdAndUpdate(

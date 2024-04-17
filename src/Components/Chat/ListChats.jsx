@@ -11,7 +11,8 @@ const ListChats = ({
   setChatUser,
   setChatFinal,
   messages,
-  setShowInfo
+  setShowInfo,
+  updatedGroupName
 }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ const ListChats = ({
       }
     };
 
-    if ((token, chats)) {
+    if ((token, chats )) {
       fetchUserChats();
     }
   }, [token]);
@@ -60,6 +61,7 @@ const ListChats = ({
             setChatId={setChatId}
             handleSendMessageClick={handleSendMessageClick}
             messages={messages}
+            updatedGroupName={updatedGroupName}
             // setChatFinal={setChatFinal}
           />
         ))

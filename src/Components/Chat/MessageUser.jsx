@@ -4,14 +4,14 @@ import { MdAddIcCall } from "react-icons/md";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 
-const MessageUser = ({ userData, chatId, chatUser , handleShowInfo}) => {
+const MessageUser = ({ userData, chatId, chatUser , handleShowInfo , updatedGroupName}) => {
   console.log("chatUsers",chatUser)
   const [currentChatId, setCurrentChatId] = useState(chatId);
   const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentChatId(chatId);
-  }, [chatId]);
+  }, [chatId , updatedGroupName]);
 
   // const user = messages.length > 0 ? messages[0]?.chat?.users[1] : null;
   const userUsername = userData?.userDetails?.username;
@@ -51,7 +51,7 @@ const MessageUser = ({ userData, chatId, chatUser , handleShowInfo}) => {
         />
         <div className="flex flex-col">
           <h3 className="font-semibold text-richblack-5 text-2xl">
-            {userName}
+            {updatedGroupName ? updatedGroupName : userName}
           </h3>
           {/* active status  */}
         </div>
