@@ -104,10 +104,8 @@ const CreateForm = ({ postType, setpostType }) => {
     selecteduser.forEach((user) => {
       taggedUser.push(user._id);
     });
-    console.log("taggesuer ", taggedUser);
 
     let hashtags = captionText.match(/#[^\s#]*/g);
-    console.log("hashtags", hashtags);
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
@@ -129,17 +127,21 @@ const CreateForm = ({ postType, setpostType }) => {
       data.append("taggedUsers", user);
     });
 
-    hashtags.forEach((tag) => {
-      data.append("hashtags", tag);
-    });
+    if (hashtags) {
+      hashtags.forEach((tag) => {
+        data.append("hashtags", tag);
+      });
+    } else {
+      data.append("hashtags", []);
+    }
 
     try {
       createPost(data, token);
-      setImage(null);
-      setTitleText("");
-      setCaptionText("");
-      setSelecteduser([]);
-      setSearchQuery("");
+      // setImage(null);
+      // setTitleText("");
+      // setCaptionText("");
+      // setSelecteduser([]);
+      // setSearchQuery("");
     } catch (error) {
       console.log("Creating post error", error);
     }

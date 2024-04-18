@@ -84,5 +84,11 @@ export const recentSearchEndpoints = {
 export const kundaliEndpoints = {
   UPDATE_KUNDALI_BY_ID_API: BASE_URL + "kundali/update-kundali",
   GET_ALL_KUNDALI_API: BASE_URL + "kundali/get-all-kudali",
-  GET_KUNDALI_BY_ID_API: BASE_URL + "kundali//:kundaliId",
+  GET_KUNDALI_BY_ID_API: BASE_URL + "kundali/:kundaliId",
+};
+
+export const hashtagPostEndpoints = {
+  GET_POSTS_BY_HASHTAG_API: BASE_URL + "hashtag-post/:hashtag", //declared insdie media api
+  ADD_POST_TO_HASHTAG_API: BASE_URL + "hashtag-post/add-hashtag-post",
+  REMOVE_POST_FROM_HASHTAG_API: BASE_URL + "hashtag-post/remove-hashtag-post",
 };

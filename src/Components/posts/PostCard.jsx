@@ -168,7 +168,7 @@ const PostCard = ({ post, userId, postUserId }) => {
 
   const deletePostConfirmed = () => {
     try {
-      deletePostById(postId, token);
+      deletePostById(post, token);
       setIsDeletedPost(true);
     } catch (error) {
       alert("error while deleting the post");
@@ -188,7 +188,7 @@ const PostCard = ({ post, userId, postUserId }) => {
       const data = {};
       data.caption = editedCaption;
 
-      updatePostById(postId, data, token);
+      updatePostById(post, data, token);
       setCaptionText(editedCaption);
     } catch (error) {
       alert("error while editing the post");

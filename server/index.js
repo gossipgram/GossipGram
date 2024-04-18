@@ -12,6 +12,7 @@ const followRoutes = require("./routes/followRoutes");
 const profileRoute = require("./routes/profileRoute");
 const recentSearchRoute = require("./routes/recentSeachRoutes");
 const kundaliRoutes = require("./routes/KundaliRoutes");
+const hashtagPostsRoute = require("./routes/hashtagPostsRoutes");
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -56,6 +57,7 @@ app.use("/api/v1/friends", followRoutes);
 app.use("/api/v1/profile", profileRoute);
 app.use("/api/v1/recents", recentSearchRoute);
 app.use("/api/v1/kundali", kundaliRoutes);
+app.use("/api/v1/hashtag-post", hashtagPostsRoute);
 
 //def route
 app.get("/", (req, res) => {

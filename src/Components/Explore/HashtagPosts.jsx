@@ -13,16 +13,15 @@ const HashtagPosts = () => {
     try {
       setHashtag(currentPath.split("/")[3]);
 
-      // getAllPostsByHashtag(hashtag, token);
-      console.log(hashtag);
+      const allPosts = getAllPostsByHashtag(hashtag, token);
+      console.log(allPosts);
     } catch (error) {}
   }, [hashtag]);
 
   return (
     <div className="w-full flex p-7">
       <div className="text-white text-4xl w-1/4 flex flex-col gap-5">
-        <div>Hashtag</div>
-        <div>{hashtag}</div>
+        <p># {hashtag}</p>
       </div>
 
       <div className="bg-richblack-600 w-1/2 ">Show post</div>

@@ -20,3 +20,5 @@ const HashtagPostsSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+module.exports = mongoose.model("hashtagpost", HashtagPostsSchema);
