@@ -63,7 +63,7 @@ const SideDrawer = ({ handleToggleSideDrawer }) => {
     }
 
     return (
-        <div className="flex flex-col fixed top-10 left-40 w-[26rem] h-[95%] bg-gray-800 text-white p-4 bg-richblack-500 gap-8">
+        <div className="flex flex-col fixed top-10 left-40 w-[26rem] h-[95%] bg-gray-800 text-white p-4 bg-richblack-600 gap-8">
             <div className="flex flex-row items-center justify-between px-5">
                 <h1 className=" text-yellow-300  text-2xl  mt-5">Create Your Group</h1>
                 <RxCross2 className="w-10 h-10 text-white mt-4 cursor-pointer" onClick={handleToggleSideDrawer} />

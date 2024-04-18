@@ -293,7 +293,7 @@ const PostCard = ({ post, userId, postUserId }) => {
                   // className="w-full h-full object-cover z-10 bg-black"
                   className="flex items-center justify-center w-full h-full "
                 >
-                  <div className="text-white z-50 text-3xl">Helllo word</div>
+                  <div className="text-white z-50 text-3xl">Helllo word</div>    
                 </video>
                 <div className=" z-20  w-full">
                   <input

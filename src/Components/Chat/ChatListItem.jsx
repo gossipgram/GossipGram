@@ -15,7 +15,8 @@ const ChatListItem = ({
   userData,
   setChatUser,
   messages,
-  setShowInfo
+  setShowInfo,
+  updatedGroupName
 }) => {
   console.log("chat_____________", chat);
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ const ChatListItem = ({
     >
       <img src={userImage} alt="" className="w-10 h-10 rounded-full mr-4" />
       <div>
-        <h3 className="font-semibold text-richblack-5 text-lg">{userName}</h3>
+        <h3 className="font-semibold text-richblack-5 text-lg">{isGroupChat && updatedGroupName ? updatedGroupName : userName}</h3>
         <p className="text-richblack-50">{content}</p>
       </div>
     </div>
