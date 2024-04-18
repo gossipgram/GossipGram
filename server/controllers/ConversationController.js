@@ -1,5 +1,6 @@
 const Chat = require("../models/Conversation");
 const User = require("../models/User");
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 //@description     Create or fetch One to One Chat
 //@route           POST /api/chat/
@@ -207,8 +208,10 @@ const addToGroup = async (req, res) => {
 
 const updateGroupImage = async (req, res) => {
   try {
-    const chatId = req.files.chatId;
+    const { chatId }= req.body;
     const displayPicture = req.files.displayPicture;
+    console.log("displayPicture",displayPicture)
+    console.log("chatId",chatId)
     const image = await uploadImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,
@@ -216,10 +219,12 @@ const updateGroupImage = async (req, res) => {
       1000
     );
     const updatedProfile = await Chat.findByIdAndUpdate(
-      { _id: chatId },
+      chatId ,
       { groupImage: image.secure_url },
       { new: true }
-    );
+    ).populate("users", "-password")
+      .populate("groupAdmin", "-password")
+      .populate("latestMessage")
     res.send({
       success: true,
       message: `Image Updated successfully`,

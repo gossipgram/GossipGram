@@ -20,7 +20,7 @@ router.post("/group" , protect , createGroupChat)
 router.put("/rename" , protect , renameGroup)
 router.put("/groupremove" , protect , removeFromGroup)
 router.put("/groupadd" , protect , addToGroup)
-router.put("/groupimage" , protect , updateGroupImage)
+router.post("/groupimage" , protect , updateGroupImage)
 
 // Export the router for use in the main application
 module.exports = router;

@@ -3,12 +3,13 @@ import { RxCross2 } from 'react-icons/rx';
 import GroupUsers from './GroupUsers';
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { MdOutlineDone } from "react-icons/md";
-import { addToGroup, renameGroup } from '../../services/operations/chatAPI';
+import { addToGroup, renameGroup, updateGroupDp } from '../../services/operations/chatAPI';
 import { FaCamera } from "react-icons/fa";
 import { IoMdPersonAdd } from "react-icons/io";
 import { getAllUserData } from "../../services/operations/profileAPI";
+import { FiUpload } from "react-icons/fi"
 
-const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser}) => {
+const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser , setUpdateGroupDp}) => {
   
   console.log('userData', userData);
   console.log('chatUser', chatUser);
@@ -36,6 +37,72 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
   const [searchQuery, setSearchQuery] = useState("");
   const [selecteduser, setSelecteduser] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState([]);
+  const [hovering, setHovering] = useState(false);
+
+
+    const [loading, setLoading] = useState(false)
+    const [imageFile, setImageFile] = useState(null)
+    const [previewSource, setPreviewSource] = useState(null)
+    const userDetails = userData?.userDetails;
+    const [noImage, setNoImage] = useState(false)
+    const [updateButton, setUpdateButton] = useState(false)
+
+    const fileInputRef = useRef(null)
+
+    const handleClick = () => {
+        fileInputRef.current.click()
+        setUpdateButton(true);
+    }
+
+    const handleFileUpload = async () => {
+      if (!imageFile) {
+          setNoImage(true)
+          return;
+      }
+      try {
+          
+          setLoading(true);
+          const formData = new FormData();
+          formData.append("displayPicture", imageFile);
+          formData.append("chatId",chatUser._id)
+          const data = {};
+          data.chatId = chatUser._id;
+
+          const response = await updateGroupDp(token, formData)
+          setLoading(false);
+          console.log("response",response?.data);
+          setChatUser(response?.data)
+          setUpdateGroupDp(response?.data);
+          
+      } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message);
+      }
+    };
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        console.log("file",file)
+        if (file) {
+        setImageFile(file)
+        previewFile(file)
+        }
+    }
+
+    const previewFile = (file) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = () => {
+        setPreviewSource(reader.result)
+        }
+    }
+
+    useEffect(() => {
+        if (imageFile) {
+        previewFile(imageFile)
+        }
+    }, [imageFile])
+
+
+
 
   const handleChangeGroupName = () => {
     setIsRenameGroup(true);
@@ -123,6 +190,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
       data.chatId = chatUser._id;
 
       const response = await addToGroup(data , token);
+      console.log("response",response)
       setChatUser(response);
       // setUpdatedGroupName(response.chatName)
       
@@ -147,12 +215,54 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
         />
       </div>
 
-      <div className='flex flex-col w-full m-1 mt-10 border items-center justify-center gap-3 border-yellow-500 p-3'>
-        <img
-          src={userImage}
-          alt={``}
-          className="aspect-square w-40 rounded-full object-cover"
-        />
+      <div className={`flex flex-col w-full m-1 mt-10 border items-center justify-center gap-3 border-yellow-500 p-3 `}>
+        <div className="relative flex items-center gap-x-4"
+          >
+          <img
+            src={previewSource || userImage}
+            alt={``}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+            className={`aspect-square w-40 rounded-full object-cover ${hovering ? "blur transition-all duration-500" : ""}`}
+          />
+          <div className="space-y-2">
+            <div className="flex flex-row gap-3">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept="image/png, image/gif, image/jpeg"
+              />
+              {hovering && (
+                <FaCamera
+                  className="absolute w-10 h-10 text-richblack-500 cursor-pointer left-24 bottom-5 hover:text-yellow-400 transition-all duration-500"
+                  onClick={handleClick}
+                  onMouseEnter={() => setHovering(true)}
+                  onMouseLeave={() => setHovering(false)}
+                />
+              )}
+
+              {updateButton && <button
+                className={`flex items-center
+                border border-yellow-50 bg-yellow-200
+                cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300`}
+                onClick={handleFileUpload}
+              >
+                <span className={`text-yellow-50}`}>{loading ? "Uploading..." : "Upload"}</span>
+                {!loading && (
+                  <FiUpload className="text-lg text-richblack-900" />
+                )}
+              </button>}
+            </div>
+            {noImage && (
+                <span className="-mt-1 text-[12px] text-yellow-100">
+                  No file selected for upload.
+                </span>
+              )}
+            
+          </div>
+        </div>
 
         <div className='flex items-center'>
           {isRenameGroup ? 

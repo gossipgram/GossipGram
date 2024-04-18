@@ -12,7 +12,8 @@ const ListChats = ({
   setChatFinal,
   messages,
   setShowInfo,
-  updatedGroupName
+  updatedGroupName,
+  updateGroupDp
 }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const ListChats = ({
     if ((token, chats )) {
       fetchUserChats();
     }
-  }, [token]);
+  }, [token , updateGroupDp]);
   return (
     <div className="flex flex-col w-full">
       {loading ? (
@@ -62,6 +63,7 @@ const ListChats = ({
             handleSendMessageClick={handleSendMessageClick}
             messages={messages}
             updatedGroupName={updatedGroupName}
+           
             // setChatFinal={setChatFinal}
           />
         ))

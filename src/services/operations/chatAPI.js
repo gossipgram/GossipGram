@@ -154,25 +154,26 @@ export const addToGroup = async (data, token) => {
   return result;
 };
 
-export const updateGroupDp = async (token, formData) => {
+export const updateGroupDp = async (token, formData ) => {
   const toastId = toast.loading("Loading...");
+
   let result = null;
   try {
+
     const response = await apiConnector(
       "POST",
       UPDATE_GROUP_DP_API,
       formData,
+  
       {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       }
     );
+
     console.log("UPDATE_GROUP_DP_API RESPONSE............", response);
 
-    // if (!response.data.success) {
-    //   throw new Error(response.data.message);
-    // }
-    result = response.data;
+    result = response?.data;
   } catch (error) {
     console.log("UPDATE_GROUP_DP_API API ERROR............", error);
     result = error.response.data;
