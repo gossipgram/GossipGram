@@ -9,6 +9,7 @@ const {
   removeFromGroup,
   addToGroup,
   renameGroup,
+  updateGroupImage
 } = require("../controllers/ConversationController")
 
 const {protect} = require("../middlewares/auth");
@@ -19,6 +20,7 @@ router.post("/group" , protect , createGroupChat)
 router.put("/rename" , protect , renameGroup)
 router.put("/groupremove" , protect , removeFromGroup)
 router.put("/groupadd" , protect , addToGroup)
+router.put("/groupimage" , protect , updateGroupImage)
 
 // Export the router for use in the main application
 module.exports = router;

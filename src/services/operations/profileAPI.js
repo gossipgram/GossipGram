@@ -97,9 +97,8 @@ export const getAllUserDataById = async (userId, token) => {
 export const updateDp = async (token, formData) => {
   const toastId = toast.loading("Loading...");
   let result = null;
-  console.log("after declaration");
   try {
-    console.log("before function");
+
     const response = await apiConnector(
       "POST",
       UPDATE_DISPLAY_PICTURE_API,
@@ -109,7 +108,7 @@ export const updateDp = async (token, formData) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("before function");
+   
     console.log("UPDATE_DISPLAY_PICTURE_API RESPONSE............", response);
 
     // if (!response.data.success) {

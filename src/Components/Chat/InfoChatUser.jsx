@@ -8,7 +8,7 @@ import { FaCamera } from "react-icons/fa";
 import { IoMdPersonAdd } from "react-icons/io";
 import { getAllUserData } from "../../services/operations/profileAPI";
 
-const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName}) => {
+const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser}) => {
   
   console.log('userData', userData);
   console.log('chatUser', chatUser);
@@ -123,7 +123,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
       data.chatId = chatUser._id;
 
       const response = await addToGroup(data , token);
-      console.log("response",response)
+      setChatUser(response);
       // setUpdatedGroupName(response.chatName)
       
     } catch (error) {
@@ -131,12 +131,14 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
       console.log(error);
     } finally {
       setAddUser(false);
+      setSelecteduser([]);
+      setSelectedUserId([])
     }
   }
 
 
   return (
-    <div className={`flex flex-col fixed top-0 right-0 h-full w-[27%] bg-richblack-700 text-white p-4 m-10 transition-transform duration-300 transform ${showInfo ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`flex flex-col fixed top-0 right-0 h-full w-[27%] overflow-scroll scrolling bg-richblack-700 text-white p-4 m-10 transition-transform duration-300 transform ${showInfo ? 'translate-x-0' : 'translate-x-full'}`}>
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-yellow-300 text-2xl mt-5">{isGroup ? "Group Info" : "User Info"}</h1>
         <RxCross2
@@ -223,7 +225,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
                 <button
                 className={`flex items-center justify-center
                 border border-yellow-50 bg-yellow-200
-                cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300 mt-auto`} // Added mt-auto to move button to the bottom
+                cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300 mt-auto`} 
                 onClick={addNewUser}
                 >
                     Add
@@ -279,7 +281,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
 
       ) : (
         isGroup && (
-          <div className='flex flex-col w-full m-1 mt-10 border gap-3 border-yellow-500 p-3'>
+          <div className='flex flex-col w-full h-full m-1 mt-10 border gap-3 border-yellow-500 p-3'>
             <div className='flex justify-between px-4'>
               <p className="text-richblack-200 text-lg">
                 <span className='text-yellow-400'>{chatUser.users.length}</span> members
@@ -288,7 +290,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
             </div>
             
             {chatUser.users.map((user) => (
-              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatId={chatUser._id}/>
+              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatUser={chatUser} chatId={chatUser._id} setChatUser={setChatUser}/>
             ))}
           </div>
         )

@@ -166,29 +166,74 @@ const removeFromGroup = async (req, res) => {
 // @route   PUT /api/chat/groupadd
 // @access  Protected
 const addToGroup = async (req, res) => {
-  const { chatId, userId } = req.body;
+  try {
+    const { chatId, userId } = req.body;
+    const requesterId = req.user._id;
 
-  // check if the requester is admin
-
-  const added = await Chat.findByIdAndUpdate(
-    chatId,
-    {
-      $push: { users: userId },
-    },
-    {
-      new: true,
+    // Check if the chat exists
+    const chat = await Chat.findById(chatId).populate("groupAdmin", "_id").populate("users", "_id");
+    if (!chat) {
+      return res.status(404).json({ message: "Chat Not Found" });
     }
-  )
-    .populate("users", "-password")
-    .populate("groupAdmin", "-password");
 
-  // if (!added) {
-  //   res.status(404);
-  //   throw new Error("Chat Not Found");
-  // } else {
+    // Check if the requester is the admin of the group
+    if (chat.groupAdmin._id.toString() !== requesterId.toString()) {
+      return res.status(403).json({ message: "Only group admin can add users." });
+    }
+
+    // Check if the user is already added to the chat
+    const userExists = chat.users.some(user => user._id.toString() === userId.toString());
+    if (userExists) {
+      return res.status(400).json({ message: "User already added to the group." });
+    }
+
+    // Add user to the chat
+    const added = await Chat.findByIdAndUpdate(
+      chatId,
+      {
+        $push: { users: userId },
+      },
+      {
+        new: true,
+      }
+    ).populate("users", "-password").populate("groupAdmin", "-password");
+
     res.json(added);
-  // }
+  } catch (error) {
+    console.error("Error adding user to group:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
+
+const updateGroupImage = async (req, res) => {
+  try {
+    const chatId = req.files.chatId;
+    const displayPicture = req.files.displayPicture;
+    const image = await uploadImageToCloudinary(
+      displayPicture,
+      process.env.FOLDER_NAME,
+      1000,
+      1000
+    );
+    const updatedProfile = await Chat.findByIdAndUpdate(
+      { _id: chatId },
+      { groupImage: image.secure_url },
+      { new: true }
+    );
+    res.send({
+      success: true,
+      message: `Image Updated successfully`,
+      data: updatedProfile,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 
 module.exports = {
   accessChat,
@@ -197,6 +242,7 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  updateGroupImage
 };
 
 // const Conversation = require("../models/Conversation");

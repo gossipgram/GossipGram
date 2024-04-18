@@ -101,7 +101,15 @@ const ChatPage = () => {
             messages={messages}
           />
         ) : null}
-        {showInfo && <InfoChatUser handleShowInfo={handleShowInfo} userData={userData} chatUser={chatUser} showInfo={showInfo} setUpdatedGroupName={setUpdatedGroupName} updatedGroupName={updatedGroupName}/>}
+        {showInfo && <InfoChatUser 
+        handleShowInfo={handleShowInfo} 
+        userData={userData} 
+        chatUser={chatUser} 
+        showInfo={showInfo} 
+        setUpdatedGroupName={setUpdatedGroupName} 
+        updatedGroupName={updatedGroupName}
+        setChatUser={setChatUser}/>}
+        
       </div>
       {showSideDrawer && <SideDrawer handleToggleSideDrawer={handleToggleSideDrawer}/>} 
       
