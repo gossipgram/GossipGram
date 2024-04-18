@@ -8,6 +8,7 @@ import { FaCamera } from "react-icons/fa";
 import { IoMdPersonAdd } from "react-icons/io";
 import { getAllUserData } from "../../services/operations/profileAPI";
 import { FiUpload } from "react-icons/fi"
+import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser , setUpdateGroupDp}) => {
   
@@ -25,7 +26,6 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
   } else {
     const currentUser = chatUser.users.find((user) => user.username !== userUsername);
     userName = currentUser.username;
-    console.log("userName",userName)
     userImage = currentUser.image;
     id = currentUser._id;
   }
@@ -38,6 +38,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
   const [selecteduser, setSelecteduser] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState([]);
   const [hovering, setHovering] = useState(false);
+  const navigate = useNavigate()
 
 
     const [loading, setLoading] = useState(false)
@@ -46,6 +47,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
     const userDetails = userData?.userDetails;
     const [noImage, setNoImage] = useState(false)
     const [updateButton, setUpdateButton] = useState(false)
+
 
     const fileInputRef = useRef(null)
 
@@ -204,6 +206,11 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
     }
   }
 
+  const clickHandle = (id) => {
+    if (id) {
+      navigate(`/user/${id}`);
+    }
+  };
 
   return (
     <div className={`flex flex-col fixed top-0 right-0 h-full w-[27%] overflow-scroll scrolling bg-richblack-700 text-white p-4 m-10 transition-transform duration-300 transform ${showInfo ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -290,6 +297,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
               <h3 className="font-semibold text-richblack-5 text-2xl">
                 {updatedGroupName ? updatedGroupName : userName}  
               </h3>
+
               {chatUser?.groupAdmin?.username === userUsername &&
                 <MdDriveFileRenameOutline
                   className="w-5 h-5 text-yellow-300 cursor-pointer mt-3 hover:text-yellow-400"
@@ -301,10 +309,18 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
         </div>
 
         
-        {isGroup && 
-        <p className="text-richblack-200 text-lg">
+        {isGroup ? 
+        (<p className="text-richblack-200 text-lg">
           Group- <span className='text-yellow-400'>{chatUser.users.length}</span> members
-        </p>
+        </p>):
+        (<button
+        className={`flex items-center
+                border border-yellow-50 bg-yellow-200
+                cursor-pointer gap-x-2 rounded-xl py-2 px-5 font-semibold text-richblack-900 hover:bg-yellow-300`}
+        onClick={() => clickHandle(id)}
+        >
+        Profile
+        </button>)
         }
         
       </div>
