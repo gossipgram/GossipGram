@@ -3,11 +3,13 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { removeFromGroup } from '../../services/operations/chatAPI';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
-const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChatUser , chatUser}) => {
+const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChatUser , chatUser , userData}) => {
   const token = localStorage.getItem("token").split('"')[1];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  console.log("userData____________",userData)
+  console.log("adminId____________",adminId)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -67,8 +69,8 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChat
           {/* Dropdown content */}
           <ul>
             <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => clickHandle(id)}>profile</li>
-            { infoUserName === adminId && <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>}
-            {infoUserName === adminId &&<li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>}
+            {userData.userDetails.username === adminId && <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>}
+            {userData.userDetails.username === adminId &&<li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>}
           </ul>
         </div>
       )}

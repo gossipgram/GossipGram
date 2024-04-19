@@ -416,7 +416,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
             </div>
             
             {chatUser.users.map((user) => (
-              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatUser={chatUser} chatId={chatUser._id} setChatUser={setChatUser}/>
+              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatUser={chatUser} chatId={chatUser._id} setChatUser={setChatUser} userData={userData}/>
             ))}
           </div>
         )
