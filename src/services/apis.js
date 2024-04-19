@@ -27,6 +27,7 @@ export const chatEndpoints = {
   RENAME_GROUP_API: BASE_URL + "chat/rename", //put
   REMOVE_FROM_GROUP_API: BASE_URL + "chat/groupremove", //put
   ADD_TO_GROUP_API: BASE_URL + "chat/groupadd", //put
+  UPDATE_GROUP_DP_API: BASE_URL + "chat/groupimage" ,  //put
 };
 
 // MESSAGES ENDPOINTS

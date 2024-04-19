@@ -11,6 +11,7 @@ const {
   RENAME_GROUP_API,
   REMOVE_FROM_GROUP_API,
   ADD_TO_GROUP_API,
+  UPDATE_GROUP_DP_API
 } = chatEndpoints;
 
 export const accessChat = async (userId, token) => {
@@ -123,7 +124,7 @@ export const removeFromGroup = async (data, token) => {
     //   throw new Error("Could Not Remove");
     // }
     toast.success("Removed from Group");
-    // result = response?.data?.data;
+    result = response?.data;
   } catch (error) {
     console.log("REMOVE_FROM_GROUP_API API ERROR............", error);
     toast.error(error.message);
@@ -144,11 +145,41 @@ export const addToGroup = async (data, token) => {
     //   throw new Error("Could Not add to Group");
     // }
     toast.success("Added to Group Successfully");
-    result = response?.data?.data;
+    result = response?.data;
   } catch (error) {
     console.log("ADD_TO_GROUP_API API ERROR............", error);
     toast.error(error.message);
   }
   toast.dismiss(toastId);
+  return result;
+};
+
+export const updateGroupDp = async (token, formData ) => {
+  const toastId = toast.loading("Loading...");
+
+  let result = null;
+  try {
+
+    const response = await apiConnector(
+      "POST",
+      UPDATE_GROUP_DP_API,
+      formData,
+  
+      {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    console.log("UPDATE_GROUP_DP_API RESPONSE............", response);
+
+    result = response?.data;
+  } catch (error) {
+    console.log("UPDATE_GROUP_DP_API API ERROR............", error);
+    result = error.response.data;
+    // toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId);
+  //   dispatch(setLoading(false));
   return result;
 };
