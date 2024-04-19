@@ -3,19 +3,29 @@ const HashtagPosts = require("../models/HashtagPosts");
 exports.getAllPostsByHashtag = async (req, res) => {
   try {
     const { hashtag } = req.params;
+    const page = parseInt(req.query.currentPage) || 1;
+    const limit = parseInt(req.query.limit) || 30;
 
+    const count = await HashtagPosts.countDocuments();
+    const totalPages = Math.ceil(count / limit);
+    const skip = (page - 1) * limit;
     // Find all posts that contain the given hashtag
-    const posts = await HashtagPosts.find({ hashtagName: hashtag })
+    const hashtagPost = await HashtagPosts.find({ hashtagName: `#${hashtag}` })
       .populate({
         path: "posts",
         model: "Post",
       })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .exec();
 
     return res.status(200).json({
       success: true,
       message: `Posts with hashtag '${hashtag}' retrieved successfully`,
-      posts,
+      hashtagPost: hashtagPost[0],
+      totalPages,
+      currentPage: page,
     });
   } catch (error) {
     console.error(error);
