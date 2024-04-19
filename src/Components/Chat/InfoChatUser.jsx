@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 
 const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser , setUpdateGroupDp}) => {
   
-  console.log('userData', userData);
-  console.log('chatUser', chatUser);
+  // console.log('userData', userData);
+  // console.log('chatUser', chatUser);
   const token = localStorage.getItem("token").split('"')[1];
   const isGroup = chatUser.isGroupChat
   const userUsername = userData?.userDetails?.username;
@@ -412,7 +412,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
               <p className="text-richblack-200 text-lg">
                 <span className='text-yellow-400'>{chatUser.users.length}</span> members
               </p>
-              <IoMdPersonAdd className='w-6 h-6 text-white cursor-pointer' onClick={handleAddUser}/>
+              {userData?.userDetails?._id === chatUser.groupAdmin._id && <IoMdPersonAdd className='w-6 h-6 text-white cursor-pointer' onClick={handleAddUser}/>}
             </div>
             
             {chatUser.users.map((user) => (

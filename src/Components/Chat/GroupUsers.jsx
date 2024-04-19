@@ -67,8 +67,8 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChat
           {/* Dropdown content */}
           <ul>
             <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => clickHandle(id)}>profile</li>
-            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>
-            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>
+            { infoUserName === adminId && <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>}
+            {infoUserName === adminId &&<li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>}
           </ul>
         </div>
       )}
