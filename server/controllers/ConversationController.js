@@ -238,7 +238,34 @@ const updateGroupImage = async (req, res) => {
   }
 };
 
+const addUserAsAdmin = async (req, res) => {
+  try {
+    const { chatId, userId } = req.body;
+    const requesterId = req.user._id;
 
+
+    const chat = await Chat.findById(chatId).populate("groupAdmin", "_id");
+    if (!chat) {
+      return res.status(404).json({ message: "Chat Not Found" });
+    }
+
+
+    if (!chat.groupAdmin.some((admin) => admin._id.toString() === requesterId.toString())) {
+      return res.status(403).json({ message: "Only the current group admin can perform this action." });
+    }
+
+
+    chat.groupAdmin.push(userId);
+    
+
+    const updatedChat = await chat.save();
+
+    res.json(updatedChat);
+  } catch (error) {
+    console.error("Error adding user as group admin:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   accessChat,
@@ -247,154 +274,6 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
-  updateGroupImage
+  updateGroupImage,
+  addUserAsAdmin
 };
-
-// const Conversation = require("../models/Conversation");
-// const Message = require("../models/Message");
-// const User = require("../models/User");
-
-// // Create a new conversation
-// exports.createConversation = async (req, res) => {
-//     try {
-//         const { participants, name } = req.body;
-
-//         // Validation
-//         if (!participants || participants.length < 2) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: 'At least two participants are required for a conversation',
-//             });
-//         }
-
-//         const newConversation = new Conversation({
-//             participants,
-//             name,
-//         });
-
-//         const savedConversation = await newConversation.save();
-
-//         return res.status(201).json({
-//             success: true,
-//             message: 'Conversation created successfully',
-//             conversation: savedConversation,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({
-//             success: false,
-//             error: 'Internal Server Error',
-//         });
-//     }
-// };
-
-// // Get conversation details by ID
-// exports.getConversationById = async (req, res) => {
-//     try {
-//         const conversationId = req.params.conversationId;
-//         const conversation = await Conversation.findById(conversationId);
-
-//         if (!conversation) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'Conversation not found',
-//             });
-//         }
-
-//         return res.status(200).json({
-//             success: true,
-//             message: 'Conversation details fetched successfully',
-//             conversation,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({
-//             success: false,
-//             error: 'Internal Server Error',
-//         });
-//     }
-// };
-
-// // Get all conversations for a specific user
-// exports.getAllConversationsForUser = async (req, res) => {
-//     try {
-//         const userId = req.user.id;
-//         const conversations = await Conversation.find({ participants: userId });
-
-//         return res.status(200).json({
-//             success: true,
-//             message: 'All conversations for the user fetched successfully',
-//             conversations,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({
-//             success: false,
-//             error: 'Internal Server Error',
-//         });
-//     }
-// };
-
-// // Update conversation details by ID
-// exports.updateConversationById = async (req, res) => {
-//     try {
-//         const conversationId = req.params.conversationId;
-//         const { participants, name } = req.body;
-
-//         const updatedConversation = await Conversation.findByIdAndUpdate(
-//             conversationId,
-//             { participants, name },
-//             { new: true }
-//         );
-
-//         if (!updatedConversation) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'Conversation not found',
-//             });
-//         }
-
-//         return res.status(200).json({
-//             success: true,
-//             message: 'Conversation updated successfully',
-//             conversation: updatedConversation,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({
-//             success: false,
-//             error: 'Internal Server Error',
-//         });
-//     }
-// };
-
-// // Delete conversation by ID
-// exports.deleteConversationById = async (req, res) => {
-//     try {
-//         const conversationId = req.params.conversationId;
-
-//         const deletedConversation = await Conversation.findByIdAndDelete(conversationId);
-
-//         if (!deletedConversation) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'Conversation not found',
-//             });
-//         }
-
-//         // Delete all messages associated with the conversation
-//         await Message.deleteMany({ conversation: conversationId });
-
-//         return res.status(200).json({
-//             success: true,
-//             message: 'Conversation deleted successfully',
-//             conversation: deletedConversation,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({
-//             success: false,
-//             error: 'Internal Server Error',
-//         });
-//     }
-// };
