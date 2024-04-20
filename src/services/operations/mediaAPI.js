@@ -190,12 +190,12 @@ export const deletePostById = async (post, token) => {
   return result;
 };
 
-export const getAllPostsByHashtag = async (hashtag, token) => {
+export const getAllPostsByHashtag = async (hashtag, currentPage, token) => {
   let result = [];
   try {
     const response = await apiConnector(
       "GET",
-      BASE_URL + `hashtag-post/${hashtag}`,
+      BASE_URL + `hashtag-post/${hashtag}?currentPage=${currentPage}`,
       null,
       {
         Authorization: `Bearer ${token}`,
@@ -206,7 +206,7 @@ export const getAllPostsByHashtag = async (hashtag, token) => {
       throw new Error("Could Not Get posts");
     }
 
-    result = response?.data;
+    result = response?.data?.hashtagPost;
     return result;
   } catch (error) {
     console.log("GET POST BY hashtag API ERROR............", error);
