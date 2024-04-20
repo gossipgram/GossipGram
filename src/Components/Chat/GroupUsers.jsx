@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { removeFromGroup } from '../../services/operations/chatAPI';
+import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
-const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId }) => {
+const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChatUser , chatUser , userData}) => {
   const token = localStorage.getItem("token").split('"')[1];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  console.log("userData____________",userData)
+  console.log("adminId____________",adminId)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -24,7 +28,7 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId }) => {
       data.chatId = chatId;
 
       const response = await removeFromGroup(data, token);
-      console.log("response", response);
+      setChatUser(response);
 
     } catch (error) {
       alert("error while removing user from group");
@@ -38,6 +42,12 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId }) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  const clickHandle = (id) => {
+    if (id) {
+      navigate(`/user/${id}`);
+    }
+  };
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
@@ -58,9 +68,9 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId }) => {
         <div className="absolute z-10 top-10 right-0 w-4/12 text-richblack-5 shadow-md rounded-md mt-1 bg-richblack-700 ">
           {/* Dropdown content */}
           <ul>
-            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>profile</li>
-            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>
-            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>
+            <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => clickHandle(id)}>profile</li>
+            {userData.userDetails.username === adminId && <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>}
+            {userData.userDetails.username === adminId &&<li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>}
           </ul>
         </div>
       )}

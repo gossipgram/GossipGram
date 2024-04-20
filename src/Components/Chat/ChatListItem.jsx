@@ -16,7 +16,8 @@ const ChatListItem = ({
   setChatUser,
   messages,
   setShowInfo,
-  updatedGroupName
+  updatedGroupName,
+  
 }) => {
   console.log("chat_____________", chat);
   const navigate = useNavigate();

@@ -21,6 +21,7 @@ const ChatPage = () => {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const [showInfo, setShowInfo] = useState(false)
   const [updatedGroupName, setUpdatedGroupName] = useState('')
+  const [updateGroupDp, setUpdateGroupDp] = useState([]);
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -71,6 +72,7 @@ const ChatPage = () => {
           messages={messages}
           setShowInfo={setShowInfo}
           updatedGroupName={updatedGroupName}
+          updateGroupDp={updateGroupDp}
         />
       </div>
 
@@ -101,7 +103,16 @@ const ChatPage = () => {
             messages={messages}
           />
         ) : null}
-        {showInfo && <InfoChatUser handleShowInfo={handleShowInfo} userData={userData} chatUser={chatUser} showInfo={showInfo} setUpdatedGroupName={setUpdatedGroupName} updatedGroupName={updatedGroupName}/>}
+        {showInfo && <InfoChatUser 
+        handleShowInfo={handleShowInfo} 
+        userData={userData} 
+        chatUser={chatUser} 
+        showInfo={showInfo} 
+        setUpdatedGroupName={setUpdatedGroupName} 
+        updatedGroupName={updatedGroupName}
+        setChatUser={setChatUser}
+        setUpdateGroupDp={setUpdateGroupDp}/>}
+
       </div>
       {showSideDrawer && <SideDrawer handleToggleSideDrawer={handleToggleSideDrawer}/>} 
       
