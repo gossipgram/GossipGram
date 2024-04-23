@@ -8,8 +8,6 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChat
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  console.log("userData____________",userData)
-  console.log("adminId____________",adminId)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

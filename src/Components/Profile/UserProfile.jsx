@@ -19,8 +19,8 @@ import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  // console.log("userId",userId);
-  // console.log("matchingUsers",matchingUsers);
+  console.log("userId",userId);
+  console.log("matchingUsers",matchingUsers);
   console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userId?._id;
