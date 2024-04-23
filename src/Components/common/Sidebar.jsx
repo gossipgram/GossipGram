@@ -11,6 +11,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import { logout } from "../../services/operations/authAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
 import { BsArrowThroughHeart } from "react-icons/bs";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const Sidebar = () => {
 
           <Link to="/home">
             <div
+              onClick={() => setActiveIcon("home")}
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "home" ? "text-yellow-400" : "text-white"
               }`}
@@ -76,6 +78,7 @@ const Sidebar = () => {
 
           <Link to="/search">
             <div
+              onClick={() => setActiveIcon("search")}
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "search" ? "text-yellow-400 " : "text-white"
               }`}
@@ -89,6 +92,7 @@ const Sidebar = () => {
 
           <Link to="/create">
             <div
+              onClick={() => setActiveIcon("create")}
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "create" ? "text-yellow-400" : "text-white"
               }`}
@@ -101,6 +105,7 @@ const Sidebar = () => {
 
           <Link to="/chat">
             <div
+              onClick={() => setActiveIcon("chat")}
               className={`flex flex-row px-10 py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "chat" ? "text-yellow-400" : "text-white"
               }`}
@@ -114,6 +119,7 @@ const Sidebar = () => {
 
           <Link to="/gossip-partner">
             <div
+              onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "gossip-partner"
                   ? "text-yellow-400"
@@ -127,8 +133,23 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
+          {/* <Link to="/"> */}
+          <div
+            onClick={() => setActiveIcon("notification")}
+            className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+              activeIcon === "notification" ? "text-yellow-400" : "text-white"
+            }`}
+          >
+            <IoIosNotificationsOutline fontSize={25} />
+            <p className="text-xl ">Notifications</p>
+          </div>
+          {/* </Link> */}
+
+          <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+
           <Link to="/profile">
             <div
+              onClick={() => setActiveIcon("profile")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
@@ -188,6 +209,7 @@ const Sidebar = () => {
           </Link>
           <Link to="/home">
             <div
+              onClick={() => setActiveIcon("home")}
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer  ${
                 activeIcon === "home" ? "text-yellow-400" : "text-white"
               }`}
@@ -198,6 +220,7 @@ const Sidebar = () => {
 
           <Link to="/search">
             <div
+              onClick={() => setActiveIcon("search")}
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "search" ? "text-yellow-400" : "text-white"
               }`}
@@ -208,6 +231,7 @@ const Sidebar = () => {
 
           <Link to="/create">
             <div
+              onClick={() => setActiveIcon("create")}
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "create" ? "text-yellow-400" : "text-white"
               }`}
@@ -218,6 +242,7 @@ const Sidebar = () => {
 
           <Link to="/chat">
             <div
+              onClick={() => setActiveIcon("chat")}
               className={`flex w-[80%] justify-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "chat" ? "text-yellow-400" : "text-white"
               }`}
@@ -228,6 +253,7 @@ const Sidebar = () => {
 
           <Link to="/gossip-partner">
             <div
+              onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
                 activeIcon === "gossip-partner"
                   ? "text-yellow-400"
@@ -238,8 +264,20 @@ const Sidebar = () => {
             </div>
           </Link>
 
+          {/* <Link to="/gossip-partner"> */}
+          <div
+            onClick={() => setActiveIcon("notification")}
+            className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
+              activeIcon === "notification" ? "text-yellow-400" : "text-white"
+            }`}
+          >
+            <IoIosNotificationsOutline fontSize={35} />
+          </div>
+          {/* </Link> */}
+
           <Link to="/profile">
             <div
+              onClick={() => setActiveIcon("profile")}
               className={`flex w-[80%] justify-center items-center py-3 mx-2 gap-3 hover:bg-richblack-700 hover:scale-110 transition-all duration-200 rounded-lg cursor-pointer ${
                 activeIcon === "profile" ? "text-yellow-400" : "text-white"
               }`}
