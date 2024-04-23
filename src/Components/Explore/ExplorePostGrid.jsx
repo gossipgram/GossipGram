@@ -32,17 +32,17 @@ const ExplorePostGrid = ({ posts, userId }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-screen">
       {allPosts.length === 0 ? (
         <h2 className="text-center text-3xl mt-40 text-richblack-5 transition-all duration-700">
           No Post
         </h2>
       ) : (
-        <div className="grid w-full grid-cols-3 gap-1 transition-all duration-700">
+        <div className="grid w-full grid-cols-3 gap-1 transition-all duration-700 ">
           {allPosts.map((post) => (
             <div
               key={post._id}
-              className="w-full h-full "
+              className="w-[17rem] h-[17rem]"
               onMouseEnter={() => handleVideoHover(post)}
               onMouseLeave={() => setHoveredPost(null)}
             >

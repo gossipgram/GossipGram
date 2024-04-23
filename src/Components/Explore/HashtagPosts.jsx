@@ -103,7 +103,7 @@ const HashtagPosts = () => {
   }, [currentPage, totalPages, loading]);
 
   return (
-    <div className="w-full flex p-7 pl-20 flex-col gap-10 items-center">
+    <div className="w-full flex p-7 pl-20 flex-col gap-10 items-center ">
       <div className="text-richblack-5  w-1/2 flex  gap-5">
         <div className="bg-richblack-600 w-52 h-52 rounded-full flex items-center justify-center">
           {thumbnail === "" ? (
