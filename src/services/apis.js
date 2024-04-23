@@ -66,6 +66,11 @@ export const friendsEndpoints = {
   GET_FOLLOWING_FOR_USER_API: BASE_URL + "friends/following/:userId", //get
 };
 
+export const followRequestEndpoints = {
+  GET_ALL_REQUEST_BY_ID_API: BASE_URL + "follow-request/follow/getAllRequestById" ,    //get
+  CANCEL_FOLLOW_REQUEST_API: BASE_URL + "follow-request/follow/cancelrequest"          //delete
+}
+
 
 // PROFILE ENDPOINTS
 export const profileEndpoints = {
