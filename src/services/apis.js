@@ -66,6 +66,7 @@ export const friendsEndpoints = {
   GET_FOLLOWING_FOR_USER_API: BASE_URL + "friends/following/:userId", //get
 };
 
+
 // PROFILE ENDPOINTS
 export const profileEndpoints = {
   UPDATE_PROFILE_API: BASE_URL + "profile/update-profile", //put

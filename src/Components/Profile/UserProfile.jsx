@@ -17,11 +17,12 @@ import PostRow from "./PostRow";
 import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
+import { sendRequest } from "../../services/operations/FollowRequestAPI";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  console.log("userId",userId);
-  console.log("matchingUsers",matchingUsers);
-  console.log("userData", userData);
+  // console.log("userId",userId);
+  // console.log("matchingUsers",matchingUsers);
+  // console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userId?._id;
   const navigate = useNavigate();
@@ -102,10 +103,10 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
-      console.log("inside checkFollowingStatus");
-      console.log("followers", followers);
-      console.log("following", following);
-      console.log("userData?.userDetails?._id", userData?.userDetails?._id);
+      // console.log("inside checkFollowingStatus");
+      // console.log("followers", followers);
+      // console.log("following", following);
+      // console.log("userData?.userDetails?._id", userData?.userDetails?._id);
       try {
         if (searchedUserId === userData?.userDetails?._id) {
           console.log("inside if ");
@@ -141,12 +142,13 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     checkFollowingStatus();
   }, [token, userId, searchedUserId, followers, following, userData]);
 
-  const handleFollowButtonClick = async () => {
+  const handleFollowButtonClick = async () => {                                                           // FOLLOW REQUEST CHANGES
     try {
       if (itsUser) {
       } else if (!isFollowing && !isFollowBack) {
-        await followUser(searchedUserId, token);
-        setTotalFollower(totalFollower + 1);
+        console.log("searchedUserId",searchedUserId);
+        await sendRequest(searchedUserId, token);
+        // setTotalFollower(totalFollower + 1);
         setIsFollowing(true);
       } else if (!isFollowing && isFollowBack) {
         await followUser(searchedUserId, token);

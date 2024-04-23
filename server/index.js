@@ -13,6 +13,7 @@ const profileRoute = require("./routes/profileRoute");
 const recentSearchRoute = require("./routes/recentSeachRoutes");
 const kundaliRoutes = require("./routes/KundaliRoutes");
 const hashtagPostsRoute = require("./routes/hashtagPostsRoutes");
+const FollowRequestRoutes = require("./routes/FollowRequestRoutes")
 
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
@@ -58,6 +59,7 @@ app.use("/api/v1/profile", profileRoute);
 app.use("/api/v1/recents", recentSearchRoute);
 app.use("/api/v1/kundali", kundaliRoutes);
 app.use("/api/v1/hashtag-post", hashtagPostsRoute);
+app.use("/api/v1/follow-request", FollowRequestRoutes);
 
 //def route
 app.get("/", (req, res) => {
