@@ -4,7 +4,8 @@ import { followRequestEndpoints } from "../apis";
 
 const {
     GET_ALL_REQUEST_BY_ID_API ,
-    CANCEL_FOLLOW_REQUEST_API
+    CANCEL_FOLLOW_REQUEST_API,
+    GET_REQUEST_BY_IDS_API
 } = followRequestEndpoints;
 
 const BASE_URL = "http://localhost:4000/api/v1/";
@@ -118,6 +119,29 @@ export const cancelFollowRequest = async (data , token) => {
     result = response.data
     } catch (error) {
     console.log("CANCEL_FOLLOW_REQUEST_API API ERROR............", error);
+    result = error.response.data;
+  }
+  toast.dismiss(toastId);
+  return result;
+};
+
+export const FollowRequestById = async (data , token) => {
+    console.log("data_______",data)
+
+    const toastId = toast.loading("Loading...");
+    let result= null;
+    try{
+    const response = await apiConnector(
+      "GET",
+      GET_REQUEST_BY_IDS_API, data ,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    console.log("GET_REQUEST_BY_IDS_API API RESPONSE............", response);
+    result = response.data
+    } catch (error) {
+    console.log("GET_REQUEST_BY_IDS_API API ERROR............", error);
     result = error.response.data;
   }
   toast.dismiss(toastId);

@@ -17,10 +17,10 @@ import PostRow from "./PostRow";
 import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
-import { sendRequest } from "../../services/operations/FollowRequestAPI";
+import { FollowRequestById, sendRequest } from "../../services/operations/FollowRequestAPI";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  // console.log("userId",userId);
+  console.log("userId",userId);
   // console.log("matchingUsers",matchingUsers);
   // console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
@@ -38,6 +38,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
+  const [requestDetails, setRequestDetails] = useState([])
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
   useEffect(() => {
@@ -165,8 +166,26 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     }
   };
 
+  useEffect(() => {
+      const fetchRequestDetails = async () => {
+        try {
+          const data = {};
+          data.followerId = userData?.userDetails?._id;
+          data.followingId = userId._id;
+          const response = await FollowRequestById(data, token);
+          setFollowers(response.followers); // Extract followers array from the response
+        } catch (error) {
+          console.error("Error in fetching followers of user:", error.message);
+        }
+      };
+      if (token) {
+        fetchRequestDetails();
+      }
+    }, [token]);
+
   const messageClickHandler = async () => {
     try {
+      
       const response = await accessChat(searchedUserId, token);
       navigate(`/chat/${response?._id}`); // check later for this ${response?._id}
     } catch (error) {

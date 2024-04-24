@@ -135,6 +135,7 @@ export const removeFromGroup = async (data, token) => {
 
 export const addToGroup = async (data, token) => {
   let result = null;
+  console.log("data_________",data)
   const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector("PUT", ADD_TO_GROUP_API, data, {

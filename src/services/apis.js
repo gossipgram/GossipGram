@@ -68,7 +68,8 @@ export const friendsEndpoints = {
 
 export const followRequestEndpoints = {
   GET_ALL_REQUEST_BY_ID_API: BASE_URL + "follow-request/follow/getAllRequestById" ,    //get
-  CANCEL_FOLLOW_REQUEST_API: BASE_URL + "follow-request/follow/cancelrequest"          //delete
+  CANCEL_FOLLOW_REQUEST_API: BASE_URL + "follow-request/follow/cancelrequest"  ,        //delete
+  GET_REQUEST_BY_IDS_API: BASE_URL + "follow-request/follow/getrequest"          //get
 }
 
 

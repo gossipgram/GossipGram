@@ -6,7 +6,8 @@ const {
     acceptFollowRequest,
     rejectFollowRequest,
     getAllPendingRequestById,
-    cancelRequest
+    cancelRequest,
+    findRequestId
 } = require("../controllers/FollowRequestController");
 
 // Route to send a follow request
@@ -23,5 +24,8 @@ router.get('/follow/getAllRequestById', auth, getAllPendingRequestById);
 
 // route for cancel the request 
 router.delete('/follow/cancelrequest', auth, cancelRequest);
+
+// get request by followerId and followingId
+router.get('/follow/getrequest', auth, findRequestId);
 
 module.exports = router;

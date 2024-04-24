@@ -182,16 +182,13 @@ exports.getAllPendingRequestById = async (req, res) => {
 
 exports.cancelRequest = async (req, res) => {
   try {
-    // Get the followerId and followingId from the request body or parameters
     const { followerId, followingId } = req.body;
 
-    // Find the follow request by followerId and followingId
     const request = await FollowRequest.findOne({
       follower: followerId,
       following: followingId,
     });
 
-    // Check if the request exists
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -199,13 +196,42 @@ exports.cancelRequest = async (req, res) => {
       });
     }
 
-    // Delete the follow request from the database
     await FollowRequest.findByIdAndDelete(request._id);
 
-    // Send success response
     return res.status(200).json({
       success: true,
       message: "Follow request canceled successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+exports.findRequestId = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+    console.log("followerId", followerId);
+    console.log("followingId", followingId);
+
+    const request = await FollowRequest.findOne({
+      follower: followerId,
+      following: followingId,
+    });
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: "Follow request not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      requestDetails: request,
     });
   } catch (error) {
     console.error(error);
