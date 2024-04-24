@@ -12,6 +12,7 @@ import { logout } from "../../services/operations/authAPI";
 import { getAllUserData } from "../../services/operations/profileAPI";
 import { BsArrowThroughHeart } from "react-icons/bs";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import NotificationDrawer from "../Notifications/NotificationDrawer";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const Sidebar = () => {
 
   const [userData, setUserData] = useState([]);
   const token = localStorage.getItem("token").split('"')[1];
+  const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -45,9 +47,15 @@ const Sidebar = () => {
     setActiveIcon(iconset);
   }, [currPath]);
 
+  const notificationHandler = async () => {
+    console.log("inside noti handle")
+    setActiveIcon("notification");
+    setIsSideDrawerOpen((prevState) => !prevState);
+  }
+
   return (
     <div className="sticky top-0">
-      {currPath === "/home" ? (
+      {(currPath === "/home") && !isSideDrawerOpen ? (
         <div className="flex w-[350px] transition-all duration-500 ease-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
             <div className="flex items-center justify-center cursor-pointer ">
@@ -135,7 +143,7 @@ const Sidebar = () => {
 
           {/* <Link to="/"> */}
           <div
-            onClick={() => setActiveIcon("notification")}
+            onClick={notificationHandler}
             className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
               activeIcon === "notification" ? "text-yellow-400" : "text-white"
             }`}
@@ -143,6 +151,7 @@ const Sidebar = () => {
             <IoIosNotificationsOutline fontSize={25} />
             <p className="text-xl ">Notifications</p>
           </div>
+          {isSideDrawerOpen && <NotificationDrawer isOpen={isSideDrawerOpen} onClose={notificationHandler} userData={userData.userDetails}/>}
           {/* </Link> */}
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
@@ -266,13 +275,14 @@ const Sidebar = () => {
 
           {/* <Link to="/gossip-partner"> */}
           <div
-            onClick={() => setActiveIcon("notification")}
+            onClick={notificationHandler}
             className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
               activeIcon === "notification" ? "text-yellow-400" : "text-white"
             }`}
           >
             <IoIosNotificationsOutline fontSize={35} />
           </div>
+          {isSideDrawerOpen && <NotificationDrawer isOpen={isSideDrawerOpen} onClose={notificationHandler} userData={userData.userDetails}/>}
           {/* </Link> */}
 
           <Link to="/profile">

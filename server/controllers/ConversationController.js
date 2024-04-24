@@ -167,20 +167,21 @@ const removeFromGroup = async (req, res) => {
 // @route   PUT /api/chat/groupadd
 // @access  Protected
 const addToGroup = async (req, res) => {
+  console.log(req)
   try {
     const { chatId, userId } = req.body;
     const requesterId = req.user._id;
 
     // Check if the chat exists
-    const chat = await Chat.findById(chatId).populate("groupAdmin", "_id").populate("users", "_id");
+    const chat = await Chat.findById(chatId).populate("groupAdmin").populate("users", "_id");
     if (!chat) {
       return res.status(404).json({ message: "Chat Not Found" });
     }
 
     // Check if the requester is the admin of the group
-    if (chat.groupAdmin._id.toString() !== requesterId.toString()) {
-      return res.status(403).json({ message: "Only group admin can add users." });
-    }
+    // if (chat.groupAdmin._id.toString() !== requesterId.toString()) {
+    //   return res.status(403).json({ message: "Only group admin can add users." });
+    // }
 
     // Check if the user is already added to the chat
     const userExists = chat.users.some(user => user._id.toString() === userId.toString());
@@ -202,7 +203,7 @@ const addToGroup = async (req, res) => {
     res.json(added);
   } catch (error) {
     console.error("Error adding user to group:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" , error });
   }
 };
 

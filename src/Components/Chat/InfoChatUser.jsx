@@ -13,11 +13,12 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdatedGroupName , updatedGroupName , setChatUser , setUpdateGroupDp}) => {
   
   // console.log('userData', userData);
-  // console.log('chatUser', chatUser);
+  console.log('chatUser', chatUser);
   const token = localStorage.getItem("token").split('"')[1];
   const isGroup = chatUser.isGroupChat
   const userUsername = userData?.userDetails?.username;
   let userName, userImage, id;
+  const groupAdminUsernames = chatUser.groupAdmin.map(admin => admin.username);
 
   if (chatUser.isGroupChat) {
     userName = chatUser.chatName;
@@ -230,7 +231,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
             alt={``}
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
-            className={`aspect-square w-40 rounded-full object-cover ${hovering ? "blur transition-all duration-500" : ""}`}
+            className={`aspect-square w-40 rounded-full object-cover ${hovering && isGroup ? "blur transition-all duration-500" : ""}`}
           />
           <div className="space-y-2">
             <div className="flex flex-row gap-3">
@@ -241,7 +242,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
                 className="hidden"
                 accept="image/png, image/gif, image/jpeg"
               />
-              {hovering && (
+              {hovering && isGroup && (
                 <FaCamera
                   className="absolute w-10 h-10 text-richblack-500 cursor-pointer left-24 bottom-5 hover:text-yellow-400 transition-all duration-500"
                   onClick={handleClick}
@@ -298,7 +299,7 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
                 {updatedGroupName ? updatedGroupName : userName}  
               </h3>
 
-              {chatUser?.groupAdmin?.username === userUsername &&
+              {groupAdminUsernames.includes(userUsername)  &&
                 <MdDriveFileRenameOutline
                   className="w-5 h-5 text-yellow-300 cursor-pointer mt-3 hover:text-yellow-400"
                   onClick={handleChangeGroupName}
@@ -412,11 +413,11 @@ const InfoChatUser = ({ handleShowInfo, userData, chatUser , showInfo , setUpdat
               <p className="text-richblack-200 text-lg">
                 <span className='text-yellow-400'>{chatUser.users.length}</span> members
               </p>
-              {userData?.userDetails?._id === chatUser.groupAdmin._id && <IoMdPersonAdd className='w-6 h-6 text-white cursor-pointer' onClick={handleAddUser}/>}
+              {groupAdminUsernames.includes(userData?.userDetails?.username) && <IoMdPersonAdd className='w-6 h-6 text-white cursor-pointer' onClick={handleAddUser}/>}
             </div>
             
             {chatUser.users.map((user) => (
-              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminId={chatUser.groupAdmin.username} id={user._id} chatUser={chatUser} chatId={chatUser._id} setChatUser={setChatUser} userData={userData}/>
+              <GroupUsers key={user._id} infoUserName={user.username} infoUserImage={user.image} adminUsername={groupAdminUsernames} id={user._id} chatUser={chatUser} chatId={chatUser._id} setChatUser={setChatUser} userData={userData}/>
             ))}
           </div>
         )

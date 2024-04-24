@@ -3,7 +3,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { removeFromGroup } from '../../services/operations/chatAPI';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
-const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChatUser , chatUser , userData}) => {
+const GroupUsers = ({ infoUserImage, infoUserName, adminUsername, id, chatId , setChatUser , chatUser , userData}) => {
+  console.log("infoUserName",infoUserName);
+  console.log("adminUsername",adminUsername)
   const token = localStorage.getItem("token").split('"')[1];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +57,7 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChat
         <img src={infoUserImage} alt="" className="w-10 h-10 rounded-full mr-4" />
         <div className="w-full flex justify-between">
           <h3 className="font-semibold text-richblack-5 text-lg">{infoUserName}</h3>
-          {infoUserName === adminId ? (
+          {adminUsername.includes(infoUserName) ? (
             <p className="text-yellow-400 text-md">Admin</p>
           ) : (
             <MdKeyboardArrowDown className="w-5 h-5 text-white mt-4 cursor-pointer" onClick={toggleDropdown} />
@@ -67,8 +69,16 @@ const GroupUsers = ({ infoUserImage, infoUserName, adminId, id, chatId , setChat
           {/* Dropdown content */}
           <ul>
             <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => clickHandle(id)}>profile</li>
-            {userData.userDetails.username === adminId && <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>remove</li>}
-            {userData.userDetails.username === adminId &&<li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>Make admin</li>}
+            {adminUsername.includes(userData.userDetails.username) && (
+              <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200' onClick={() => handleRemoveUser(id)}>
+                remove
+              </li>
+            )}
+            {adminUsername.includes(userData.userDetails.username) && (
+              <li className='text-richblack-25 bg-richblack-700 p-3 hover:bg-richblack-600 cursor-pointer transition-all duration-200'>
+                Make admin
+              </li>
+            )}
           </ul>
         </div>
       )}
