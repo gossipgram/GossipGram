@@ -70,27 +70,34 @@ exports.acceptFollowRequest = async (req, res) => {
     const followingId = request.following;
     const followerId = request.follower;
 
-    const existingFollower = await Follower.findOne({ following: followingId, follower: followerId });
+    const existingFollower = await Follower.findOne({
+      following: followingId,
+      follower: followerId,
+    });
 
     if (existingFollower) {
-        return res.status(400).json({
-            success: false,
-            message: 'You are already following this user',
-        });
+      return res.status(400).json({
+        success: false,
+        message: "You are already following this user",
+      });
     }
 
     const newFollower = new Follower({
-        following: followingId,
-        follower: followerId,
+      following: followingId,
+      follower: followerId,
     });
 
     const savedFollower = await newFollower.save();
 
     // Update the user with the new follower ID in followers array
-    await User.findByIdAndUpdate(followingId, { $push: { followers: savedFollower._id } });
+    await User.findByIdAndUpdate(followingId, {
+      $push: { followers: savedFollower._id },
+    });
 
     // Update the follower with the new following ID in following array
-    await User.findByIdAndUpdate(followerId, { $push: { following: savedFollower._id } });
+    await User.findByIdAndUpdate(followerId, {
+      $push: { following: savedFollower._id },
+    });
 
     // Delete the follow request from the database
     await FollowRequest.findByIdAndDelete(requestId);
@@ -99,7 +106,7 @@ exports.acceptFollowRequest = async (req, res) => {
       success: true,
       message: "Follow request accepted successfully",
       request,
-      follower: savedFollower
+      follower: savedFollower,
     });
   } catch (error) {
     console.error(error);
@@ -152,18 +159,16 @@ exports.rejectFollowRequest = async (req, res) => {
   }
 };
 
-
 exports.getAllPendingRequestById = async (req, res) => {
   try {
-
     const userId = req.user.id;
 
     const pendingRequests = await FollowRequest.find({
       following: userId,
-      status: "pending"
+      status: "pending",
     }).populate({
-      path: 'follower',
-      select: 'username image _id firstName lastName'
+      path: "follower",
+      select: "username image _id firstName lastName",
     });
 
     return res.status(200).json({
@@ -213,7 +218,7 @@ exports.cancelRequest = async (req, res) => {
 
 exports.findRequestId = async (req, res) => {
   try {
-    const { followerId, followingId } = req.body;
+    const { followerId, followingId } = req.query;
     console.log("followerId", followerId);
     console.log("followingId", followingId);
 

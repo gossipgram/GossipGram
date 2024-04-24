@@ -119,14 +119,19 @@ export const cancelFollowRequest = async (data, token) => {
 };
 
 export const FollowRequestById = async (data, token) => {
-  console.log("data_______", data);
-
   const toastId = toast.loading("Loading...");
   let result = null;
   try {
-    const response = await apiConnector("GET", GET_REQUEST_BY_IDS_API, data, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector(
+      "GET",
+      `${BASE_URL}follow-request/follow/getrequest?followerId=${data.followerId}&followingId=${data.followingId}`,
+      {
+        data,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("GET_REQUEST_BY_IDS_API API RESPONSE............", response);
     result = response.data;
   } catch (error) {

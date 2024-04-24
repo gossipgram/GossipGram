@@ -17,10 +17,13 @@ import PostRow from "./PostRow";
 import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
-import { FollowRequestById, sendRequest } from "../../services/operations/FollowRequestAPI";
+import {
+  FollowRequestById,
+  sendRequest,
+} from "../../services/operations/FollowRequestAPI";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  console.log("userId",userId);
+  console.log("userId", userId);
   // console.log("matchingUsers",matchingUsers);
   // console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
@@ -38,7 +41,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [followerDetails, setFollowerDetails] = useState([]);
-  const [requestDetails, setRequestDetails] = useState([])
+  const [requestDetails, setRequestDetails] = useState([]);
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
   useEffect(() => {
@@ -143,11 +146,12 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     checkFollowingStatus();
   }, [token, userId, searchedUserId, followers, following, userData]);
 
-  const handleFollowButtonClick = async () => {                                                           // FOLLOW REQUEST CHANGES
+  const handleFollowButtonClick = async () => {
+    // FOLLOW REQUEST CHANGES
     try {
       if (itsUser) {
       } else if (!isFollowing && !isFollowBack) {
-        console.log("searchedUserId",searchedUserId);
+        console.log("searchedUserId", searchedUserId);
         await sendRequest(searchedUserId, token);
         // setTotalFollower(totalFollower + 1);
         setIsFollowing(true);
@@ -167,25 +171,25 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   };
 
   useEffect(() => {
-      const fetchRequestDetails = async () => {
-        try {
-          const data = {};
-          data.followerId = userData?.userDetails?._id;
-          data.followingId = userId._id;
-          const response = await FollowRequestById(data, token);
-          setFollowers(response.followers); // Extract followers array from the response
-        } catch (error) {
-          console.error("Error in fetching followers of user:", error.message);
-        }
-      };
-      if (token) {
-        fetchRequestDetails();
+    const fetchRequestDetails = async () => {
+      try {
+        const data = {};
+        data.followerId = userData?.userDetails?._id;
+        data.followingId = userId._id;
+        const response = await FollowRequestById(data, token);
+        console.log("Hello word");
+        setFollowers(response.followers); // Extract followers array from the response
+      } catch (error) {
+        console.error("Error in fetching followers of user:", error.message);
       }
-    }, [token]);
+    };
+    if (token) {
+      fetchRequestDetails();
+    }
+  }, [token]);
 
   const messageClickHandler = async () => {
     try {
-      
       const response = await accessChat(searchedUserId, token);
       navigate(`/chat/${response?._id}`); // check later for this ${response?._id}
     } catch (error) {
