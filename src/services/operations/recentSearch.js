@@ -1,4 +1,3 @@
-import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { recentSearchEndpoints } from "../apis";
 
@@ -32,7 +31,6 @@ export const addSearches = async (userId, token) => {
 
 export const removeSearches = async (searchedUserId, userId, token) => {
   let result = [];
-  const toastId = toast.loading("Loading...");
   console.log(searchedUserId);
   console.log("uerid", userId);
   try {
@@ -51,12 +49,9 @@ export const removeSearches = async (searchedUserId, userId, token) => {
     // if (!response?.data?.success) {
     //   throw new Error("Could Not Delete ACCOUNT");
     // }
-    toast.success("Search Deleted");
     result = response?.data.deletedSearch;
   } catch (error) {
     console.log("REMOVE_RECENT_SEARCHES_API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };

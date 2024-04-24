@@ -1,4 +1,3 @@
-import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import { mediaEndpoints } from "../apis";
 import { hashtagPostEndpoints } from "../apis";
@@ -20,7 +19,6 @@ const {
 const BASE_URL = "http://localhost:4000/api/v1/";
 
 export const getPostById = async (token, postId) => {
-  const toastId = toast.loading("Loading...");
   let result = null;
   try {
     const response = await apiConnector(
@@ -41,9 +39,7 @@ export const getPostById = async (token, postId) => {
     result = response?.data?.data;
   } catch (error) {
     console.log("GET_POST_BY_ID_API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 
@@ -77,7 +73,6 @@ export const getAllPosts = async (token, currentPage) => {
       }
     );
 
-    console.log("GETT ALL POSTS API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch ALL POSTS");
     }
@@ -90,7 +85,6 @@ export const getAllPosts = async (token, currentPage) => {
 
 export const createPost = async (data, token) => {
   let result = null;
-  const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector("POST", CREATE_POST_API, data, {
       Authorization: `Bearer ${token}`,
@@ -101,24 +95,19 @@ export const createPost = async (data, token) => {
       addPostToHashtag(hashtag, response?.data?.post?._id, token);
     });
 
-    console.log("CREATE POST API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not CREATE POST");
     }
-    toast.success("POST CREATED");
     result = response?.data?.data;
   } catch (error) {
     console.log("CREATE POST API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 
 export const updatePostById = async (post, data, token) => {
   let result = null;
   const postId = post?._id;
-  const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector(
       "PUT",
@@ -130,7 +119,6 @@ export const updatePostById = async (post, data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("UPDATE POST BY ID API RESPONSE............", response);
     let hashtags = data.caption.match(/#[^\s#]*/g);
     let deleteHashtag = post.hashtag.filter(
       (oldHashtag) => !hashtags.includes(oldHashtag)
@@ -146,20 +134,16 @@ export const updatePostById = async (post, data, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Update POST");
     }
-    toast.success("Post Updated");
     result = response?.data?.data;
   } catch (error) {
     console.log("UPDATE POST BY ID API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 
 export const deletePostById = async (post, token) => {
   let result = null;
   const postId = post?._id;
-  const toastId = toast.loading("Loading...");
   try {
     const response = await apiConnector(
       "DELETE",
@@ -171,7 +155,6 @@ export const deletePostById = async (post, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("DELETE POST BU ID API RESPONSE............", response);
     // remove post from hastags
     post.hashtag.map((hashtag) =>
       removePostFromHashtag(hashtag, postId, token)
@@ -180,13 +163,10 @@ export const deletePostById = async (post, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Delete POST");
     }
-    toast.success("POST Deleted");
     result = response?.data?.data;
   } catch (error) {
     console.log("DELETE POST BY ID API ERROR............", error);
-    toast.error(error.message);
   }
-  toast.dismiss(toastId);
   return result;
 };
 
@@ -201,7 +181,6 @@ export const getAllPostsByHashtag = async (hashtag, currentPage, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("GET ALL POSTS BY HASHTAG API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Get posts");
     }
@@ -222,7 +201,6 @@ export const addPostToHashtag = async (hashtag, postId, token) => {
     const response = await apiConnector("POST", ADD_POST_TO_HASHTAG_API, data, {
       Authorization: `Bearer ${token}`,
     });
-    console.log("ADD POST TO HASHTAG API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Add Post To hashtag");
     }
@@ -246,7 +224,6 @@ export const removePostFromHashtag = async (hashtag, postId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("REMOVE POST FROM HASHTAG API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Remove Post From hashtag");
     }

@@ -18,7 +18,6 @@ export const likePost = async (postId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("LIKE_POST_API API RESPONSE............", response);
 
     if (!response.data.success) {
       throw new Error(response.data.message);
@@ -45,7 +44,6 @@ export const unlikePost = async (postId, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("UNLIKE_POST_API API RESPONSE............", response);
 
     if (!response.data.success) {
       throw new Error(response.data.message);
