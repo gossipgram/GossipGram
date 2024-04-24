@@ -1,7 +1,7 @@
 import React from 'react'
 import { acceptRequest, rejectRequest } from '../../services/operations/FollowRequestAPI';
 
-const RequestCard = ({id , username , userImage , firstName , lastName , requestId}) => {
+const RequestCard = ({id , username , userImage , firstName , lastName , requestId , setRequestChange}) => {
     const token = localStorage.getItem("token").split('"')[1];
 
     const acceptHandle = async (requestId) => {
@@ -9,6 +9,7 @@ const RequestCard = ({id , username , userImage , firstName , lastName , request
         try {
             const response = await acceptRequest(requestId , token);
             console.log("response________", response);
+            setRequestChange(true);
         } catch (error) {
         console.error("Error fetching user data:", error.message);
         }
@@ -19,6 +20,7 @@ const RequestCard = ({id , username , userImage , firstName , lastName , request
         try {
             const response = await rejectRequest(requestId , token);
             console.log("response________", response);
+            setRequestChange(true);
         } catch (error) {
         console.error("Error fetching user data:", error.message);
         }

@@ -96,6 +96,7 @@ export const getAllRequestById = async (token) => {
 
 export const cancelFollowRequest = async (data, token) => {
   const toastId = toast.loading("Loading...");
+  console.log("data_________",data);
   let result = null;
   try {
     const response = await apiConnector(

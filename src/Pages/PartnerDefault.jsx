@@ -52,7 +52,7 @@ const PartnerDefault = () => {
       <div className="flex justify-center mb-5">
         <Navbar pagesList={pagesList} />
       </div>
-      <div className="w-full h-[90%]">
+      <div className="w-full h-[90%] scrolling">
         {activeSection === "Home" && <PartnerHome />}
         {activeSection === "Find" && <PartnerFind />}
         {activeSection === "About" && <PartnerLandingPage />}

@@ -21,7 +21,7 @@ const Navbar = ({ pagesList }) => {
   }, [currPath]);
 
   return (
-    <nav className=" w-2/3 flex  h-14 items-center justify-evenly rounded-full  bg-richblack-700  text-white  mt-3">
+    <nav className=" w-2/3 flex  h-14 items-center justify-evenly rounded-full  bg-richblack-700  text-white  mt-3 ">
       <div className="ml-5">
         <Link
           to="/home"

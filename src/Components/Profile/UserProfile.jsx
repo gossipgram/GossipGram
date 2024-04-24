@@ -19,6 +19,7 @@ import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 import {
   FollowRequestById,
+  cancelFollowRequest,
   sendRequest,
 } from "../../services/operations/FollowRequestAPI";
 
@@ -44,6 +45,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   const [requestDetails, setRequestDetails] = useState([]);
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
+  const [requestedUser, setRequestedUser] = useState(false);
   useEffect(() => {
     if (matchingUsers && matchingUsers.length > 0) {
       const foundUser = matchingUsers.find(
@@ -51,7 +53,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
       );
       setSearchedUser(foundUser || null);
     }
-  }, [matchingUsers, searchedUserId]);
+  }, [matchingUsers, searchedUserId , requestedUser]);
 
   const steps = [
     {
@@ -150,12 +152,18 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     // FOLLOW REQUEST CHANGES
     try {
       if (itsUser) {
-      } else if (!isFollowing && !isFollowBack) {
-        console.log("searchedUserId", searchedUserId);
+      } else if (!isFollowing && !isFollowBack && !requestedUser) {
         await sendRequest(searchedUserId, token);
         // setTotalFollower(totalFollower + 1);
-        setIsFollowing(true);
-      } else if (!isFollowing && isFollowBack) {
+        // setIsFollowing(true);
+        setRequestedUser(true);
+      } else if (requestedUser){
+        const data = {};
+        data.followerId = userData?.userDetails?._id;
+        data.followingId = userId._id;
+        await cancelFollowRequest(data , token);
+        setIsFollowing(false);
+      }else if (!isFollowing && isFollowBack) {
         await followUser(searchedUserId, token);
         setTotalFollower(totalFollower + 1);
         setIsFollowing(true);
@@ -177,8 +185,13 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
         data.followerId = userData?.userDetails?._id;
         data.followingId = userId._id;
         const response = await FollowRequestById(data, token);
-        console.log("Hello word");
-        setFollowers(response.followers); // Extract followers array from the response
+        // console.log("response",response);
+        if(response.success === true){
+          setRequestedUser(true);
+        }else {
+          setRequestedUser(false);
+        }
+        // setFollowers(response.followers); // Extract followers array from the response
       } catch (error) {
         console.error("Error in fetching followers of user:", error.message);
       }
@@ -186,7 +199,8 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     if (token) {
       fetchRequestDetails();
     }
-  }, [token]);
+  }, [token , userId, searchedUserId, followers, following, userData]);
+  console.log("requestedUser____________",requestedUser)
 
   const messageClickHandler = async () => {
     try {
@@ -281,12 +295,14 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
             isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
           }-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${
             isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
-          }-200`}
+          }-200 ${ requestedUser ? "cursor-pointer rounded-md bg-richblack-500 py-1 px-2 text-richblack-900 hover:bg-richblack-600" : ""}`}
           onClick={handleFollowButtonClick}
         >
           {/* {itsUser && <FaRegEdit />} */}
           {itsUser
             ? "Edit profile"
+            : requestedUser
+            ? "Requested"
             : isFollowing
             ? "Following"
             : isFollowBack

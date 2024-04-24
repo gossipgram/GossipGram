@@ -187,7 +187,10 @@ exports.getAllPendingRequestById = async (req, res) => {
 
 exports.cancelRequest = async (req, res) => {
   try {
-    const { followerId, followingId } = req.body;
+    console.log("req",req)
+    const { followerId, followingId } = req.body.data;
+    console.log("followerId",followerId)
+    console.log("followingId",followingId)
 
     const request = await FollowRequest.findOne({
       follower: followerId,

@@ -52,6 +52,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    // isGroupPrivate: {
+    //   type: Boolean ,
+    //   required:true
+    // } ,
+
     recentSearches: [
       {
         type: mongoose.Schema.Types.ObjectId,

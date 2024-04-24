@@ -7,8 +7,7 @@ const NotificationDrawer = ({ isOpen, onClose , userData}) => {
     const token = localStorage.getItem("token").split('"')[1];
     const userId = userData._id;
     const [allFollowRequest, setAllFollowRequest] = useState([])
-    
-
+    const [requestChange, setRequestChange] = useState(false);
 
     useEffect(() => {
         const fetchAllRequest = async () => {
@@ -30,7 +29,7 @@ const NotificationDrawer = ({ isOpen, onClose , userData}) => {
         if (token) {
             fetchAllRequest();
         }
-    }, [token]);
+    }, [token , requestChange]);
 
     console.log("allFollowRequest",allFollowRequest)
 
@@ -57,6 +56,7 @@ const NotificationDrawer = ({ isOpen, onClose , userData}) => {
                     firstName={request.followerId.firstName}
                     lastName={request.followerId.lastName}
                     requestId={request._id}
+                    setRequestChange={setRequestChange}
                 />
                 )
             })}
