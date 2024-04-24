@@ -172,6 +172,10 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
           const data = {};
           data.followerId = userData?.userDetails?._id;
           data.followingId = userId._id;
+
+          // const formData = new FormData();
+          // formData.append("followerId", userData?.userDetails?._id);
+          // formData.append("followingId",userId._id)
           const response = await FollowRequestById(data, token);
           setFollowers(response.followers); // Extract followers array from the response
         } catch (error) {

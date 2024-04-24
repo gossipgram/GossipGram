@@ -213,6 +213,7 @@ exports.cancelRequest = async (req, res) => {
 
 exports.findRequestId = async (req, res) => {
   try {
+    console.log("req",req)
     const { followerId, followingId } = req.body;
     console.log("followerId", followerId);
     console.log("followingId", followingId);
