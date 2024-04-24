@@ -18,7 +18,6 @@ import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
 const MyProfile = ({ userData, handleEditProfile }) => {
-  console.log("UserData111", userData);
   const userId = userData?.userDetails;
   const { step } = useSelector((state) => state.userProfile);
   const searchedUserId = userData?.userDetails?._id;
@@ -63,7 +62,6 @@ const MyProfile = ({ userData, handleEditProfile }) => {
   useEffect(() => {
     const fetchAllFollowers = async () => {
       try {
-        console.log("searchedUserId", searchedUserId);
         const response = await getFollowersForUser(searchedUserId, token);
         setFollowers(response.followers); // Extract followers array from the response
       } catch (error) {
@@ -96,7 +94,6 @@ const MyProfile = ({ userData, handleEditProfile }) => {
     const checkFollowingStatus = async () => {
       try {
         if (searchedUserId === userData?.userDetails?._id) {
-          console.log("if case k under");
           setItsUser(true);
         } else if (
           Array.isArray(followers) &&
@@ -104,8 +101,6 @@ const MyProfile = ({ userData, handleEditProfile }) => {
             (follower) => follower?.follower?._id === userData?.userDetails?._id
           )
         ) {
-          // console.log("Setting isFollowing to true");
-          console.log("first else if k under");
           setIsFollowing(true);
           setItsUser(false);
         } else if (
@@ -114,13 +109,9 @@ const MyProfile = ({ userData, handleEditProfile }) => {
             (follow) => follow?.following?._id === userData?.userDetails?._id
           )
         ) {
-          // console.log("Setting isFollowBack to true");
-          console.log("second else if k andr");
           setIsFollowBack(true);
           setItsUser(false);
         } else {
-          console.log("else case k ander");
-          // console.log("Setting both isFollowing and isFollowBack to false");
           setIsFollowing(false);
           setIsFollowBack(false);
           setItsUser(false);

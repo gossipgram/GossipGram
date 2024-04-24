@@ -3,18 +3,14 @@ import PostCard from "../posts/PostCard";
 
 const PostRow = ({ searchedUserId, userData, searchedUser }) => {
   const [textPosts, setTextPosts] = useState([]);
-  console.log("searchedUer", searchedUser);
 
   useEffect(() => {
     // const searchedUser = matchingUsers.find(user => user._id === searchedUserId);
     if (searchedUser && searchedUser.posts) {
       // Filter out posts with text content
-      const filteredPosts = searchedUser.posts.filter(
-        (post) => post.textContent
-      );
+      const filteredPosts = searchedUser.posts.filter((post) => post.titleText);
       setTextPosts(filteredPosts.reverse()); // Reverse the order of posts
     }
-    console.log(textPosts);
   }, [searchedUserId]);
 
   return (

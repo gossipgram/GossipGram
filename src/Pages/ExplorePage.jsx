@@ -16,7 +16,7 @@ const ExplorePage = () => {
   }, [currentPath]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full min-h-screen">
       {page === "tag" ? (
         <HashtagPosts />
       ) : (

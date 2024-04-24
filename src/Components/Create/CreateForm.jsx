@@ -137,11 +137,11 @@ const CreateForm = ({ postType, setpostType }) => {
 
     try {
       createPost(data, token);
-      // setImage(null);
-      // setTitleText("");
-      // setCaptionText("");
-      // setSelecteduser([]);
-      // setSearchQuery("");
+      setImage(null);
+      setTitleText("");
+      setCaptionText("");
+      setSelecteduser([]);
+      setSearchQuery("");
     } catch (error) {
       console.log("Creating post error", error);
     }

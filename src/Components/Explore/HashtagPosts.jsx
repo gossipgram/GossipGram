@@ -66,7 +66,8 @@ const HashtagPosts = () => {
 
   useEffect(() => {
     allPosts?.forEach((post) => {
-      if (post?.mediaUrl !== "") {
+      if (post?.mediaUrl?.includes("image")) {
+        console.log("inside if condition");
         setThumbnail(post?.mediaUrl);
         return;
       }
@@ -107,7 +108,7 @@ const HashtagPosts = () => {
       <div className="text-richblack-5  w-1/2 flex  gap-5">
         <div className="bg-richblack-600 w-52 h-52 rounded-full flex items-center justify-center">
           {thumbnail === "" ? (
-            <p className="text-2xl text-richblack-5">Recent Posts</p>
+            <p className="text-2xl text-richblack-5 ">Recent Posts</p>
           ) : (
             <img
               src={thumbnail}

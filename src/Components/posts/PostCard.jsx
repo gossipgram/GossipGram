@@ -5,6 +5,7 @@ import {
   FaRegHeart,
   FaCommentAlt,
   FaChessKing,
+  FaPaypal,
 } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
@@ -21,6 +22,7 @@ import {
   updatePostById,
 } from "../../services/operations/mediaAPI";
 import { MdOutlineEdit, MdDeleteOutline, MdLink } from "react-icons/md";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 const PostCard = ({ post, userId, postUserId }) => {
   const [totalLike, setTotalLike] = useState(post?.likes?.length);
@@ -39,8 +41,10 @@ const PostCard = ({ post, userId, postUserId }) => {
   const [postUser, setPostUser] = useState(false);
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [captionText, setCaptionText] = useState(post.caption);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
+  const [showPauseButton, setShowPauseButton] = useState(false);
+  const [videoHover, setVideoHover] = useState(false);
   const videoRef = useRef(null);
 
   const openModal = () => {
@@ -124,26 +128,40 @@ const PostCard = ({ post, userId, postUserId }) => {
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
+      setShowPauseButton(true);
     } else {
       videoRef.current.pause();
       setIsPlaying(false);
+      setShowPauseButton(false);
     }
   };
 
   // function to update progress bar
   const updateProgressBar = () => {
     const video = videoRef.current;
-    const progress = (video.currentTime * 100) / video.duration;
+    const progress = (video.currentTime / video.duration) * 100;
     setVideoProgress(progress);
   };
 
-  // function to change the video time based on progressbar change
-  const updateVideoTime = (event) => {
-    const video = videoRef.current;
-    const clickedPosition = event.target.value / 100;
-    video.currentTime = clickedPosition * video.duration;
-    updateProgressBar();
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowPauseButton(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [videoHover]);
+
+  const handleVideoHover = () => {
+    setShowPauseButton(true);
   };
+
+  // function to change the video time based on progressbar change
+  // const updateVideoTime = (event) => {
+  //   const video = videoRef.current;
+  //   const clickedPosition = event.target.value / 100;
+  //   video.currentTime = clickedPosition * video.duration;
+  //   updateProgressBar();
+  // };
 
   // all fucntion for three dot menu
   const toggleMenu = () => {
@@ -284,27 +302,42 @@ const PostCard = ({ post, userId, postUserId }) => {
           </div>
           <div className="w-full flex items-center overflow-hidden border-[1px] border-pure-greys-500 rounded-lg">
             {post.mediaUrl.includes("video") ? (
-              <div className="">
+              <div className="relative w-full h-full">
                 <video
                   ref={videoRef}
-                  src={post.mediaUrl}
+                  onMouseOut={() => setVideoHover(!videoHover)}
+                  onMouseOver={handleVideoHover}
                   onTimeUpdate={updateProgressBar}
-                  onClick={togglePlayer}
                   // className="w-full h-full object-cover z-10 bg-black"
-                  className="flex items-center justify-center w-full h-full "
+                  className="flex items-center justify-center w-full h-full  "
                 >
-                  <div className="text-white z-50 text-3xl">Helllo word</div>    
+                  <source src={post?.mediaUrl} type="video/mp4" />
+                  Your browser oes not support vide
                 </video>
-                <div className=" z-20  w-full">
+
+                <div
+                  className="text-richblack-100 absolute top-[35%] left-[40%] text-8xl"
+                  onClick={togglePlayer}
+                >
+                  {isPlaying ? (
+                    showPauseButton && (
+                      <FaPause className="cursor-pointer hover:opacity-90 transition-all duration-200 hover:scale-105" />
+                    )
+                  ) : (
+                    <FaPlay className="cursor-pointer hover:opacity-90 transition-all duration-200 hover:scale-105" />
+                  )}
+                </div>
+
+                {/* <div className="w-full">
                   <input
                     type="range"
                     min="0"
                     max="100"
                     value={videoProgress}
                     onChange={updateVideoTime}
-                    className="w-full video-progress-bar  flex items-center justify-center "
+                    className="w-full video-progress-bar flex items-center justify-center"
                   />
-                </div>
+                </div> */}
               </div>
             ) : post.mediaUrl.includes("image") ? (
               <img
@@ -324,45 +357,7 @@ const PostCard = ({ post, userId, postUserId }) => {
 
             {/*  */}
           </div>
-          <div className="mb-3 mt-5">
-            {isEditingPost ? (
-              <div className="flex gap-5">
-                <input
-                  className="bg-richblack-600 outline-none border-none rounded-lg text-lg text-richblack-50 px-5 py-2"
-                  value={editedCaption}
-                  onChange={captionChangeHandler}
-                />
-                <button
-                  onClick={editSubmit}
-                  className="text-richblack-5 bg-richblack-600 rounded-lg px-5 hover:text-yellow-200 hover:bg-richblack-500 transition-all duration-200"
-                >
-                  Done
-                </button>
-                <button
-                  onClick={editCancel}
-                  className="text-richblack-5 bg-richblack-600 rounded-lg px-5 hover:text-yellow-200 hover:bg-richblack-500 transition-all duration-200"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div className=" text-white">
-                {!post.titleText ? (
-                  <div>
-                    <span className="font-semibold inline-flex">
-                      {post.user.username}
-                    </span>{" "}
-                    <ExpandableText
-                      className={"inline-flex"}
-                      text={captionText}
-                      maxLength={100}
-                    />{" "}
-                  </div>
-                ) : null}
-              </div>
-            )}
-          </div>
-          <div className="flex gap-x-5 mt-[2px] items-center">
+          <div className="flex gap-x-5 mt-3 items-center">
             <button
               onClick={likeButtonHandler}
               className="flex text-white text-lg gap-1 cursor-pointer hover:opacity-60 transition-all duration-200"
@@ -398,6 +393,44 @@ const PostCard = ({ post, userId, postUserId }) => {
                     setIsModalOpen(false);
                   }}
                 />
+              </div>
+            )}
+          </div>
+          <div className="mt-1">
+            {isEditingPost ? (
+              <div className="flex gap-5">
+                <input
+                  className="bg-richblack-600 outline-none border-none rounded-lg text-lg text-richblack-50 px-5 py-2"
+                  value={editedCaption}
+                  onChange={captionChangeHandler}
+                />
+                <button
+                  onClick={editSubmit}
+                  className="text-richblack-5 bg-richblack-600 rounded-lg px-5 hover:text-yellow-200 hover:bg-richblack-500 transition-all duration-200"
+                >
+                  Done
+                </button>
+                <button
+                  onClick={editCancel}
+                  className="text-richblack-5 bg-richblack-600 rounded-lg px-5 hover:text-yellow-200 hover:bg-richblack-500 transition-all duration-200"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div className=" text-white">
+                {!post.titleText ? (
+                  <div>
+                    <span className="font-semibold inline-flex">
+                      {post.user.username}
+                    </span>{" "}
+                    <ExpandableText
+                      className={"inline-flex"}
+                      text={captionText}
+                      maxLength={100}
+                    />{" "}
+                  </div>
+                ) : null}
               </div>
             )}
           </div>

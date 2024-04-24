@@ -33,7 +33,6 @@ const Feed = () => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        console.log("currentPage________", currentPage)
         const response = await getAllPosts(token, currentPage);
         const fetchedPosts = response?.posts
           .slice()
@@ -42,7 +41,7 @@ const Feed = () => {
         if (currentPage === 1) {
           setAllPosts(fetchedPosts);
         } else {
-          setAllPosts(prevPosts => [...prevPosts, ...fetchedPosts]);
+          setAllPosts((prevPosts) => [...prevPosts, ...fetchedPosts]);
         }
 
         setTotalPages(response.totalPages);
@@ -61,7 +60,7 @@ const Feed = () => {
   // Debounce function
   const debounce = (func, delay) => {
     let inDebounce;
-    return function() {
+    return function () {
       const context = this;
       const args = arguments;
       clearTimeout(inDebounce);
@@ -71,17 +70,20 @@ const Feed = () => {
 
   useEffect(() => {
     const handleScroll = debounce(() => {
-      if (!loading && bottomOfPageRef.current &&
-        window.innerHeight + window.scrollY >= bottomOfPageRef.current.offsetTop) {
+      if (
+        !loading &&
+        bottomOfPageRef.current &&
+        window.innerHeight + window.scrollY >= bottomOfPageRef.current.offsetTop
+      ) {
         if (currentPage < totalPages) {
-          setCurrentPage(prevPage => prevPage + 1);
+          setCurrentPage((prevPage) => prevPage + 1);
         }
       }
-    }, 100); 
+    }, 100);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [currentPage, totalPages, loading]); 
+  }, [currentPage, totalPages, loading]);
 
   return (
     <div className="flex flex-col w-full m-3">
@@ -110,4 +112,3 @@ const Feed = () => {
 };
 
 export default Feed;
-
