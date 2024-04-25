@@ -30,6 +30,7 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "swiper": "^9.4.1",
+    "vara": "^1.4.1",
     "video-react": "^0.16.0",
     "web-vitals": "^2.1.4"
   },
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/vara": "^1.1.4",
     "tailwindcss": "^3.2.7"
   }
 }

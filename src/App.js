@@ -26,6 +26,7 @@ import PartnerDefault from "./Pages/PartnerDefault";
 import UsersProfile from "./Pages/UsersProfile";
 import ExplorePage from "./Pages/ExplorePage";
 import HashtagPosts from "./Components/Explore/HashtagPosts";
+import PatnerCommingSoonPage from "./Pages/PatnerCommingSoonPage";
 
 function App() {
   return (
@@ -151,6 +152,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/404" />}></Route>
         <Route path="/404" element={<NotFound />}></Route>
+        <Route path="/comming-soon" element={<PatnerCommingSoonPage />}></Route>
 
         <Route
           path="/gossip-partner"

@@ -48,14 +48,14 @@ const Sidebar = () => {
   }, [currPath]);
 
   const notificationHandler = async () => {
-    console.log("inside noti handle")
+    console.log("inside noti handle");
     setActiveIcon("notification");
     setIsSideDrawerOpen((prevState) => !prevState);
-  }
+  };
 
   return (
     <div className="sticky top-0">
-      {(currPath === "/home") && !isSideDrawerOpen ? (
+      {currPath === "/home" && !isSideDrawerOpen ? (
         <div className="flex w-[350px] transition-all duration-500 ease-out relative flex-col h-screen border-r-[1px] border-r-richblack-700 bg-richblack-900 py-1 ">
           <Link to="/home">
             <div className="flex items-center justify-center cursor-pointer ">
@@ -125,7 +125,7 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <Link to="/gossip-partner">
+          <Link to="/comming-soon">
             <div
               onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
@@ -151,7 +151,13 @@ const Sidebar = () => {
             <IoIosNotificationsOutline fontSize={25} />
             <p className="text-xl ">Notifications</p>
           </div>
-          {isSideDrawerOpen && <NotificationDrawer isOpen={isSideDrawerOpen} onClose={notificationHandler} userData={userData.userDetails}/>}
+          {isSideDrawerOpen && (
+            <NotificationDrawer
+              isOpen={isSideDrawerOpen}
+              onClose={notificationHandler}
+              userData={userData.userDetails}
+            />
+          )}
           {/* </Link> */}
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
@@ -260,7 +266,7 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link to="/gossip-partner">
+          <Link to="/comming-soon">
             <div
               onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
@@ -282,7 +288,13 @@ const Sidebar = () => {
           >
             <IoIosNotificationsOutline fontSize={35} />
           </div>
-          {isSideDrawerOpen && <NotificationDrawer isOpen={isSideDrawerOpen} onClose={notificationHandler} userData={userData.userDetails}/>}
+          {isSideDrawerOpen && (
+            <NotificationDrawer
+              isOpen={isSideDrawerOpen}
+              onClose={notificationHandler}
+              userData={userData.userDetails}
+            />
+          )}
           {/* </Link> */}
 
           <Link to="/profile">

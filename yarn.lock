@@ -2199,6 +2199,11 @@
   resolved "https://registry.npmjs.org/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
+"@types/vara@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/@types/vara/-/vara-1.1.4.tgz"
+  integrity sha512-LYXunvwnYoyzhNZGmQNrxFMPoeheW58vmxYfpwSQ8IBliOjMVbN+UvKhdJFBGE/IO0GmQjZ7MUinbMILl82tug==
+
 "@types/ws@^8.5.5":
   version "8.5.9"
   resolved "https://registry.npmjs.org/@types/ws/-/ws-8.5.9.tgz"
@@ -10174,6 +10179,11 @@ v8-to-istanbul@^8.1.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
+
+vara@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/vara/-/vara-1.4.1.tgz"
+  integrity sha512-oX+D+jXIJTmdQb7+OeuhvxSvSJB1PG8X2mzI3u7wTbuJ4v2QskA2fNlkNnyI2883YBRmEoA6R9gJg4jHiVNvXQ==
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
