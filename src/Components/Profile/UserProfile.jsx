@@ -163,6 +163,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
         data.followingId = userId._id;
         await cancelFollowRequest(data , token);
         setIsFollowing(false);
+        setRequestedUser(false);
       }else if (!isFollowing && isFollowBack) {
         await followUser(searchedUserId, token);
         setTotalFollower(totalFollower + 1);
