@@ -95,6 +95,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
+  console.log("inside the typing in index")
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageRecieved) => {
