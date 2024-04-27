@@ -22,7 +22,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
 
-    socket.on("connected", () => console.log("Socket connected"), setSocketConnected(true));
+    // socket.on("connected", () => console.log("Socket connected"), setSocketConnected(true));
     // socket.on("typing", () => setIsTyping(true));
     // socket.on("stop typing", () => setIsTyping(false));
 
