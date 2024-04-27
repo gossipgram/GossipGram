@@ -8,7 +8,7 @@ const {
   GET_REQUEST_BY_IDS_API,
 } = followRequestEndpoints;
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossipgram.onrender.com/";
 
 export const sendRequest = async (followingId, token) => {
   let result = null;
@@ -96,7 +96,7 @@ export const getAllRequestById = async (token) => {
 
 export const cancelFollowRequest = async (data, token) => {
   const toastId = toast.loading("Loading...");
-  console.log("data_________",data);
+  console.log("data_________", data);
   let result = null;
   try {
     const response = await apiConnector(
