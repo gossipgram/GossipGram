@@ -4,7 +4,7 @@ import { getAllDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "https://gossipgram.onrender.com/";
 var socket;
 
 const ChatListItem = ({
@@ -17,20 +17,20 @@ const ChatListItem = ({
   messages,
   setShowInfo,
   updatedGroupName,
-  
 }) => {
   console.log("chat_____________", chat);
   const navigate = useNavigate();
   const location = useLocation();
   const userUsername = userData?.userDetails?.username;
   const { _id: chatId, isGroupChat, chatName, groupImage, users } = chat;
-  
+
   let userName, userImage;
   if (isGroupChat) {
     userName = chatName;
     userImage = groupImage;
   } else {
-    const { username, image } = users.find((user) => user.username !== userUsername) || {};
+    const { username, image } =
+      users.find((user) => user.username !== userUsername) || {};
     userName = username;
     userImage = image;
   }
@@ -79,7 +79,9 @@ const ChatListItem = ({
     >
       <img src={userImage} alt="" className="w-10 h-10 rounded-full mr-4" />
       <div>
-        <h3 className="font-semibold text-richblack-5 text-lg">{isGroupChat && updatedGroupName ? updatedGroupName : userName}</h3>
+        <h3 className="font-semibold text-richblack-5 text-lg">
+          {isGroupChat && updatedGroupName ? updatedGroupName : userName}
+        </h3>
         <p className="text-richblack-50">{content}</p>
       </div>
     </div>

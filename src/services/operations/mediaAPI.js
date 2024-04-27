@@ -16,7 +16,7 @@ const {
   REMOVE_POST_FROM_HASHTAG_API,
 } = hashtagPostEndpoints;
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossipgram.onrender.com/";
 
 export const getPostById = async (token, postId) => {
   let result = null;

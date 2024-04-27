@@ -35,7 +35,7 @@ export const sendDirectMessage = async (data, token) => {
 
 export const getAllDirectMessage = async (chatId, token) => {
   let result = [];
-  const BASE_URL = "http://localhost:4000/api/v1/";
+  const BASE_URL = "https://gossipgram.onrender.com/";
   try {
     const response = await apiConnector(
       "GET",

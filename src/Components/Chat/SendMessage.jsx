@@ -6,11 +6,10 @@ import { sendDirectMessage } from "../../services/operations/messageAPI";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "https://gossipgram.onrender.com/";
 let socket;
 
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
-
   const [messageText, setMessageText] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
@@ -21,7 +20,11 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
-    socket.on("connection", () => console.log("Socket connected") , setSocketConnected(true));
+    socket.on(
+      "connection",
+      () => console.log("Socket connected"),
+      setSocketConnected(true)
+    );
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
   }, []);
@@ -32,7 +35,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
     if (!socketConnected) return;
 
     if (!typing) {
-      console.log("inside typing ")
+      console.log("inside typing ");
       setTyping(true);
       socket.emit("typing", chatId._id);
     }
@@ -46,7 +49,6 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
         setTyping(false);
       }
     }, timerLength);
-
   };
 
   const sendMessageHandler = async () => {
@@ -54,7 +56,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       toast.error("Message cannot be empty.");
       return;
     }
-    socket.emit('stop typing', chatId);
+    socket.emit("stop typing", chatId);
     try {
       setLoading(true);
       const tempData = {
@@ -80,13 +82,12 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       sendMessageHandler();
     }
   };
-  console.log("isTyping",isTyping)
+  console.log("isTyping", isTyping);
 
   return (
     <div className="flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg">
       <div className="p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200">
         <MdOutlineEmojiEmotions className="w-10 h-10 text-white" />
-        
       </div>
       <div className="p-2 hover:bg-richblack-600 rounded-xl cursor-pointer transition-all duration-200">
         <MdOutlineAdd className="w-10 h-auto text-white" />

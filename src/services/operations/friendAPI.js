@@ -1,6 +1,6 @@
 import { apiConnector } from "../apiConnector";
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossipgram.onrender.com/";
 
 export const followUser = async (followingId, token) => {
   let result = null;

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossipgram.onrender.com/";
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -27,7 +27,7 @@ export const chatEndpoints = {
   RENAME_GROUP_API: BASE_URL + "chat/rename", //put
   REMOVE_FROM_GROUP_API: BASE_URL + "chat/groupremove", //put
   ADD_TO_GROUP_API: BASE_URL + "chat/groupadd", //put
-  UPDATE_GROUP_DP_API: BASE_URL + "chat/groupimage" ,  //put
+  UPDATE_GROUP_DP_API: BASE_URL + "chat/groupimage", //put
 };
 
 // MESSAGES ENDPOINTS
@@ -67,11 +67,11 @@ export const friendsEndpoints = {
 };
 
 export const followRequestEndpoints = {
-  GET_ALL_REQUEST_BY_ID_API: BASE_URL + "follow-request/follow/getAllRequestById" ,    //get
-  CANCEL_FOLLOW_REQUEST_API: BASE_URL + "follow-request/follow/cancelrequest"  ,        //delete
-  GET_REQUEST_BY_IDS_API: BASE_URL + "follow-request/follow/getrequest"          //get
-}
-
+  GET_ALL_REQUEST_BY_ID_API:
+    BASE_URL + "follow-request/follow/getAllRequestById", //get
+  CANCEL_FOLLOW_REQUEST_API: BASE_URL + "follow-request/follow/cancelrequest", //delete
+  GET_REQUEST_BY_IDS_API: BASE_URL + "follow-request/follow/getrequest", //get
+};
 
 // PROFILE ENDPOINTS
 export const profileEndpoints = {

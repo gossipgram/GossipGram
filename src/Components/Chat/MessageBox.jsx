@@ -72,7 +72,6 @@
 //       return sortedGroups;
 //     };
 
-
 //     const messageGroups = groupMessagesByDate(messages);
 //     console.log("messageGroups",messageGroups)
 
@@ -103,7 +102,7 @@
 
 //         return (
 //           <div key={index} style={messageStyle}>
-            
+
 //             {isSenderCurrentUser ? (
 //               <RightChat message={message?.content} time={time} />
 //             ) : (
@@ -118,13 +117,12 @@
 
 // export default MessageBox;
 
-
 import React, { useEffect, useRef } from "react";
 import LeftChat from "./LeftChat";
 import RightChat from "./RightChat";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "https://gossipgram.onrender.com/";
 var socket;
 
 const MessageBox = ({ messages, setMessages, userData }) => {
@@ -144,7 +142,7 @@ const MessageBox = ({ messages, setMessages, userData }) => {
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
-      setMessages(prevMessages => [...prevMessages, newMessageReceived]);
+      setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
     });
 
     // Don't forget to cleanup to prevent memory leaks
@@ -163,9 +161,11 @@ const MessageBox = ({ messages, setMessages, userData }) => {
       return acc;
     }, {});
 
-    const sortedDates = Object.keys(groups).sort((a, b) => new Date(a) - new Date(b));
+    const sortedDates = Object.keys(groups).sort(
+      (a, b) => new Date(a) - new Date(b)
+    );
     const sortedGroups = {};
-    sortedDates.forEach(date => {
+    sortedDates.forEach((date) => {
       sortedGroups[date] = groups[date];
     });
 
@@ -191,48 +191,49 @@ const MessageBox = ({ messages, setMessages, userData }) => {
     }
   };
 
-
   return (
-  <div
-    ref={messageBoxRef}
-    className="bg-richblack-600 p-5 rounded-xl min-h-[700px] max-h-[700px] overflow-scroll overflow-x-hidden scroll-smooth scrolling"
-  >
-    {Object.entries(messageGroups).map(([date, groupedMessages]) => (
-      <div key={date}>
-        <div className="flex justify-center items-center text-richblack-900 rounded-xl px-6 bg-richblack-400 w-fit mx-auto mb-3">
-          {formatDate(date)}
+    <div
+      ref={messageBoxRef}
+      className="bg-richblack-600 p-5 rounded-xl min-h-[700px] max-h-[700px] overflow-scroll overflow-x-hidden scroll-smooth scrolling"
+    >
+      {Object.entries(messageGroups).map(([date, groupedMessages]) => (
+        <div key={date}>
+          <div className="flex justify-center items-center text-richblack-900 rounded-xl px-6 bg-richblack-400 w-fit mx-auto mb-3">
+            {formatDate(date)}
+          </div>
+          {groupedMessages.map((message, index) => {
+            console.log("message_____________", message);
+            const isSenderCurrentUser =
+              message?.sender?.username === userData?.userDetails?.username;
+            const messageStyle = {
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: isSenderCurrentUser ? "flex-end" : "flex-start",
+              padding: isSenderCurrentUser ? "0 20px 0 0" : "0 0 0 20px",
+            };
+            const messageDate = new Date(message.createdAt);
+            let hour = messageDate.getHours();
+            const minute = messageDate.getMinutes();
+            const amPm = hour >= 12 ? "PM" : "AM";
+            hour = hour % 12 || 12;
+            const time = `${hour}:${
+              minute < 10 ? "0" + minute : minute
+            } ${amPm}`;
+
+            return (
+              <div key={index} style={messageStyle}>
+                {isSenderCurrentUser ? (
+                  <RightChat message={message.content} time={time} />
+                ) : (
+                  <LeftChat message={message} time={time} />
+                )}
+              </div>
+            );
+          })}
         </div>
-        {groupedMessages.map((message, index) => {
-          console.log("message_____________",message)
-          const isSenderCurrentUser = message?.sender?.username === userData?.userDetails?.username;
-          const messageStyle = {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: isSenderCurrentUser ? "flex-end" : "flex-start",
-            padding: isSenderCurrentUser ? "0 20px 0 0" : "0 0 0 20px",
-          };
-          const messageDate = new Date(message.createdAt);
-          let hour = messageDate.getHours();
-          const minute = messageDate.getMinutes();
-          const amPm = hour >= 12 ? "PM" : "AM";
-          hour = hour % 12 || 12;
-          const time = `${hour}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
-
-          return (
-            <div key={index} style={messageStyle}>
-              {isSenderCurrentUser ? (
-                <RightChat message={message.content} time={time} />
-              ) : (
-                <LeftChat message={message} time={time} />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    ))}
-  </div>
-);
-
+      ))}
+    </div>
+  );
 };
 
 export default MessageBox;
