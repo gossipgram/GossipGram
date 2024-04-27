@@ -81,7 +81,7 @@ const io = require("socket.io")(server, {
   },
 });
 
-io.on("connection", (socket) => {
+io.on("connected", (socket) => {
   console.log("Connected to socket.io");
 
   socket.on("setup", (userData) => {
@@ -94,9 +94,9 @@ io.on("connection", (socket) => {
     console.log("User Joined Room: " + room);
   });
 
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  console.log("inside the typing in index")
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+  // socket.on("typing", (room) => socket.in(room).emit("typing"));
+  // console.log("inside the typing in index")
+  // socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;

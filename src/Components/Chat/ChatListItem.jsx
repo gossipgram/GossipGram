@@ -45,7 +45,7 @@ const ChatListItem = ({
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
-    socket.on("connection", () => console.log("Socket connected"));
+    socket.on("connected", () => console.log("Socket connected"));
   }, []);
 
   useEffect(() => {
