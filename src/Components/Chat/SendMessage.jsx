@@ -12,9 +12,9 @@ let socket;
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
 
   const [messageText, setMessageText] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
-  const [typing, setTyping] = useState(false);
+  // const [typing, setTyping] = useState(false);
   // const [isTyping, setIsTyping] = useState(false);
   // const [socketConnected, setSocketConnected] = useState(false);
 
@@ -58,9 +58,9 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       toast.error("Message cannot be empty.");
       return;
     }
-    socket.emit('stop typing', chatId);
+    // socket.emit('stop typing', chatId);
     try {
-      setLoading(true);
+      // setLoading(true);
       const tempData = {
         content: messageText,
         chatId: chatId,
@@ -73,7 +73,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       console.error("Error sending message:", error.message);
       toast.error("Failed to send message. Please try again.");
     } finally {
-      setLoading(false);
+      // setLoading(false);
       setMessageText(""); // Clear the message input after sending
     }
   };
