@@ -6,8 +6,6 @@ import { toast } from "react-hot-toast";
 import { login } from "../services/operations/authAPI";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
-
 const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
