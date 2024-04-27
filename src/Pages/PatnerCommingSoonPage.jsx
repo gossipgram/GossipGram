@@ -78,7 +78,7 @@ const PatnerCommingSoonPage = () => {
             /> */}
             <div className="w-full flex items-center justify-center">
               <p className="text-8xl bg-gradient-to-b py-5 from-[#E65C00] to-[#F9D423] text-transparent bg-clip-text commingsoon ">
-                Comming Soon
+                Coming Soon
               </p>
             </div>
           </div>
