@@ -5,6 +5,7 @@ import { getAllUsers } from "../../services/operations/authAPI";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { createPost } from "../../services/operations/mediaAPI";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const CreateForm = ({ postType, setpostType }) => {
   const [image, setImage] = useState(null);
@@ -142,6 +143,7 @@ const CreateForm = ({ postType, setpostType }) => {
       setCaptionText("");
       setSelecteduser([]);
       setSearchQuery("");
+      toast.success("Post is created")
     } catch (error) {
       console.log("Creating post error", error);
     }

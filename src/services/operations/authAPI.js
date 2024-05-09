@@ -2,6 +2,7 @@ import { setLoading, setToken } from "../../slices/authSlice";
 import { setUser } from "../../slices/profileSlice";
 import { apiConnector } from "../apiConnector";
 import { endpoints } from "../apis";
+import toast from "react-hot-toast";
 
 const {
   SENDOTP_API,
@@ -27,6 +28,7 @@ export function sendOtp(email, username, navigate) {
       }
 
       navigate("/verify-email");
+      toast.success("OTP send Successfully")
     } catch (error) {
       console.log("SENDOTP API ERROR............", error);
     }
@@ -61,6 +63,7 @@ export function signUp(
         throw new Error(response.data.message);
       }
       navigate("/");
+      toast.success("Sign Up Successfullly now you can login")
     } catch (error) {
       console.log("SIGNUP API ERROR............", error);
       navigate("/");
@@ -105,6 +108,8 @@ export function logout(navigate) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
+    toast.success("Log Out Successfully");
+
   };
 }
 
@@ -141,6 +146,7 @@ export function resetPassword(password, confirmPassword, token) {
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
+      toast.success("Password Reset Successfully")
     } catch (error) {
       console.log("RESET PASSWORD TOKEN Error", error);
     }

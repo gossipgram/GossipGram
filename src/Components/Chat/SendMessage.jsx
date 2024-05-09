@@ -11,44 +11,45 @@ let socket;
 
 const SendMessage = ({ chatId, userData, setMessages, messages }) => {
   const [messageText, setMessageText] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token").split('"')[1];
-  const [typing, setTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const [socketConnected, setSocketConnected] = useState(false);
+  // const [typing, setTyping] = useState(false);
+  // const [isTyping, setIsTyping] = useState(false);
+  // const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", userData);
-    socket.on(
-      "connection",
-      () => console.log("Socket connected"),
-      setSocketConnected(true)
-    );
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+
+    // socket.on("connected", () => console.log("Socket connected"), setSocketConnected(true));
+    // socket.on("typing", () => setIsTyping(true));
+    // socket.on("stop typing", () => setIsTyping(false));
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const handleMessageChange = (event) => {
     setMessageText(event.target.value);
 
-    if (!socketConnected) return;
+    // if (!isTyping) {
+    //   setIsTyping(true);
+    //   socket.emit("typing", chatId._id);
+    // }
 
-    if (!typing) {
-      console.log("inside typing ");
-      setTyping(true);
-      socket.emit("typing", chatId._id);
-    }
-    let lastTypingTime = new Date().getTime();
-    var timerLength = 3000;
-    setTimeout(() => {
-      var timeNow = new Date().getTime();
-      var timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", chatId._id);
-        setTyping(false);
-      }
-    }, timerLength);
+    // let lastTypingTime = new Date().getTime();
+    // const timerLength = 3000;
+
+    // setTimeout(() => {
+    //   const timeNow = new Date().getTime();
+    //   const timeDiff = timeNow - lastTypingTime;
+
+    //   if (timeDiff >= timerLength && isTyping) {
+    //     socket.emit("stop typing", chatId._id);
+    //     // setIsTyping(false);
+    //   }
+    // }, timerLength);
   };
 
   const sendMessageHandler = async () => {
@@ -56,9 +57,9 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       toast.error("Message cannot be empty.");
       return;
     }
-    socket.emit("stop typing", chatId);
+    // socket.emit('stop typing', chatId);
     try {
-      setLoading(true);
+      // setLoading(true);
       const tempData = {
         content: messageText,
         chatId: chatId,
@@ -71,7 +72,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       console.error("Error sending message:", error.message);
       toast.error("Failed to send message. Please try again.");
     } finally {
-      setLoading(false);
+      // setLoading(false);
       setMessageText(""); // Clear the message input after sending
     }
   };
@@ -82,7 +83,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
       sendMessageHandler();
     }
   };
-  console.log("isTyping", isTyping);
+  // console.log("isTyping",isTyping)
 
   return (
     <div className="flex flex-row items-center bg-richblack-800 px-2 py-2 gap-3 rounded-lg">
@@ -93,7 +94,7 @@ const SendMessage = ({ chatId, userData, setMessages, messages }) => {
         <MdOutlineAdd className="w-10 h-auto text-white" />
       </div>
       <div className="flex-grow">
-        {isTyping ? <div className="text-white">typing...</div> : <></>}
+        {/* {isTyping ? <div className="text-white">typing...</div> : <></>} */}
         <textarea
           className="w-full h-fit bg-richblack-500 p-1 rounded-md text-richblack-5 resize-none overflow-auto appearance-none"
           placeholder="Write a message..."

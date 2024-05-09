@@ -94,9 +94,9 @@ io.on("connection", (socket) => {
     console.log("User Joined Room: " + room);
   });
 
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  console.log("inside the typing in index")
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+  // socket.on("typing", (room) => socket.in(room).emit("typing"));
+  // console.log("inside the typing in index")
+  // socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;
