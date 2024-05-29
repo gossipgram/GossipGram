@@ -5,17 +5,33 @@ import { getAllUsers } from "../../services/operations/authAPI";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { createPost } from "../../services/operations/mediaAPI";
 import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import {
+  setTitleText,
+  setCaptionText,
+  setSearchQuery,
+  setImage,
+  setSelectedUser,
+  setNotImage,
+  setAllUsers,
+  setPostType,
+} from "../../slices/postSlice";
 
-const CreateForm = ({ postType, setpostType }) => {
-  const [image, setImage] = useState(null);
-  const [titleText, setTitleText] = useState("");
-  const [captionText, setCaptionText] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selecteduser, setSelecteduser] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
+const CreateForm = () => {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token").split('"')[1];
-  const [notImage, setNotImage] = useState(false);
+  const {
+    postType,
+    image,
+    titleText,
+    captionText,
+    searchQuery,
+    selectedUser,
+    allUsers,
+    notImage,
+  } = useSelector((state) => state.post);
+
 
   const {
     // register,
@@ -29,9 +45,9 @@ const CreateForm = ({ postType, setpostType }) => {
       selectedFile.type.startsWith("image/") ||
       selectedFile.type.startsWith("video/")
     ) {
-      setImage(selectedFile);
+      dispatch(setImage(selectedFile));
       // setPostType(selectedFile.type.)
-      setpostType(selectedFile.type.split("/")[0]);
+      dispatch(setPostType(selectedFile.type.split("/")[0]));
     } else {
       alert("Please select Image or Video");
     }
@@ -49,44 +65,44 @@ const CreateForm = ({ postType, setpostType }) => {
       droppedImage.type.startsWith("image/") ||
       droppedImage.type.startsWith("video/")
     ) {
-      setImage(droppedImage);
+      dispatch(setImage(droppedImage));
     } else {
       alert("Please Drop Image or Video");
     }
   };
 
   const handleCrossButton = () => {
-    setImage(null);
+    dispatch(setImage(null));
   };
 
   const captionChangeHandler = (event) => {
-    setCaptionText(event.target.value);
+    dispatch(setCaptionText(event.target.value));
   };
 
   const handleSearchUserInput = (event) => {
-    setSearchQuery(event.target.value);
+    dispatch(setSearchQuery(event.target.value));
   };
 
   const handleUserClick = (user, event) => {
-    if (!selecteduser.some((selecteduser) => selecteduser._id === user._id)) {
-      setSelecteduser([...selecteduser, user]);
+    if (!selectedUser.some((selectedUser) => selectedUser._id === user._id)) {
+      dispatch(setSelectedUser([...selectedUser, user]));
     }
-    setSearchQuery("");
+    dispatch(setSearchQuery(""));
   };
 
   const handleTitleChange = (event) => {
-    setTitleText(event.target.value);
+    dispatch(setTitleText(event.target.value));
   };
 
   const handleRemoveUser = (userId) => {
-    setSelecteduser(selecteduser.filter((user) => user._id !== userId));
+    dispatch(setSelectedUser(selectedUser.filter((user) => user._id !== userId)));
   };
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await getAllUsers(token);
-        setAllUsers(response.users);
+        dispatch(setAllUsers(response.users));
       } catch (error) {
         console.error("Error fetching user data:", error.message);
       }
@@ -102,7 +118,7 @@ const CreateForm = ({ postType, setpostType }) => {
     let data = new FormData();
 
     let taggedUser = [];
-    selecteduser.forEach((user) => {
+    selectedUser.forEach((user) => {
       taggedUser.push(user._id);
     });
 
@@ -110,7 +126,7 @@ const CreateForm = ({ postType, setpostType }) => {
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
-        setNotImage(true);
+        dispatch(setNotImage(true));
         return;
       }
 
@@ -138,11 +154,11 @@ const CreateForm = ({ postType, setpostType }) => {
 
     try {
       createPost(data, token);
-      setImage(null);
-      setTitleText("");
-      setCaptionText("");
-      setSelecteduser([]);
-      setSearchQuery("");
+      dispatch(setImage(null));
+      dispatch(setTitleText(""));
+      dispatch(setCaptionText(""));
+      dispatch(setSelectedUser([]));
+      dispatch(setSearchQuery(""));
       toast.success("Post is created")
     } catch (error) {
       console.log("Creating post error", error);
@@ -252,20 +268,20 @@ const CreateForm = ({ postType, setpostType }) => {
                   ))}
 
               <div className="flex flex-wrap gap-2 mt-2">
-                {selecteduser.map((selecteduser) => (
+                {selectedUser.map((selectedUser) => (
                   <div
-                    key={selecteduser._id}
+                    key={selectedUser._id}
                     className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
                   >
                     <img
-                      src={selecteduser.image}
+                      src={selectedUser.image}
                       alt="tagged user pic"
                       width={50}
                       height={50}
                       className="rounded-full"
                     />
-                    <span>{selecteduser.username}</span>
-                    <button onClick={() => handleRemoveUser(selecteduser._id)}>
+                    <span>{selectedUser.username}</span>
+                    <button onClick={() => handleRemoveUser(selectedUser._id)}>
                       <RxCross2 />
                     </button>
                   </div>
@@ -395,21 +411,21 @@ const CreateForm = ({ postType, setpostType }) => {
                     ))}
 
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {selecteduser.map((selecteduser) => (
+                  {selectedUser.map((selectedUser) => (
                     <div
-                      key={selecteduser._id}
+                      key={selectedUser._id}
                       className="border border-yellow-200 bg-richblack-600 text-richblue-25 px-4 py-2 rounded-lg flex gap-2 items-center"
                     >
                       <img
                         alt="tagged user "
-                        src={selecteduser.image}
+                        src={selectedUser.image}
                         width={50}
                         height={50}
                         className="rounded-full"
                       />
-                      <span>{selecteduser.username}</span>
+                      <span>{selectedUser.username}</span>
                       <button
-                        onClick={() => handleRemoveUser(selecteduser._id)}
+                        onClick={() => handleRemoveUser(selectedUser._id)}
                       >
                         <RxCross2 />
                       </button>

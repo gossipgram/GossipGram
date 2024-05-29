@@ -6,12 +6,15 @@ import {
   MdOutlineVideoLibrary,
   MdOutlineTextSnippet,
 } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostType } from "../../slices/postSlice";
 
 const Create = () => {
-  const [postType, setpostType] = useState("image");
+  const dispatch = useDispatch();
+  const postType = useSelector(state => state.post.postType);
 
   const radioChangeHandler = (event) => {
-    setpostType(event.target.value);
+    dispatch(setPostType(event.target.value));
   };
   return (
     <div className="w-full  flex h-[88%] items-center flex-col gap-1 mt-4">
@@ -82,7 +85,7 @@ const Create = () => {
       </div>
 
       <div className="w-full flex mt-7 h-5/6 items-center justify-center">
-        <CreateForm postType={postType} setpostType={setpostType} />
+        <CreateForm/>
       </div>
     </div>
   );
