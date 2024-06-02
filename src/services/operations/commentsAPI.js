@@ -9,7 +9,7 @@ import { commentsEndpoints } from "../apis";
 //   DELETE_COMMENT_BY_ID_API,
 // } = commentsEndpoints;
 
-const BASE_URL = "http://localhost:4000/api/v1/";
+const BASE_URL = "https://gossipgram.onrender.com/";
 
 export const createComment = async (text, postId, token) => {
   let result = null;
