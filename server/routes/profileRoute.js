@@ -7,6 +7,7 @@ const {
   getAllUserData,
   updateDisplayPicture,
   getAllUserDataById,
+  updateIsPrivate,
 } = require("../controllers/Profile");
 const { auth } = require("../middlewares/auth");
 
@@ -24,5 +25,8 @@ router.get("/user/:userId", auth, getAllUserDataById);
 
 // Update Display Picture Route
 router.post("/update-display-picture", auth, updateDisplayPicture);
+
+// toggel the privacy of user 
+router.put('/togglePrivate', auth , updateIsPrivate);
 
 module.exports = router;

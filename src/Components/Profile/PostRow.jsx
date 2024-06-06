@@ -24,7 +24,7 @@ const PostRow = ({ searchedUserId, userData, searchedUser }) => {
           {textPosts.map((post) => (
             <PostCard
               post={post}
-              userId={userData.userDetails?._id}
+              userId={userData._id}
               postUserId={post?.user?._id}
               key={post?._id}
             />

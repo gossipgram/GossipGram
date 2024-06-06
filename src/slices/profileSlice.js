@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     user:null,
     loading: false,
+    isPrivate: false
 };
 
 const profileSlice = createSlice({
@@ -14,6 +15,9 @@ const profileSlice = createSlice({
         },
         setLoading(state , value) {
             state.loading = value.payload;
+        },
+        setIsPrivate(state , value) {
+            state.isPrivate = value.payload;
         }
     },
 });

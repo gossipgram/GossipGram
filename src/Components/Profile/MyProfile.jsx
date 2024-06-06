@@ -3,6 +3,7 @@ import { accessChat } from "../../services/operations/chatAPI";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { getAllUserData } from "../../services/operations/profileAPI";
+import { MdOutlineSettings } from "react-icons/md";
 import {
   followUser,
   getFollowersForUser,
@@ -17,10 +18,10 @@ import TaggedPost from "./TaggedPost";
 import FollowerModal from "./FollowerModal";
 import FollowingModal from "./FollowingModal";
 
-const MyProfile = ({ userData, handleEditProfile }) => {
-  const userId = userData?.userDetails;
+const MyProfile = ({ userData, handleEditProfile , setIsSetting}) => {
+  const userId = userData;
   const { step } = useSelector((state) => state.userProfile);
-  const searchedUserId = userData?.userDetails?._id;
+  const searchedUserId = userData?._id;
   const navigate = useNavigate();
   const [isFollowing, setIsFollowing] = useState(false);
   const [totalFollower, setTotalFollower] = useState(userId?.followers?.length);
@@ -93,12 +94,12 @@ const MyProfile = ({ userData, handleEditProfile }) => {
   useEffect(() => {
     const checkFollowingStatus = async () => {
       try {
-        if (searchedUserId === userData?.userDetails?._id) {
+        if (searchedUserId === userData?._id) {
           setItsUser(true);
         } else if (
           Array.isArray(followers) &&
           followers.some(
-            (follower) => follower?.follower?._id === userData?.userDetails?._id
+            (follower) => follower?.follower?._id === userData?._id
           )
         ) {
           setIsFollowing(true);
@@ -106,7 +107,7 @@ const MyProfile = ({ userData, handleEditProfile }) => {
         } else if (
           Array.isArray(following) &&
           following.some(
-            (follow) => follow?.following?._id === userData?.userDetails?._id
+            (follow) => follow?.following?._id === userData?._id
           )
         ) {
           setIsFollowBack(true);
@@ -230,16 +231,21 @@ const MyProfile = ({ userData, handleEditProfile }) => {
           </div>
         </div>
       </div>
-
-      <div className="flex flex-row w-full items-center justify-center gap-2">
-        <button
-          className={`w-1/2 bg-yellow-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-yellow-200`}
-          onClick={handleEditProfile}
-        >
-          Edit profile
-        </button>
-        <button className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200">
-          Liked Posts
+      <div className="flex flex-row w-full justify-center gap-2">
+        <div className="flex flex-row w-9/12 items-center justify-center gap-2">
+          <button
+            className={`w-1/2 bg-yellow-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-yellow-200`}
+            onClick={handleEditProfile}
+          >
+            Edit profile
+          </button>
+          <button className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200">
+            Liked Posts
+          </button>
+        </div>
+        <button className="w-1/12 rounded-xl font-medium px-[12px] py-[8px] mt-6"
+        onClick={() => setIsSetting(true)}>
+          < MdOutlineSettings className="text-2xl text-yellow-400 hover:text-yellow-200 transition-all duration-200"/>
         </button>
       </div>
 

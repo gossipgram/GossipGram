@@ -289,34 +289,35 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
           </div>
         </div>
       </div>
-
-      <div className="flex flex-row w-full items-center justify-center gap-2">
-        <button
-          className={`w-1/2 flex flex-row items-center justify-center gap-3 bg-${
-            isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
-          }-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${
-            isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
-          }-200 ${ requestedUser ? "cursor-pointer rounded-md bg-richblack-500 py-1 px-2 text-richblack-900 hover:bg-richblack-600" : ""}`}
-          onClick={handleFollowButtonClick}
-        >
-          {/* {itsUser && <FaRegEdit />} */}
-          {itsUser
-            ? "Edit profile"
-            : requestedUser
-            ? "Requested"
-            : isFollowing
-            ? "Following"
-            : isFollowBack
-            ? "Follow Back"
-            : "Follow"}
-        </button>
-        <button
-          className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
-          onClick={messageClickHandler}
-        >
-          {itsUser ? "Liked Posts" : "Message"}
-        </button>
-      </div>
+      
+        <div className="flex flex-row w-full items-center justify-center gap-2">
+          <button
+            className={`w-1/2 flex flex-row items-center justify-center gap-3 bg-${
+              isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
+            }-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-${
+              isFollowing ? "yellow" : isFollowBack ? "blue" : "blue"
+            }-200 ${ requestedUser ? "cursor-pointer rounded-md bg-richblack-500 py-1 px-2 text-richblack-900 hover:bg-richblack-600" : ""}`}
+            onClick={handleFollowButtonClick}
+          >
+            {/* {itsUser && <FaRegEdit />} */}
+            {itsUser
+              ? "Edit profile"
+              : requestedUser
+              ? "Requested"
+              : isFollowing
+              ? "Following"
+              : isFollowBack
+              ? "Follow Back"
+              : "Follow"}
+          </button>
+          <button
+            className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
+            onClick={messageClickHandler}
+          >
+            {itsUser ? "Liked Posts hello" : "Message"}
+          </button>
+        </div>
+ 
 
       <div className="w-full h-[1px] bg-yellow-500 mt-12"></div>
 
