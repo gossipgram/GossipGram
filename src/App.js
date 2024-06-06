@@ -30,7 +30,7 @@ import PatnerCommingSoonPage from "./Pages/PatnerCommingSoonPage";
 
 function App() {
   return (
-    <div className="w-full min-h-screen bg-richblack-800 flex  font-inter">
+    <div className="w-screen bg-richblack-800 flex font-inter">
       <SideBarLayout />
       <Routes>
         <Route

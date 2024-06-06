@@ -102,6 +102,11 @@ const userSchema = new mongoose.Schema(
         ref: "Follower",
       },
     ],
+
+    isPrivate: { 
+      type: Boolean, 
+      default: false 
+    },
     // likes: [{
     // 	type: mongoose.Schema.Types.ObjectId,
     // 	ref: "likes"

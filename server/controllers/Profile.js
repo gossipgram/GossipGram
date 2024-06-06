@@ -181,3 +181,33 @@ exports.updateDisplayPicture = async (req, res) => {
     });
   }
 };
+
+exports.updateIsPrivate = async (req , res) => {
+  try{
+    console.log(req.user)
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    user.isPrivate = !user.isPrivate;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'User privacy setting updated',
+      isPrivate: user.isPrivate,
+      user
+    });
+  }catch(error){
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

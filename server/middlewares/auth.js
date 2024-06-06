@@ -7,7 +7,6 @@ exports.auth = async (req, res, next) => {
   try {
     // extract token from Authorization header
     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
-
     // if token missing then return res
     if (!token) {
       return res.status(401).json({

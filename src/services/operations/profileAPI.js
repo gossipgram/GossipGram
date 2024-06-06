@@ -1,5 +1,7 @@
 import { apiConnector } from "../apiConnector";
 import { profileEndpoints } from "../apis";
+import toast from "react-hot-toast";
+
 
 const {
   UPDATE_PROFILE_API,
@@ -8,6 +10,7 @@ const {
   GET_ALL_USER_DATA_BY_ID_API,
   UPDATE_DISPLAY_PICTURE_API,
   CHANGE_PASSWORD_API,
+  TOGGLE_PRIVATE_API,
 } = profileEndpoints;
 const BASE_URL = "https://gossipgram.onrender.com/";
 
@@ -120,3 +123,20 @@ export async function changePassword(token, formData) {
     console.log("CHANGE_PASSWORD_API API ERROR............", error);
   }
 }
+
+export const togglePrivacy = async (token) => {
+  let result = null;
+  try {
+    const response = await apiConnector("PUT", TOGGLE_PRIVATE_API, {} , {
+      Authorization: `Bearer ${token}`,
+    });
+    if (!response?.data?.success) {
+      throw new Error("Could Not toggle private");
+    }
+    result = response?.data; //check after run
+    toast.success("privacy changed")
+  } catch (error) {
+    console.log("TOGGLE_PRIVATE_API ERROR............", error);
+  }
+  return result;
+};
