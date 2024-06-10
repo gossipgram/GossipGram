@@ -24,6 +24,7 @@ const SearchPage = () => {
   // const [recentSearches, setRecentSearches] = useState([]);
   const [userData, setUserData] = useState([]);
   const [searchedUserData, setSearchedUserData] = useState(null);
+  const [isFollower, setIsFollower] = useState(false);
   const navigate = useNavigate();
   const [searchHistory, setSearchHistory] = useState([]);
   const location = useLocation();
@@ -140,6 +141,7 @@ const SearchPage = () => {
 
     try {
       const response = await getAllUserDataById(recentSearchUserId, token);
+      setIsFollower(response.isFollower);
       if(userData.userDetails.username === response.userDetails.username){
       navigate("/profile");
     }else{
@@ -209,6 +211,7 @@ const SearchPage = () => {
             userData={searchHistory}
             handleSearchItemClick={handleRecentSearchItemClick}
             removeRecentSearch={handleRemoveRecentSearch}
+            isFollower={isFollower}
           />
         )}
       </div>

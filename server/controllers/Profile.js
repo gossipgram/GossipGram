@@ -1,3 +1,4 @@
+const Follower = require("../models/Follower");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
@@ -115,35 +116,93 @@ exports.getAllUserData = async (req, res) => {
   }
 };
 
+// exports.getAllUserDataById = async (req, res) => {
+//   try {
+//     const id = req.params.userId;
+
+//     // Validation and get user details
+//     const userDetails = await User.findById(id)
+//       .select("-password")
+//       .populate("additionalDetails")
+//       .populate({
+//         path: "posts",
+//         model: "Post",
+//       })
+//       .populate({
+//         path: "taggedPosts",
+//         model: "Post",
+//       })
+//       .populate({
+//         path: "recentSearches",
+//         populate: {
+//           path: "searchedUser",
+//           select: "username image firstName lastName _id",
+//         },
+//       })
+//       .exec();
+//     // Return response
+//     return res.status(200).json({
+//       success: true,
+//       message: "Selected user data fetched successfully",
+//       userDetails,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       error: error.message,
+//     });
+//   }
+// };
+
 exports.getAllUserDataById = async (req, res) => {
   try {
-    const id = req.params.userId;
+    const requesterId = req.params.userId;  // assuming requesterId is passed as a param
+    const userId = req.user.id;
+    // Fetch user details including the isPrivate field
+    const user = await User.findById(requesterId).select("isPrivate");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    // Check if user is private and if the requester is a follower
+    let isFollower = false;
+    if (user.isPrivate) {
+      const follower = await Follower.findOne({ following: requesterId, follower: userId });
+      isFollower = !!follower;
+    }
 
-    // Validation and get user details
-    const userDetails = await User.findById(id)
-      .select("-password")
-      .populate("additionalDetails")
-      .populate({
-        path: "posts",
-        model: "Post",
-      })
-      .populate({
-        path: "taggedPosts",
-        model: "Post",
-      })
-      .populate({
-        path: "recentSearches",
-        populate: {
-          path: "searchedUser",
-          select: "username image firstName lastName _id",
-        },
-      })
-      .exec();
+    // Initialize a query to fetch user details excluding the password field
+    let query = User.findById(requesterId).select("-password").populate("additionalDetails");
+    console.log("4");
+    // Check if isPrivate is false or requester is a follower, then add populate for posts, taggedPosts, and recentSearches
+    if (!user.isPrivate || isFollower) {
+      query = query
+        .populate({
+          path: "posts",
+          model: "Post",
+        })
+        .populate({
+          path: "taggedPosts",
+          model: "Post",
+        })
+        .populate({
+          path: "recentSearches",
+          populate: {
+            path: "searchedUser",
+            select: "username image firstName lastName _id",
+          },
+        });
+    }
+    // Execute the query
+    const userDetails = await query.exec();
     // Return response
     return res.status(200).json({
       success: true,
       message: "Selected user data fetched successfully",
       userDetails,
+      isFollower,
     });
   } catch (error) {
     return res.status(500).json({
@@ -186,7 +245,31 @@ exports.updateIsPrivate = async (req , res) => {
   try{
     console.log(req.user)
     const userId = req.user.id;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password")
+      .populate("additionalDetails")
+      .populate({
+        path: "posts",
+        model: "Post",
+      })
+      .populate({
+        path: "taggedPosts",
+        model: "Post",
+      })
+      .populate({
+        path: "recentSearches",
+        populate: {
+          path: "searchedUser",
+          select: "username image firstName lastName _id",
+        },
+      })
+      .populate({
+        path: "following",
+        populate: {
+          path: "following",
+          select: "username _id image",
+        },
+      })
+      .exec();
 
     if (!user) {
       return res.status(404).json({

@@ -5,7 +5,7 @@ const RecentSearched = ({
   recentSearches,
   handleSearchItemClick,
   removeRecentSearch,
-
+  isFollower,
   userData,
 }) => {
   const handleRemoveRecentSearch = (userId) => {
