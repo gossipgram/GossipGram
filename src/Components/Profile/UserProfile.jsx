@@ -24,7 +24,7 @@ import {
 } from "../../services/operations/FollowRequestAPI";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  console.log("userId", userId);
+  // console.log("userId", userId);
   // console.log("matchingUsers",matchingUsers);
   // console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
@@ -46,6 +46,8 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
   const [requestedUser, setRequestedUser] = useState(false);
+  // console.log("+++++++++==",isFollowing)
+
   useEffect(() => {
     if (matchingUsers && matchingUsers.length > 0) {
       const foundUser = matchingUsers.find(
@@ -92,7 +94,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
     if (token) {
       fetchAllFollowers();
     }
-  }, [token, searchedUserId, totalFollower]);
+  }, [token, searchedUserId, totalFollower , userId]);
 
   const fetchAllFollowing = async () => {
     try {
@@ -282,7 +284,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
                 followerDetails={followerDetails}
                 userData={userData}
                 changeIsFollowingModalOpen={() => {
-                  setIsFollowingModalOpen(false);
+                setIsFollowingModalOpen(false);
                 }}
               />
             )}
