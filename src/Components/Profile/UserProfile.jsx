@@ -24,7 +24,7 @@ import {
 } from "../../services/operations/FollowRequestAPI";
 
 const UserProfile = ({ userId, matchingUsers, userData }) => {
-  // console.log("userId", userId);
+  console.log("userId", userId);
   // console.log("matchingUsers",matchingUsers);
   // console.log("userData", userData);
   const { step } = useSelector((state) => state.userProfile);
@@ -316,7 +316,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
             className=" w-1/2 bg-blue-100 text-richblack-900 rounded-xl font-medium px-[12px] py-[8px] mt-6 hover:bg-blue-200"
             onClick={messageClickHandler}
           >
-            {itsUser ? "Liked Posts hello" : "Message"}
+            {itsUser ? "Liked Posts" : "Message"}
           </button>
         </div>
  
