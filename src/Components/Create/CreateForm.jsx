@@ -4,9 +4,11 @@ import { RxCross2 } from "react-icons/rx";
 import { getAllUsers } from "../../services/operations/authAPI";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { createPost } from "../../services/operations/mediaAPI";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
+
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import ImageCropper from "../common/ImageCropper";
 import {
   setTitleText,
   setCaptionText,
@@ -20,6 +22,8 @@ import {
 
 const CreateForm = () => {
   const dispatch = useDispatch();
+  const [unCropImage, setunCropImage] = useState(null);
+  const [croppedImageUrl, setcroppedImageUrl] = useState(null);
   const token = localStorage.getItem("token").split('"')[1];
   const {
     postType,
@@ -32,24 +36,37 @@ const CreateForm = () => {
     notImage,
   } = useSelector((state) => state.post);
 
-
   const {
     // register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleImageChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (
-      selectedFile.type.startsWith("image/") ||
-      selectedFile.type.startsWith("video/")
-    ) {
-      dispatch(setImage(selectedFile));
-      // setPostType(selectedFile.type.)
-      dispatch(setPostType(selectedFile.type.split("/")[0]));
-    } else {
-      alert("Please select Image or Video");
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(reader.result), false);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const handleImageChange = async (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0];
+
+      if (
+        selectedFile.type.startsWith("image/") ||
+        selectedFile.type.startsWith("video/")
+      ) {
+        let imageDataUrl = await readFile(selectedFile);
+        setunCropImage(imageDataUrl);
+
+        // setPostType(selectedFile.type.)
+        dispatch(setPostType(selectedFile.type.split("/")[0]));
+        event.target.value = null;
+      } else {
+        alert("Please select Image or Video");
+      }
     }
   };
 
@@ -65,7 +82,7 @@ const CreateForm = () => {
       droppedImage.type.startsWith("image/") ||
       droppedImage.type.startsWith("video/")
     ) {
-      dispatch(setImage(droppedImage));
+      setunCropImage(droppedImage);
     } else {
       alert("Please Drop Image or Video");
     }
@@ -95,7 +112,9 @@ const CreateForm = () => {
   };
 
   const handleRemoveUser = (userId) => {
-    dispatch(setSelectedUser(selectedUser.filter((user) => user._id !== userId)));
+    dispatch(
+      setSelectedUser(selectedUser.filter((user) => user._id !== userId))
+    );
   };
 
   useEffect(() => {
@@ -112,7 +131,7 @@ const CreateForm = () => {
     }
   }, [token]);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     console.log("caption____________", captionText);
     // event.preventDefault();
     let data = new FormData();
@@ -122,15 +141,16 @@ const CreateForm = () => {
       taggedUser.push(user._id);
     });
 
-    let hashtags = captionText.match(/#[^\s#]*/g);
+    let hashtags = captionText.match(/#[^\s#]*/g) || [];
     if (postType === "image" || postType === "video") {
       if (!image) {
         alert("Image or Video is required");
         dispatch(setNotImage(true));
         return;
       }
-
-      data.append("mediaUrl", image);
+      const response = await fetch(image);
+      const blob = await response.blob();
+      data.append("mediaUrl", blob);
     } else {
       if (!captionText) {
         alert("Gossip is required");
@@ -159,10 +179,15 @@ const CreateForm = () => {
       dispatch(setCaptionText(""));
       dispatch(setSelectedUser([]));
       dispatch(setSearchQuery(""));
-      toast.success("Post is created")
+      toast.success("Post is created");
     } catch (error) {
       console.log("Creating post error", error);
     }
+  };
+
+  const afterCropFunction = (croppedImage) => {
+    dispatch(setImage(croppedImage));
+    setunCropImage(null);
   };
 
   // const renderHilightedHashtags = () => {
@@ -301,13 +326,13 @@ const CreateForm = () => {
               <div className="w-full h-full relative  overflow-hidden">
                 {image.type && image.type.startsWith("video/") ? (
                   <video
-                    src={`${URL.createObjectURL(image)}`}
+                    src={image}
                     controls
                     className="w-full h-full object-cover rounded-3xl"
                   />
                 ) : (
                   <img
-                    src={`${URL.createObjectURL(image)}`}
+                    src={image}
                     alt="preview"
                     className="w-full h-full object-cover rounded-3xl"
                   />
@@ -445,6 +470,15 @@ const CreateForm = () => {
           Post
         </button>
       </div>
+      {unCropImage && (
+        <ImageCropper
+          imageSrc={unCropImage}
+          afterCropFunction={afterCropFunction}
+          closeImageCrop={() => {
+            setunCropImage(null);
+          }}
+        />
+      )}
     </div>
   );
 };
