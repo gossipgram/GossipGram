@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  postType: 'image',
+  postType: "image",
   image: null,
-  titleText: '',
-  captionText: '',
-  searchQuery: '',
+  titleText: "",
+  captionText: "",
+  searchQuery: "",
   selectedUser: [],
   allUsers: [],
   notImage: false,
 };
 
 const postSlice = createSlice({
-  name: 'post',
+  name: "post",
   initialState,
   reducers: {
     setPostType(state, action) {

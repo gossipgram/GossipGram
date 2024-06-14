@@ -3,6 +3,7 @@ import { useState } from "react";
 import Cropper from "react-easy-crop";
 import { getCroppedImg, getRotatedImage } from "../../utility/canvasUtils";
 
+// this is for mobile device roation
 const ORIENTATION_TO_ANGLE = {
   3: 180,
   6: 90,

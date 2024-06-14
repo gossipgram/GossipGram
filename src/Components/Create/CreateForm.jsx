@@ -23,11 +23,12 @@ import {
 const CreateForm = () => {
   const dispatch = useDispatch();
   const [unCropImage, setunCropImage] = useState(null);
-  const [croppedImageUrl, setcroppedImageUrl] = useState(null);
+  const [video, setVideo] = useState(null);
   const token = localStorage.getItem("token").split('"')[1];
   const {
     postType,
     image,
+
     titleText,
     captionText,
     searchQuery,
@@ -54,16 +55,16 @@ const CreateForm = () => {
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0];
 
-      if (
-        selectedFile.type.startsWith("image/") ||
-        selectedFile.type.startsWith("video/")
-      ) {
+      if (selectedFile.type.startsWith("image/")) {
         let imageDataUrl = await readFile(selectedFile);
         setunCropImage(imageDataUrl);
 
         // setPostType(selectedFile.type.)
         dispatch(setPostType(selectedFile.type.split("/")[0]));
         event.target.value = null;
+      } else if (selectedFile.type.startsWith("video/")) {
+        setVideo(selectedFile);
+        dispatch(setPostType(selectedFile.type.split("/")[0]));
       } else {
         alert("Please select Image or Video");
       }
@@ -76,13 +77,12 @@ const CreateForm = () => {
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const droppedFile = event.dataTransfer.files;
-    const droppedImage = droppedFile[0];
-    if (
-      droppedImage.type.startsWith("image/") ||
-      droppedImage.type.startsWith("video/")
-    ) {
-      setunCropImage(droppedImage);
+    const droppedFile = event.dataTransfer.files[0];
+
+    if (droppedFile.type.startsWith("image/")) {
+      setunCropImage(droppedFile);
+    } else if (droppedFile.type.startsWith("video/")) {
+      setVideo(droppedFile);
     } else {
       alert("Please Drop Image or Video");
     }
@@ -90,6 +90,8 @@ const CreateForm = () => {
 
   const handleCrossButton = () => {
     dispatch(setImage(null));
+    console.log(video);
+    setVideo(null);
   };
 
   const captionChangeHandler = (event) => {
@@ -142,15 +144,17 @@ const CreateForm = () => {
     });
 
     let hashtags = captionText.match(/#[^\s#]*/g) || [];
-    if (postType === "image" || postType === "video") {
+    if (postType === "image") {
       if (!image) {
-        alert("Image or Video is required");
+        alert("Image is required");
         dispatch(setNotImage(true));
         return;
       }
       const response = await fetch(image);
       const blob = await response.blob();
       data.append("mediaUrl", blob);
+    } else if (postType === "video") {
+      data.append("mediaUrl", video);
     } else {
       if (!captionText) {
         alert("Gossip is required");
@@ -322,11 +326,11 @@ const CreateForm = () => {
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            {image ? (
+            {image || video ? (
               <div className="w-full h-full relative  overflow-hidden">
-                {image.type && image.type.startsWith("video/") ? (
+                {video ? (
                   <video
-                    src={image}
+                    src={URL.createObjectURL(video)}
                     controls
                     className="w-full h-full object-cover rounded-3xl"
                   />
