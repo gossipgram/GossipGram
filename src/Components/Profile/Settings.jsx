@@ -49,7 +49,7 @@ const Settings = ({ setIsSetting , userData , setUserData}) => {
           </div>
         </div>
 
-        <div className="w-5/6 flex overflow-y-scroll scrolling m-3 mx-auto">
+        <div className="w-5/6 h-full flex overflow-y-scroll scrolling m-3 mx-auto">
           {isAccountPrivacy && <AccountPrivacy userData={userData} setUserData={setUserData}/>
           }
         </div>

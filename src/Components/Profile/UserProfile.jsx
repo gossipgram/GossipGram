@@ -46,7 +46,6 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
   const [requestedUser, setRequestedUser] = useState(false);
-  // console.log("+++++++++==",isFollowing)
 
   useEffect(() => {
     if (matchingUsers && matchingUsers.length > 0) {
@@ -108,17 +107,15 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   useEffect(() => {
     fetchAllFollowing();
   }, [token, searchedUserId, userId]);
+  console.log("+++++++++==",following)
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
-      // console.log("inside checkFollowingStatus");
-      // console.log("followers", followers);
-      // console.log("following", following);
-      // console.log("userData?.userDetails?._id", userData?.userDetails?._id);
       try {
         if (searchedUserId === userData?.userDetails?._id) {
           console.log("inside if ");
           setItsUser(true);
+          setIsFollowing(false);
         } else if (
           Array.isArray(followers) &&
           followers.some(
@@ -136,6 +133,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
         ) {
           console.log("inside 2 elseif");
           setIsFollowBack(true);
+          setIsFollowing(false);
           setItsUser(false);
         } else {
           console.log("inside else");
