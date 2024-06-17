@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoHomeFill, GoSearch } from "react-icons/go";
 import { TbMessage } from "react-icons/tb";
-import { IoMdNotifications } from "react-icons/io";
 import { CiCirclePlus } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import Logo from "../../assets/GossipGram-logos_black.png";
@@ -125,7 +124,7 @@ const Sidebar = () => {
 
           <div className="mx-auto mt-3 mb-6 h-[1px] w-10/12 bg-richblack-700" />
 
-          <Link to="/comming-soon">
+          <Link to="/gossip-partner/home">
             <div
               onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${
@@ -266,7 +265,7 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link to="/comming-soon">
+          <Link to="/gossip-partner/home">
             <div
               onClick={() => setActiveIcon("gossip-partner")}
               className={`flex flex-row px-10 items-center py-3 mx-2 gap-3 hover:bg-richblack-700 rounded-lg transition-all duration-200 cursor-pointer ${

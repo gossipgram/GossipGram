@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../Components/GossipPartner/Navbar";
+import Navbar from "../Navbar";
 
 const PartnerHome = () => {
   return (

@@ -17,16 +17,15 @@ import SearchPage from "./Pages/SearchPage";
 import UserProfile from "./Components/Profile/UserProfile";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/EditProfile";
-import PartnerHome from "./Pages/PartnerHome";
-import PartnerLandingPage from "./Pages/PartnerLandingPage";
-import PartnerFind from "./Pages/PartnerFind";
-import PartnerCredits from "./Pages/PartnerCredits";
-import PartnerProfile from "./Pages/PartnerProfile";
-import PartnerDefault from "./Pages/PartnerDefault";
+import PartnerHome from "./Components/GossipPartner/Home";
+import PartnerLandingPage from "./Components/GossipPartner/About";
+import PartnerFind from "./Components/GossipPartner/Find";
+import PartnerCredits from "./Components/GossipPartner/Credits";
+import PartnerProfile from "./Components/GossipPartner/Profile";
 import UsersProfile from "./Pages/UsersProfile";
 import ExplorePage from "./Pages/ExplorePage";
 import HashtagPosts from "./Components/Explore/HashtagPosts";
-import PatnerCommingSoonPage from "./Pages/PatnerCommingSoonPage";
+import Partner from "./Pages/Partner";
 
 function App() {
   return (
@@ -152,13 +151,12 @@ function App() {
 
         <Route path="*" element={<Navigate to="/404" />}></Route>
         <Route path="/404" element={<NotFound />}></Route>
-        <Route path="/comming-soon" element={<PatnerCommingSoonPage />}></Route>
 
         <Route
           path="/gossip-partner"
           element={
             <PrivateRoute>
-              <PartnerDefault />
+              <Partner />
             </PrivateRoute>
           }
         >

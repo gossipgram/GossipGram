@@ -8,7 +8,30 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../services/operations/authAPI";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
-const Navbar = ({ pagesList }) => {
+const pagesList = [
+  {
+    id: 1,
+    title: "Home",
+    pathname: "/gossip-partner",
+  },
+  {
+    id: 2,
+    title: "Find",
+    pathname: "/gossip-partner/find",
+  },
+  {
+    id: 3,
+    title: "Profile",
+    pathname: "/gossip-partner/profile",
+  },
+  {
+    id: 4,
+    title: "About",
+    pathname: "/gossip-partner/about",
+  },
+];
+
+const Navbar = () => {
   const location = useLocation();
   const currPath = location.pathname;
   const [activeIcon, setActiveIcon] = useState(currPath.split("/")[2]);

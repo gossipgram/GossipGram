@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import HighlightText from "../Components/common/HighlightText";
-import Footer from "../Components/GossipPartner/About/Footer";
-import Quote from "../Components/GossipPartner/About/Quote";
-import StatsComponent from "../Components/GossipPartner/About/StatsComponent";
-import LearningGrid from "../Components/GossipPartner/About/LearningGrid";
+import HighlightText from "../../common/HighlightText";
+import Footer from "./Footer";
+import Quote from "./Quote";
+import StatsComponent from "./StatsComponent";
+import LearningGrid from "./LearningGrid";
 
 const PartnerLandingPage = () => {
   return (
