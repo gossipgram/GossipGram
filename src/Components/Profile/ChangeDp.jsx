@@ -10,7 +10,7 @@ const ChangeDp = ({ userData }) => {
     const [loading, setLoading] = useState(false)
     const [imageFile, setImageFile] = useState(null)
     const [previewSource, setPreviewSource] = useState(null)
-    const userDetails = userData?.userDetails;
+    const userDetails = userData;
     const [noImage, setNoImage] = useState(false)
 
     const fileInputRef = useRef(null)

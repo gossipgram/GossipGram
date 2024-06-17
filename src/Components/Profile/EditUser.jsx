@@ -8,7 +8,7 @@ const genders = ["Male", "Female", "others"]
 
 const EditUser = ({userData}) => {
   const [loading, setLoading] = useState(false)
-  const userDetails = userData?.userDetails;
+  const userDetails = userData;
   const navigate = useNavigate()
   const token = localStorage.getItem("token").split('"')[1];
   const [bioText, setBioText] = useState(userDetails?.additionalDetails?.bio);

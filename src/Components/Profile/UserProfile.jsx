@@ -11,6 +11,7 @@ import {
   unfollowUser,
 } from "../../services/operations/friendAPI";
 import { FaCheck } from "react-icons/fa";
+import { MdLockOutline } from "react-icons/md";
 import { useSelector } from "react-redux";
 import PostGrid from "./PostGrid";
 import PostRow from "./PostRow";
@@ -46,7 +47,6 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   // const searchedUser = Array.isArray(matchingUsers) ? matchingUsers.find(user => user._id === searchedUserId) : null;
   const [searchedUser, setSearchedUser] = useState([]);
   const [requestedUser, setRequestedUser] = useState(false);
-  // console.log("+++++++++==",isFollowing)
 
   useEffect(() => {
     if (matchingUsers && matchingUsers.length > 0) {
@@ -71,13 +71,16 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
       title: "Tagged",
     },
   ];
-
+  console.log("userId.isPrivate ",userId.isPrivate );
+  console.log("isFollowing",userId.isPrivate );
   const openFollowerModal = (userId) => {
+    !userId.isPrivate || isFollowing &&
     setIsFollowerModalOpen(true);
     setFollowerDetails(userId);
   };
 
   const openFollowingModal = (userId) => {
+    !userId.isPrivate || isFollowing &&
     setFollowerDetails(userId);
     setIsFollowingModalOpen(true);
   };
@@ -108,17 +111,15 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
   useEffect(() => {
     fetchAllFollowing();
   }, [token, searchedUserId, userId]);
+  console.log("+++++++++==",following)
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
-      // console.log("inside checkFollowingStatus");
-      // console.log("followers", followers);
-      // console.log("following", following);
-      // console.log("userData?.userDetails?._id", userData?.userDetails?._id);
       try {
         if (searchedUserId === userData?.userDetails?._id) {
           console.log("inside if ");
           setItsUser(true);
+          setIsFollowing(false);
         } else if (
           Array.isArray(followers) &&
           followers.some(
@@ -136,6 +137,7 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
         ) {
           console.log("inside 2 elseif");
           setIsFollowBack(true);
+          setIsFollowing(false);
           setItsUser(false);
         } else {
           console.log("inside else");
@@ -369,8 +371,17 @@ const UserProfile = ({ userId, matchingUsers, userData }) => {
           </div>
           </div>
         ) : (
-        <div className="text-center text-3xl mt-40 text-richblack-5 transition-all duration-700">
-          Private Account
+         <div className="max-w-md w-full rounded-lg p-8 mt-28 text-center">
+          <div className="flex justify-center text-richblack-100 mx-auto mb-4">
+            <MdLockOutline size={48} />
+          </div>
+          <h2 className="text-2xl font-bold text-richblack-5 mb-4">Private Account</h2>
+          <p className="text-richblack-25">
+            You need to follow this user to see their profile.
+          </p>
+          <button className="mt-6 px-4 py-2 bg-blue-100 text-richblack-900 rounded-lg hover:bg-blue-200 transition-colors">
+            Follow
+          </button>
         </div>)
       }
     </div>

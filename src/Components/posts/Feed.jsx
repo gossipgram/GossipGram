@@ -86,7 +86,7 @@ const Feed = () => {
   }, [currentPage, totalPages, loading]);
 
   return (
-    <div className="flex flex-col w-full m-3">
+    <div className="flex flex-col  w-full m-3">
       {loading ? (
         <div className="flex h-screen flex-col items-center justify-center">
           <div className="spinner"></div>

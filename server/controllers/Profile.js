@@ -79,6 +79,16 @@ exports.getAllUserData = async (req, res) => {
       .select("-password")
       .populate("additionalDetails")
       .populate({
+        path: "likes",
+        populate: {
+          path: "post",
+          populate: {
+          path: "user",
+          select: "username _id image",
+        },
+        }
+      })
+      .populate({
         path: "posts",
         model: "Post",
       })
