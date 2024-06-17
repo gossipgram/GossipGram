@@ -34,7 +34,7 @@ const Profile = () => {
   };
 
   return (
-    <div className={`flex ${isSetting ? "w-full" : "mx-auto"} mt-5 overflow-y-hidden`}>
+    <div className={`flex ${isSetting ? "w-full" : "mx-auto"} mt-5 h-[calc(100vh-5rem)]`}>
       {isSetting ? (
         <Settings userData={userData} handleEditProfile={handleEditProfile} setIsSetting={setIsSetting} setUserData={setUserData}/>
       ) : (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PostModal from "./PostModal";
 
-const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
+const PostGrid = ({ userId, searchedUserId, matchingUsers , isSettings=false }) => {
   const [allUserPost, setAllUserPost] = useState([]);
   const searchedUser = userId;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +14,8 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
   };
 
   useEffect(() => {
-    if (searchedUser && searchedUser.posts) {
+    if (searchedUser && searchedUser.posts && !isSettings) {
+      console.log("first")
       // Filter out posts where mediaUrl includes "video" or "image"
       const filteredPosts = searchedUser?.posts?.filter(
         (post) =>
@@ -22,7 +23,17 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
       );
       setAllUserPost(filteredPosts.reverse()); // Reverse the order of posts
     }
-  }, [searchedUser, userId, matchingUsers]);
+
+    else if (isSettings) {
+      console.log("second")
+      const filteredPosts = userId.likes
+            .map(like => like.post)
+            .filter(post => post.mediaUrl.includes("video") || post.mediaUrl.includes("image"))
+            .reverse(); // Reverse the order of posts
+          setAllUserPost(filteredPosts);
+    }
+
+  }, [searchedUser, userId, matchingUsers , isSettings]);
 
   // Function to play/pause the video on hover
   const handleVideoHover = (post) => {
@@ -35,7 +46,7 @@ const PostGrid = ({ userId, searchedUserId, matchingUsers }) => {
     <div>
       {allUserPost.length === 0 ? (
         <h2 className="text-center text-3xl mt-40 text-richblack-5 transition-all duration-700">
-          No Post
+          {isSettings ? "No Like Post" : "No Post"}
         </h2>
       ) : (
         <div className="grid grid-cols-3 gap-1 transition-all duration-700">

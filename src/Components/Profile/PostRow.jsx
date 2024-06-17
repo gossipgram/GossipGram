@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "../posts/PostCard";
 
-const PostRow = ({ searchedUserId, userData, searchedUser }) => {
+const PostRow = ({ searchedUserId, userData, searchedUser , isSettings=false }) => {
+  console.log("searchedUserId",searchedUserId);
+  console.log("userData",userData);
+  console.log("searchedUser",searchedUser)
   const [textPosts, setTextPosts] = useState([]);
 
   useEffect(() => {
     // const searchedUser = matchingUsers.find(user => user._id === searchedUserId);
-    if (searchedUser && searchedUser.posts) {
+    if (searchedUser && searchedUser.posts && !isSettings) {
       // Filter out posts with text content
       const filteredPosts = searchedUser.posts.filter((post) => post.titleText);
       setTextPosts(filteredPosts.reverse()); // Reverse the order of posts
     }
+
+    else if (isSettings) {
+      console.log("second")
+      const filteredPosts = userData.likes
+            .map(like => like.post)
+            .filter(post => post.titleText)
+            .reverse(); // Reverse the order of posts
+          setTextPosts(filteredPosts);
+    }
+
   }, [searchedUserId]);
 
   return (
